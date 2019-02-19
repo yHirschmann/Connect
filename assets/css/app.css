@@ -1,3 +1,219 @@
-body {
-    background-color: lightgray;
+body{
+    font-size: .875rem;
+    background: #f8f9fa;
+}
+#navbar-top{
+    display: flex;
+}
+
+#search-container{
+    width: 30%;
+}
+
+#file-row{
+    margin-top: 50px;
+    text-align: left;
+}
+.btn-add-files{
+    white-space: nowrap;
+}
+.Up-file{
+    size: .3em;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.btnfile{
+    display:none;
+}
+
+#proj-inf{
+    max-width: 30%;
+    text-align: left;
+}
+
+#form-login{
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin:10% auto;
+}
+
+#search-form{
+    display: flex;
+    width: 100%;
+}
+#search_bar_search{
+    height: unset;
+}
+
+#account-list{
+    margin-left: auto;
+}
+
+#logout{
+    padding-top: 13px;
+}
+
+.feather {
+    vertical-align: text-bottom;
+}
+
+/*
+ * Sidebar
+ */
+
+.wrapper{
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+}
+
+.sidebar{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100; /* Behind the navbar */
+    padding: 48px 0 0; /* Height of navbar */
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    width: 317px;
+    max-width: 317px;
+}
+
+.nav-active{
+    margin-left: -317px;
+}
+
+.sidebar-sticky {
+    font-size: .875rem;
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: .5rem;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+@supports ((position: -webkit-sticky) or (position: sticky)) {
+    .sidebar-sticky {
+        position: -webkit-sticky;
+        position: sticky;
+    }
+}
+
+.sidebar .nav-link {
+    font-weight: 500;
+    color: #333;
+}
+
+.sidebar .nav-link .feather {
+    margin-right: 4px;
+    color: #999;
+}
+
+.sidebar .nav-link.active {
+    color: #007bff;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+    color: inherit;
+}
+
+.sidebar-heading {
+    font-size: .75rem;
+    text-transform: uppercase;
+}
+
+/*
+ * Content
+ */
+
+[role="main"] {
+    padding-top: 133px; /* Space for fixed navbar */
+}
+
+@media (min-width: 768px) {
+    [role="main"] {
+        padding-top: 48px; /* Space for fixed navbar */
+    }
+}
+
+.content-active{
+    margin-left: 250px;
+}
+
+/*
+ * Navbar
+ */
+
+.navbar-brand {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: 1rem;
+    background-color: rgba(0, 0, 0, .25);
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+
+.navbar .form-control {
+
+    border-width: 0;
+    border-radius: 0;
+}
+
+.form-control-dark {
+    color: #fff;
+    background-color: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .1);
+}
+
+.form-control-dark:focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+.jumbotron {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    margin-bottom: 0;
+    background-color: #fff;
+}
+
+@media (min-width: 768px) {
+    .jumbotron {
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+    }
+}
+
+.jumbotron p:last-child {
+    margin-bottom: 0;
+}
+
+.jumbotron-heading {
+    font-weight: 300;
+}
+
+.jumbotron .container {
+    max-width: 40rem;
+}
+
+footer {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+footer p {
+    margin-bottom: .25rem;
+}
+
+a {
+    color:inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    color:inherit;
+    text-decoration: none;
 }
