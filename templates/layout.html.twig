@@ -7,11 +7,11 @@
         </button>
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">Connect'</a>
         <div class="btn-group" id="search-container">
-            {{ render(controller('App\\Controller\\SearchController::searchBar')) }}
+            {#{ render(controller('App\\Controller\\SearchController::searchBar')) }#}
         </div>
         <div class="navbar-nav px-3" id="account-list">
             <div class="nav-item text-nowrap">
-                <a class="nav-link" id="logout" href="{{ path('app_logout') }}">Déconnexion</a>
+                <a class="nav-link" id="logout" href="{#{ path('app_logout') }#}">Déconnexion</a>
             </div>
         </div>
     </nav>
@@ -21,35 +21,35 @@
                     <ul class="nav flex-column">
                         <!-- Accueil -->
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{ path('_index') }}">
+                            <a class="nav-link active" href="{#{ path('_index') }#}">
                                 <span data-feather="home"></span>
                                 Accueil<span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <!-- Projets -->
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('_projects') }}">
+                            <a class="nav-link" href="{#{ path('_projects') }#}">
                                 <span data-feather="box"></span>
                                 Projets
                             </a>
                         </li>
                         <!-- Entreprises -->
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('_companies') }}">
+                            <a class="nav-link" href="{#{ path('_companies') }#}">
                                 <span data-feather="briefcase"></span>
                                 Entreprises
                             </a>
                         </li>
                         <!-- Contacts -->
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('_contacts') }}">
+                            <a class="nav-link" href="{#{ path('_contacts') }#}">
                                 <span data-feather="users"></span>
                                 Contacts
                             </a>
                         </li>
                         <!--Mon compte-->
                         <li class="nav-item" style="padding-top: 15px">
-                            <a class="nav-link" href="{{ path('_account') }}">
+                            <a class="nav-link" href="{#{ path('_account') }#}">
                                 <span data-feather="user"></span>
                                 Mon Compte
                             </a>

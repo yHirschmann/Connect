@@ -18,7 +18,7 @@ class MainController extends AbstractController
      * @throws \Twig_Error_Syntax
      */
     public function indexAction(Environment $environment){
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        //$this->denyAccessUnlessGranted('ROLE_USER');
         return new Response($environment->render('pages/index.html.twig'));
     }
 }
