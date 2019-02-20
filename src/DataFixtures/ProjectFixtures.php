@@ -20,8 +20,9 @@ class ProjectFixtures extends Fixture
             $project->setPostalCode(mt_rand(6700,6900));
             $project->setCity('Strasgourg');
             $project->setStartedAt(\DateTime::createFromFormat('Y-m-d H:i:s',date('Y-m-d H:i:s')));
-            $project->setEndedAt(null);
+            $project->setEndedAt(\DateTime::createFromFormat('Y-m-d H:i:s',date('Y-m-d H:i:s'))->add(new \DateInterval('P'.mt_rand(0,30).'D')));
             $project->setImgPath('build/uploads/img_project/img1.jpg');
+            $project->setUpdatedAt(\DateTime::createFromFormat('Y-m-d H:i:s',date('Y-m-d H:i:s')));
             $project->setStatut(mt_rand(1,3));
             $manager->persist($project);
         }

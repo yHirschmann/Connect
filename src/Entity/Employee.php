@@ -28,6 +28,11 @@ class Employee extends Person
         $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getLastName().' '.$this->getFirstName();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

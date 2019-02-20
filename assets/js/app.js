@@ -12,12 +12,12 @@ require('../css/app.css');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 const $ = require('jquery');
-/*const feather = require('feather-icons');
+const feather = require('feather-icons');
 
 (function () {
     'use strict';
     feather.replace();
-}());*/
+}());
 
 $(document).ready(function () {
     var i = 1;

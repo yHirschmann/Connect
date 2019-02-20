@@ -1,0 +1,18 @@
+easy_admin:
+    site_name: 'Connect'
+    entities:
+      User:
+          class: App\Entity\User
+          label: 'Utilisateurs'
+          form:
+            title: 'Ajouter un Utilisateur'
+            fields:
+              - { property: 'last_name', type: 'text', label: 'Nom'}
+              - { property: 'first_name', type: 'text', label: 'Prénom'}
+              - { property: 'phone_number', type: 'text', label: 'Numéro de téléphone'}
+              - { property: 'email', type: 'email', label: 'Email'}
+              - { property: 'roles', type: 'collection', label: 'Permitions'}
+
+#     TODO Search how to set password for /admin
+#     TODO Search how to crypt password on adding user passing by the /admin
+#     TODO Search how to set ROLE on adding user passing by the /admin

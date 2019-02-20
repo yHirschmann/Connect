@@ -1,6 +1,13 @@
 {{ form_start(formAddArticle) }}
     <div class="container">
         <div id="" class="row">
+            <label for="type-article-selector"></label>
+            <select id="type-article-selector" class="custom-select">
+                <option selected></option>
+                <option value="1">Contact</option>
+                <option value="2">Entreprise</option>
+                <option value="3">Projet</option>
+            </select>
             <div id="proj-inf" class="col-md">
                 {{ form_row(formAddArticle.ProjName) }}
                 <div>

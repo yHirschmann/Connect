@@ -12,6 +12,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "copy-webpack-plugin": "^5.0.0",
+        "feather-icons": "^4.17.0",
         "jquery": "^3.3.1"
     }
 }

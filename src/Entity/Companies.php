@@ -74,6 +74,11 @@ class Companies
         $this->projects = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return '';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
