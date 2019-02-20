@@ -1,0 +1,83 @@
+{% extends "./layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }}{{ project.projectName() }}
+{% endblock %}
+
+{% block content %}
+    {# TODO get google map API Key to allow a map request#}
+    <div class="row">
+        <div class="col">
+            <h2 id="project-title" class="text-left">
+                {{ project.projectName|title }}
+            </h2>
+            <div class="row">
+                <div class="text-secondary project-adress">
+                    Adresse : {{ project.adress }}, {{ project.postalCode }} {{ project.city }}
+                </div>
+            </div>
+            <div class="row">
+                <iframe src="https://www.google.com/maps/embed/v1/place?q=15%20Rue%20du%20Mar%C3%A9chal%20Lefebvre%2C%2067100%20Strasbourg"
+                        width="300" height="300" frameborder="0" class="border border-dark rounded" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div id="project-companies-column" class="col">
+            <div class="text-left">
+                Entreprises :
+                <ul id="project-companie-list" class="list-group">
+                    {{ render(controller('App\\Controller\\ProjectCompaniesController::ProjectCompanies', {'project' : project})) }}
+                </ul>
+            </div>
+        </div>
+        <div id="project-contact-column" class="col">
+            <div class="text-left">
+                Contacts :
+                <ul id="project-contact-list" class="list-group">
+                    {{ render(controller('App\\Controller\\ProjectContactsController::ProjectContacts', {'project' : project})) }}
+                </ul>
+            </div>
+        </div>
+        <div id="project-specificities" class="col">
+            <div class="card mb-4 shadow-sm float-right">
+                <div class="card-header">
+                    {{ project.projectName }}
+                </div>
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="300" xmlns="http://www.w3.org/2000/svg"
+                     preserveAspectRatio="xMidYMid slice" focusable="false" role="img" style="margin-top: 5px"
+                     aria-label="Placeholder: Thumbnail">
+                    <title>{{ project.projectName }}</title>
+                    <rect fill="#ffffff" width="45%" height="100%"></rect>
+                    <image xlink:href="{{ asset('build/uploads/img_project/img1.jpg')}}" x="0" y="0"
+                           width="100%" height="100%"></image>
+                </svg>
+                <div class="card-body text-wrap">
+                    <div class="row text-secondary text-sm-left">
+                        Année de début: {{ project.startedAt|date ("d/m/Y") }}
+                    </div>
+                    {% if project.endedAt != null %}
+                        <div class="row text-secondary text-sm-left">
+                                Année de Fin :{{ project.endedAt|date ("d/m/Y") }}
+                        </div>
+                    {% endif %}
+                    <div class="row text-secondary">
+                        Coût: {{ project.cost }}€
+                    </div>
+                    <div class="row text-secondary">
+                        Statut:
+                        {% if project.statut == 1%}
+                            Etude en cours
+                        {% elseif project.statut == 2 %}
+                            Chantier en cours
+                        {% elseif project.statut == 3 %}
+                            Chantier terminé
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="text-right">
+                <input id="project-edit-btn" type="button" value="Editer" class="btn btn-dark">
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

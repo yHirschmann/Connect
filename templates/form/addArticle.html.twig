@@ -1,0 +1,49 @@
+{{ form_start(formAddArticle) }}
+    <div class="container">
+        <div id="" class="row">
+            <div id="proj-inf" class="col-md">
+                {{ form_row(formAddArticle.ProjName) }}
+                <div>
+                    <label for="projDateStart">Date de début du projet</label>
+                    <div>
+                        <input type="date" id="projDateStart" class="form-control" name="date-start">
+                    </div>
+                </div>
+                <div>
+                    <label for="projDateEnd">Date de fin du projet</label>
+                    <div>
+                        <input type="date" id="projDateEnd" class="form-control" name="date-end">
+                    </div>
+                </div>
+                {{ form_row(formAddArticle.ProjStatut) }}
+            </div>
+            <div id="proj-inf2" class="col-md">
+                <label>Photo du projet</label>
+                <div id="proj-photo" class="col-md">
+                    <div class="btn-add-files">
+                        <label class="btn btn-outline-primary Up-file">
+                            <input id="btnPhoto" type="file" hidden>
+                            <span data-feather="file-plus"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="file-row" class="text-left">
+        Autres Fichiers
+            <div class="row border border-dark rounded">
+                <div id="proj-file" class="col-md">
+                    <div class="btn-add-files">
+                        <label class="btn btn-outline-primary Up-file">
+                            <input id="btnfile1" type="file" hidden>
+                            <span id="feather1" data-feather="plus"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 15px;">
+            <input class="btn btn-dark" type="submit" style="display: flex; margin-left: auto;">
+        </div>
+    </div>
+{{ form_end(formAddArticle) }}

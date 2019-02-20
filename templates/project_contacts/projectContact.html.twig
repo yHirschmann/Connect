@@ -1,0 +1,8 @@
+{% for contact in contacts %}
+    <a href="">
+        <li class="list-group-item">
+        {# TODO ask what to display at this place #}
+        {{ contact.lastName }} {{ contact.firstName }}
+        </li>
+    </a>
+{% endfor %}

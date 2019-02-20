@@ -1,0 +1,33 @@
+{% extends "./layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }}Projets
+{% endblock %}
+
+{% block content %}
+    {#{ dump(projects) }#}
+    {% set i, init = 0, false %}
+    <div class="row">
+    {% for project in projects %}
+        <a class="col-md-4" href="{{ path('_project', {'id': project.getId}) }}" style="margin-left: 15px;margin-right: 15px;max-width: 30%">
+            <div class="card mb-4 shadow-sm">
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
+                     preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+                    <title>{{ project.getProjectName() }}</title>
+                    <rect fill="#ffffff" width="100%" height="100%"></rect>
+                    <image xlink:href="build/uploads/img_project/img1.jpg" x="0" y="0"
+                           width="100%" height="100%"></image>
+                </svg>
+                <div class="card-body">
+                    <p class="card-text">{{ project.getProjectName() }}</p>
+                    <div class="d-flex justify-content-between align-items-center text-secondary">
+                        {{ project.getAdress() }}
+                        {{ project.getPostalCode() }}
+                        {{ project.getCity() }}
+                    </div>
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+    </div>
+{% endblock %}
