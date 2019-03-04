@@ -1,9 +1,0 @@
-{% extends "./layout.html.twig" %}
-
-{% block title %}
-    {{ parent() }}Ajouter
-{% endblock %}
-
-{% block content %}
-    {{ render(controller('App\\Controller\\AddArticleController::addForm')) }}
-{% endblock %}

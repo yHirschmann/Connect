@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
-use App\Form\AddArticle;
+use App\Entity\Companies;
+use App\Form\AddCompanieType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
-
 
 class AddArticleController extends AbstractController
 {
@@ -20,24 +21,48 @@ class AddArticleController extends AbstractController
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function addAction(Environment $environment){
+    public function index()
+    {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        return new Response($environment->render('pages/add.html.twig'));
+        return $this->render('add_article/AddArticle.html.twig', [
+            'controller_name' => 'AddArticleController',
+        ]);
     }
 
-    public function addForm(Request $request){
-        //TODO complete project Entity
+    /**
+     * @Route("/ajouter/entreprise" , name="_addCompanie")
+     * @param ValidatorInterface $validator
+     * @param Request $request
+     * @return Response
+     */
+    public function addCompanie(ValidatorInterface $validator,Request $request){
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $entityManager = $this->getDoctrine()->getManager();
+        $companie = new Companies();
 
-        $formAddArticle = $this->createForm(AddArticle::class);
-        $formAddArticle->handleRequest($request);
+        $form = $this->createForm(AddCompanieType::class,$companie);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $companie = $form->getData();
+            $companie = $companie->formatCompaniePhoneNumber($companie);
+            $companie = $companie->formatCompanieSocialReason($companie);
 
+            if(empty($this  ->getDoctrine()
+                            ->getRepository(Companies::class)
+                            ->findByExisting($companie->getCompanieName(),$companie->getCity(),$companie->getAdress()))){
+                $entityManager->persist($companie);
+                $entityManager->flush();
+            }else{
+                dump('erreur');
+                //TODO Display error saying "The companie that you are trying to add already exist"
+            }
 
-        if ($formAddArticle->isSubmitted() && $formAddArticle->isValid()) {
-            //TODO Implement submition code
-            null;
         }
-        return $this->render('form/addArticle.html.twig', array(
-            'formAddArticle' => $formAddArticle->createView(),
+
+        return $this->render('form/AddCompanie.html.twig', array(
+            'formCompanie' => $form->createView(), 'controller_name' => 'AddArticleController',
         ));
     }
+
+
 }

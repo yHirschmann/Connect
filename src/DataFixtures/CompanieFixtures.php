@@ -23,8 +23,8 @@ class CompanieFixtures extends Fixture
             $companie->setNbProjects(mt_rand(0,21));
             $companie->setCity('Strasbourg');
             $companie->setAdress($i.' rue des Marchands');
-            $companie->setPostalCode(mt_rand(6699,6901));
-            $companie->setPhoneNumber(1234567890);
+            $companie->setPostalCode(strval(mt_rand(6699,6901)));
+            $companie->setPhoneNumber('1234567890');
             $companie->setEffective(mt_rand(5,50));
             $companie->setSocialReason($companie->getCompanieName().' SA');
             $companie->setTurnover(mt_rand(100000, 1000000));

@@ -1,0 +1,12 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }}Ajouter
+{% endblock %}
+
+{% block content %}
+    {{  form_start(formCompanie) }}
+        {{ form_widget(formCompanie) }}
+        <input type="submit" class="btn btn-dark" value="Ajouter" />
+    {{ form_end(formCompanie) }}
+{% endblock %}

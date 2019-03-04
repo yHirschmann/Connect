@@ -7,7 +7,7 @@
         </button>
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">Connect'</a>
         <div class="btn-group" id="search-container">
-            {#{ render(controller('App\\Controller\\SearchController::searchBar')) }#}
+            {{ render(controller('App\\Controller\\SearchController::searchBar')) }}
         </div>
         <div class="navbar-nav px-3" id="account-list">
             <div class="nav-item text-nowrap">
