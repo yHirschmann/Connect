@@ -94,6 +94,8 @@ class Companies
 
     /**
      * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="CompanieType")
+     * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
      */
     private $type_id;
 
@@ -229,6 +231,18 @@ class Companies
         return $this->projects;
     }
 
+    public function getTypeId(): ?int
+    {
+        return $this->type_id;
+    }
+
+    public function setTypeId(int $type_id): self
+    {
+        $this->type_id = $type_id;
+
+        return $this;
+    }
+
     /**
      * @param Companies $companie
      * @return Companies
@@ -248,17 +262,5 @@ class Companies
         $socialReason = $companie->getSocialReason();
         $companie->setSocialReason(ucfirst($socialReason));
         return $companie;
-    }
-
-    public function getTypeId(): ?int
-    {
-        return $this->type_id;
-    }
-
-    public function setTypeId(int $type_id): self
-    {
-        $this->type_id = $type_id;
-
-        return $this;
     }
 }

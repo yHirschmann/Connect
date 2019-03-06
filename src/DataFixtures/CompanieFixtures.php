@@ -28,7 +28,7 @@ class CompanieFixtures extends Fixture
             $companie->setEffective(mt_rand(5,50));
             $companie->setSocialReason($companie->getCompanieName().' SA');
             $companie->setTurnover(mt_rand(100000, 1000000));
-
+            $companie->setTypeId(mt_rand(1,6));
             $manager->persist($companie);
         }
         $manager->flush();
