@@ -56,6 +56,8 @@ class AddArticleController extends AbstractController
             }else{
                 dump('erreur');
                 //TODO Display error saying "The companie that you are trying to add already exist"
+                $this->addFlash('existing','Cette entreprise existe déjà dans la base de donnée.');
+                return $this->redirectToRoute("_addCompanie");
             }
 
         }
