@@ -5,5 +5,58 @@
 {% endblock %}
 
 {% block content %}
+    {% set i, init = 0, false %}
+    <div id="companies-title" class="text-left">
+        <h2>Entreprises</h2>
+    </div>
+    <table class="table">
+        <thead>
+        <tr class="bg-dark text-light">
+            <th scope="col">Nom</th>
+            <th scope="col">Ville</th>
+            <th scope="col">Adresse</th>
+            <th scope="col">Code Postal</th>
+            <th scope="col">Chiffre d'affaire</th>
+            <th scope="col">Effectif</th>
+            <th scope="col">Domaine d'activité</th>
+        </tr>
+        </thead>
+        {% for companie in companies %}
+           <thead>
+                <tr>
+                    <th scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">
+                            {{ companie.companieName() }}
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">
+                            {{ companie.City() }}
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">
+                            {{ companie.Adress() }}
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">
+                            {{ companie.PostalCode() }}
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">
+                            {{ companie.Turnover() }}
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">
+                            {{ companie.Effective() }}
+                        </a>
+                    </th>
+                </tr>
+           </thead>
+        {% endfor %}
+    </table>
 
 {% endblock %}

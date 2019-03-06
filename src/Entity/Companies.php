@@ -92,6 +92,11 @@ class Companies
      */
     private $projects;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $type_id;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
@@ -243,5 +248,17 @@ class Companies
         $socialReason = $companie->getSocialReason();
         $companie->setSocialReason(ucfirst($socialReason));
         return $companie;
+    }
+
+    public function getTypeId(): ?int
+    {
+        return $this->type_id;
+    }
+
+    public function setTypeId(int $type_id): self
+    {
+        $this->type_id = $type_id;
+
+        return $this;
     }
 }
