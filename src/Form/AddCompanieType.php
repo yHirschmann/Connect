@@ -23,7 +23,8 @@ class AddCompanieType extends AbstractType
                     'label'=>'Nom de l\'Entreprise',
                     'attr'=>[
                         'pattern' => '[A-Za-z&]{1,}',
-                        'class'=>'form-control'
+                        'class'=>'form-control',
+                        'Placeholder' => 'ex: Entreprise Exemple & Entreprise',
                     ]
                 ])
             ->add('Adress',
@@ -31,7 +32,8 @@ class AddCompanieType extends AbstractType
                     'label'=>'Adresse',
                     'attr'=>[
                         'pattern' => '^\d{1,2}([. ]?[A-Za-z ]{1,}){1,}([.]?$)',
-                        'class'=>'form-control'
+                        'class'=>'form-control',
+                        'Placeholder' => 'ex: 15 rue des fleurs',
                     ]
                 ])
             ->add('postal_code',
@@ -39,7 +41,8 @@ class AddCompanieType extends AbstractType
                     'label'=>'Code postal'
                     , 'attr'=>[
                         'pattern' => '\d{5}',
-                        'class'=>'form-control'
+                        'class'=>'form-control',
+                        'Placeholder' => 'ex: 67000',
                     ]
                 ])
             ->add('City',
@@ -47,7 +50,8 @@ class AddCompanieType extends AbstractType
                     'label'=>'Ville',
                     'attr'=>[
                         'pattern' => '^[A-Z]([- ]?[A-Za-z]){1,}',
-                        'class'=>'form-control'
+                        'class'=>'form-control',
+                        'Placeholder' => 'ex: Strasbourg',
                     ]
                 ])
             ->add('phone_number',
@@ -56,7 +60,8 @@ class AddCompanieType extends AbstractType
                     'required'   => false,
                     'attr'=>[
                         'pattern' => '^0[1-68]([-. ]?\d{2}){4}$',
-                        'class'=>'form-control'
+                        'class'=>'form-control',
+                        'Placeholder' => 'ex: 99.99.99.99.99',
                     ]
                 ])
             ->add('turnover',
@@ -65,7 +70,8 @@ class AddCompanieType extends AbstractType
                     'required'   => false,
                     'attr'=>[
                         'pattern' => '',
-                        'class'=>'form-control'
+                        'class'=>'form-control',
+                        'Placeholder' => 'ex: 3857000',
                     ]
                 ])
             ->add('social_reason',
@@ -73,7 +79,8 @@ class AddCompanieType extends AbstractType
                     'label'=>'Raison Social',
                     'attr'=>[
                         'pattern' => '[A-Za-z&]{1,}',
-                        'class'=>'form-control'
+                        'class'=>'form-control',
+                        'Placeholder' => 'ex: Electricien',
                     ]
                 ]);
     }

@@ -49,7 +49,8 @@ class AddArticleController extends AbstractController
 
             if(empty($this  ->getDoctrine()
                             ->getRepository(Companies::class)
-                            ->findByExisting($companie->getCompanieName(),$companie->getCity(),$companie->getAdress()))){
+                            ->findByExisting($companie->getCompanieName(),$companie->getCity(),$companie->getAdress())))
+            {
                 $entityManager->persist($companie);
                 $entityManager->flush();
             }else{
