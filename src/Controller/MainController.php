@@ -21,4 +21,31 @@ class MainController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         return new Response($environment->render('pages/index.html.twig'));
     }
+
+    /**
+     * @Route("/contacts", name="_contacts")
+     * @param Environment $environment
+     * @return Response
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
+    public function contactsAction(Environment $environment){
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        return new Response($environment->render('contact/contacts.html.twig'));
+    }
+
+    /**
+     * @Route("/account", name="_account")
+     * @param Environment $environment
+     * @return Response
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
+    public function accountAction(Environment $environment){
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        return new Response($environment->render('pages/account.html.twig'));
+    }
+
 }

@@ -29,7 +29,7 @@ class ProjectController extends AbstractController
     public function projectsAction(Environment $environment){
         $this->denyAccessUnlessGranted('ROLE_USER');
         $projects = $this->initProjectPage();
-        return new Response($environment->render('pages/projects.html.twig', array('projects' => $projects)));
+        return new Response($environment->render('project/projects.html.twig', array('projects' => $projects)));
     }
 
     /**
@@ -44,7 +44,7 @@ class ProjectController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $repository = $this->getDoctrine()->getRepository(Project::class);
         $project = $repository->find($id);
-        return new Response($environment->render('pages/project_details.html.twig', array('project' => $project)));
+        return new Response($environment->render('project/project_details.html.twig', array('project' => $project)));
     }
 
     //init the project page whit the 9 first row of the database
