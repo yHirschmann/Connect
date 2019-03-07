@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Companies;
+use App\Entity\CompanieType;
 use App\Form\AddCompanieType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,6 +44,7 @@ class AddArticleController extends AbstractController
         $form = $this->createForm(AddCompanieType::class,$companie);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
+            /** @var Companies $companie */
             $companie = $form->getData();
             $companie = $companie->formatCompaniePhoneNumber($companie);
             $companie = $companie->formatCompanieSocialReason($companie);

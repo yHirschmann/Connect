@@ -86,18 +86,15 @@ class Companies
      */
     private $effective = 0;
 
-
     /**
      * @ORM\ManyToMany(targetEntity="Project", mappedBy="companies")²
      */
     private $projects;
 
     /**
-     * @ORM\Column(type="integer")
-     * @ORM\ManyToOne(targetEntity="CompanieType")
-     * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity=CompanieType::class)
      */
-    private $type_id;
+    private $type;
 
     public function __construct()
     {
@@ -231,14 +228,14 @@ class Companies
         return $this->projects;
     }
 
-    public function getTypeId(): ?int
+    public function getType(): ?CompanieType
     {
-        return $this->type_id;
+        return $this->type;
     }
 
-    public function setTypeId(int $type_id): self
+    public function setType(CompanieType $type): self
     {
-        $this->type_id = $type_id;
+        $this->type = $type;
 
         return $this;
     }

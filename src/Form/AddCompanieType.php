@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Companies;
+use App\Entity\CompanieType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -12,8 +14,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AddCompanieType extends AbstractType
 {
-    private $transformer;
-
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -80,14 +80,24 @@ class AddCompanieType extends AbstractType
                     'attr'=>[
                         'pattern' => '[A-Za-z&]{1,}',
                         'class'=>'form-control',
-                        'Placeholder' => 'ex: Electricien',
+                        'Placeholder' => 'ex: ',
                     ]
-                ]);
+                ])
+            ->add('typeId',
+                EntityType::class,[
+                    'class' => CompanieType::class,
+                    'choice_label' => 'label',
+                    'attr'=> [
+                        'class' => 'form-control'
+                    ]
+                ])
+            ;
     }
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Companies::class,
+            ''
         ]);
     }
 }
