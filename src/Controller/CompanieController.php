@@ -42,8 +42,7 @@ class CompanieController extends AbstractController
      */
     public function companieAction(Environment $environment, $id){
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $repository = $this->getDoctrine()->getRepository(Companies::class);
-        $companie = $repository->find($id);
+        $companie = $this->getDoctrine()->getRepository(Companies::class)->find($id);
         return new Response($environment->render('companie/companie_details.html.twig', array('companie' => $companie)));
     }
 

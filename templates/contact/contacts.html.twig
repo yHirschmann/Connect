@@ -5,5 +5,42 @@
 {% endblock %}
 
 {% block content %}
-
+    <div id="contacts-title" class="text-left">
+        <h2>Contacts</h2>
+    </div>
+    <table class="table">
+    <thead>
+    <tr class="bg-dark text-light">
+        <th scope="col">Nom</th>
+        <th scope="col">Prénom</th>
+        <th scope="col">Numéro de téléphone</th>
+        <th scope="col">Email</th>
+    </tr>
+    </thead>
+    {% for contact in contacts %}
+        <thead>
+        <tr>
+            <th scope="col">
+                <a href="{{ path('_contact', {'id': contact.Id}) }}">
+                    {{ contact.lastName }}
+                </a>
+            </th>
+            <th scope="col">
+                <a href="{{ path('_contact', {'id': contact.Id}) }}">
+                    {{ contact.firstName }}
+                </a>
+            </th>
+            <th scope="col">
+                <a href="{{ path('_contact', {'id': contact.Id}) }}">
+                    {{ contact.phoneNumber }}
+                </a>
+            </th>
+            <th scope="col">
+                <a href="{{ path('_contact', {'id': contact.Id}) }}">
+                    {{ contact.email }}
+                </a>
+            </th>
+        </tr>
+        </thead>
+    {% endfor %}
 {% endblock %}

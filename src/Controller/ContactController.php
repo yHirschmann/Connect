@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Employee;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +18,6 @@ class ContactController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-
 
     /**
      * @Route("/contact", name="_contacts")
@@ -42,10 +40,10 @@ class ContactController extends AbstractController
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function contactAction(Environment $environment){
+    public function contactAction(Environment $environment, $id){
         $this->denyAccessUnlessGranted('ROLE_USER');
-
-        return new Response($environment->render('contact/contact_details.html.twig'));
+        $contact = $this->entityManager->getRepository(Employee::class)->find($id);
+        return new Response($environment->render('contact/contact_details.html.twig', array('contact'=>$contact)));
     }
 
     private function initContactsPage(){

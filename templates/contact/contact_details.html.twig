@@ -1,0 +1,26 @@
+{% extends "./layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }}{{ contact.lastName }} {{ contact.firstName }}
+{% endblock %}
+
+{% block content %}
+    <h2 id="contact-name" class="text-left">
+        {{ contact.lastName }} {{ contact.firstName }}
+    </h2>
+    <div id="contact-info" class="row border border-secondary rounded" style="margin-bottom: 20px; padding: 5px;">
+        <div class="col">
+            <div class="row">
+                Email: {{ contact.email }}
+            </div>
+            <div class="row">
+                Numéro de Téléphone: {{ contact.phoneNumber }}
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                Entreprise : {#{ contact.companie.name }#}TODO
+            </div>
+        </div>
+    </div>
+{% endblock %}
