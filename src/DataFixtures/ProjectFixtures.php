@@ -3,13 +3,12 @@
 namespace App\DataFixtures;
 
 use App\Entity\Project;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
 
-class ProjectFixtures extends Fixture
+class ProjectFixtures
 {
-    public function load(ObjectManager $manager)
+    public static function loader(ObjectManager $manager)
     {
         for ($i = 1; $i < 101; $i++) {
             $project = new Project();

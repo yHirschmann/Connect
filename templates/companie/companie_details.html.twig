@@ -5,5 +5,48 @@
 {% endblock %}
 
 {% block content %}
-
+    <h2 id="companie-name" class="text-left">
+        {{ companie.companieName }}
+    </h2>
+    <div id="companie-info" class="row border border-secondary rounded" style="margin-bottom: 20px; padding: 5px;">
+        <div class="col">
+            <div class="row">
+               Adresse: {{ companie.adress }}
+                {{ companie.postalCode }}
+                {{ companie.city }}
+            </div>
+            <div class="row">
+               Numéro de Téléphone: {{ companie.phoneNumber }}
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                Raison Social: {{ companie.socialReason }}
+            </div>
+            <div class="row">
+                Chiffre d'affaire: {{ companie.turnover }}
+            </div>
+            <div class="row">
+                Domaine d'activité: {{ companie.type.label }}
+            </div>
+        </div>
+    </div>
+    <div id="companie-links" class="row border border-secondary rounded" style="margin-top: 20px;padding: 5px">
+        <div id="projects-col" class="col">
+            <div id="companie-projectNum" class="row">
+                Nombre de projet: {{ companie.nbProjects }}
+            </div>
+            <div class="row">
+                {# TODO Query projects list => display them in a box with a scroll bar ?#}
+            </div>
+        </div>
+        <div id="contact-col" class="col">
+            <div id="companie-contactNum" class="row">
+                Effectif: {{ companie.effective }}
+            </div>
+            <div>
+                {# TODO Query contacts list => display them in a box with a scroll bar ?#}
+            </div>
+        </div>
+    </div>
 {% endblock %}

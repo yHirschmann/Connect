@@ -83,7 +83,7 @@ class AddCompanieType extends AbstractType
                         'Placeholder' => 'ex: ',
                     ]
                 ])
-            ->add('typeId',
+            ->add('type',
                 EntityType::class,[
                     'class' => CompanieType::class,
                     'choice_label' => 'label',

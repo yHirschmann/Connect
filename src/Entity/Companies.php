@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Validator;
 
@@ -92,7 +93,8 @@ class Companies
     private $projects;
 
     /**
-     * @ORM\ManyToOne(targetEntity=CompanieType::class)
+     * @ORM\ManyToOne(targetEntity="App\Entity\CompanieType", inversedBy="companies")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $type;
 
@@ -228,18 +230,6 @@ class Companies
         return $this->projects;
     }
 
-    public function getType(): ?CompanieType
-    {
-        return $this->type;
-    }
-
-    public function setType(CompanieType $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
     /**
      * @param Companies $companie
      * @return Companies
@@ -259,5 +249,17 @@ class Companies
         $socialReason = $companie->getSocialReason();
         $companie->setSocialReason(ucfirst($socialReason));
         return $companie;
+    }
+
+    public function getType(): ?CompanieType
+    {
+        return $this->type;
+    }
+
+    public function setType(?CompanieType $type): self
+    {
+        $this->type = $type;
+
+        return $this;
     }
 }

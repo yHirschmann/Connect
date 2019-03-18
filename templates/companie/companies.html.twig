@@ -54,6 +54,11 @@
                             {{ companie.Effective() }}
                         </a>
                     </th>
+                    <th scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">
+                            {{ companie.type.label }}
+                        </a>
+                    </th>
                 </tr>
            </thead>
         {% endfor %}

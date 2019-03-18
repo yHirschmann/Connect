@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\Companies;
+
+use App\Entity\Employee;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
-class CompanieController extends AbstractController
+class ContactController extends AbstractController
 {
 
     private $entityManager;
@@ -19,35 +20,35 @@ class CompanieController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+
     /**
-     * @Route("/entreprise", name="_companies")
+     * @Route("/contact", name="_contacts")
      * @param Environment $environment
      * @return Response
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function companiesAction(Environment $environment){
+    public function contactsAction(Environment $environment){
         $this->denyAccessUnlessGranted('ROLE_USER');
-        return new Response($environment->render('companie/companies.html.twig', array('companies' => $this->initCompaniePage())));
+        return new Response($environment->render('contact/contacts.html.twig', array('contacts' => $this->initContactsPage())));
     }
 
     /**
-     * @Route("/entreprise/{id}", name="_companie")
+     * @Route("/contact/{id}", name="_contact")
      * @param Environment $environment
      * @return Response
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function companieAction(Environment $environment, $id){
+    public function contactAction(Environment $environment){
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $repository = $this->getDoctrine()->getRepository(Companies::class);
-        $companie = $repository->find($id);
-        return new Response($environment->render('companie/companie_details.html.twig', array('companie' => $companie)));
+
+        return new Response($environment->render('contact/contact_details.html.twig'));
     }
 
-    private function initCompaniePage(){
-        return $this->entityManager->getRepository(Companies::class)->findAll();
+    private function initContactsPage(){
+        return $this->entityManager->getRepository(Employee::class)->findAll();
     }
 }

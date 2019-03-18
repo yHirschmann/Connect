@@ -3,20 +3,21 @@
 namespace App\DataFixtures;
 
 use App\Entity\CompanieType;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class CompanieTypeFixtures extends Fixture
+class CompanieTypeFixtures
 {
-    public function load(ObjectManager $manager)
+    public static function loader(ObjectManager $manager)
     {
         $types = array('Architecte', 'Bureau d\'Etude', 'Carleur', 'BTP', 'Eclairagiste', 'Electricien',);
-
+        $CompTypeArray = new \ArrayObject();
         foreach ($types as $type){
             $companieType = new CompanieType();
             $companieType->setLabel($type);
+            $CompTypeArray->append($companieType);
             $manager->persist($companieType);
         }
         $manager->flush();
+        return $CompTypeArray;
     }
 }
