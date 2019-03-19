@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Companies;
-use App\Entity\CompanieType;
-use App\Form\AddCompanieType;
+use App\Entity\Employee;
+use App\Form\Type\AddCompanieType;
+use App\Form\Type\AddContactType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,8 +57,6 @@ class AddArticleController extends AbstractController
                 $entityManager->persist($companie);
                 $entityManager->flush();
             }else{
-                dump('erreur');
-                //TODO Display error saying "The companie that you are trying to add already exist"
                 $this->addFlash('existing','Cette entreprise existe déjà dans la base de donnée.');
                 return $this->redirectToRoute("_addCompanie");
             }
@@ -65,9 +64,40 @@ class AddArticleController extends AbstractController
         }
 
         return $this->render('form/AddCompanie.html.twig', array(
-            'formCompanie' => $form->createView(), 'controller_name' => 'AddArticleController',
+            'formCompanie' => $form->createView(),
+            'controller_name' => 'AddArticleController',
         ));
     }
 
+    /**
+     * @Route("/ajouter/contact", name="_addContact")
+     * @param ValidatorInterface $validator
+     * @param Request $request
+     * @return Response
+     */
+    public function addContact(ValidatorInterface $validator, Request $request){
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $entityManager = $this->getDoctrine()->getManager();
+        $contact = new Employee();
+        $form = $this->createForm(AddContactType::class,$contact);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $contact = $form->getData();
 
+            if(empty($this  ->getDoctrine()
+                            ->getRepository(Employee::class)
+                            ->findByExisting($contact->getLastName(), $contact->getFirstName())))
+            {
+                $entityManager->persist($contact);
+                $entityManager->flush();
+            }else{
+                $this->addFlash('existing','Ce contact existe déjà dans la base de donnée.');
+                return $this->redirectToRoute('_addContact');
+            }
+        }
+        return $this->render('form/AddContact.html.twig', array(
+            'formContact' => $form->createView(),
+            'controller_name' => 'AddArticleController',
+        ));
+    }
 }

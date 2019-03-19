@@ -47,6 +47,7 @@ class CompaniesRepository extends ServiceEntityRepository
         ;
     }
     */
+
     public function findByExisting(string $name, string $city, string $adress){
         return $this->createQueryBuilder('c')
                     ->andWhere('c.companie_name = :name')

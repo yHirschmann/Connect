@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Type;
 
 use App\Entity\Companies;
 use App\Entity\CompanieType;
@@ -91,7 +91,7 @@ class AddCompanieType extends AbstractType
                         'class' => 'form-control'
                     ]
                 ])
-            ;
+        ;
     }
     public function configureOptions(OptionsResolver $resolver)
     {

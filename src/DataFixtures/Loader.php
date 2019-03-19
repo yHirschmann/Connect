@@ -9,6 +9,7 @@
 namespace App\DataFixtures;
 
 
+use App\Entity\CompanieEmployee;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -17,9 +18,7 @@ class Loader extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        CompanieFixtures::loader($manager);
-        EmployeeFixtures::loader($manager);
+        CompanieEmployeeFixtures::loader($manager);
         ProjectFixtures::loader($manager);
-
     }
 }

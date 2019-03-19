@@ -10,6 +10,7 @@ class CompanieFixtures {
     public static function loader(ObjectManager $manager)
     {
         $types = CompanieTypeFixtures::loader($manager);
+        $CompArray = new \ArrayObject();
         for ($i = 1; $i < 21; $i++) {
             $companie = new Companies();
             $companie->setCompanieName('Entreprise '.$i);
@@ -22,8 +23,10 @@ class CompanieFixtures {
             $companie->setSocialReason($companie->getCompanieName().' SA');
             $companie->setTurnover(mt_rand(100000, 1000000));
             $companie->setType($types->offsetGet(mt_rand(0,5)));
+            $CompArray->append($companie);
             $manager->persist($companie);
         }
         $manager->flush();
+        return $CompArray;
     }
 }

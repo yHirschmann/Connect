@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\CompanieEmployee;
 use App\Entity\Companies;
+use App\Entity\Employee;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,6 +45,10 @@ class CompanieController extends AbstractController
     public function companieAction(Environment $environment, $id){
         $this->denyAccessUnlessGranted('ROLE_USER');
         $companie = $this->getDoctrine()->getRepository(Companies::class)->find($id);
+        $employees = $this->getDoctrine()->getRepository(CompanieEmployee::class)->findEmployeesInCompany($companie->getId());
+        foreach($employees as $employee){
+            $companie->addEmployee($employee);
+        }
         return new Response($environment->render('companie/companie_details.html.twig', array('companie' => $companie)));
     }
 

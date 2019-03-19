@@ -22,8 +22,6 @@ class MainController extends AbstractController
         return new Response($environment->render('pages/index.html.twig'));
     }
 
-
-
     /**
      * @Route("/account", name="_account")
      * @param Environment $environment

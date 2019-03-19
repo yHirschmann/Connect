@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Validator;
@@ -98,9 +99,17 @@ class Companies
      */
     private $type;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CompanieEmployee", mappedBy="companie")
+     */
+    private $employees;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
+        $this->employees = new ArrayCollection();
+
+
     }
 
     public function __toString()
@@ -262,4 +271,36 @@ class Companies
 
         return $this;
     }
+
+    /**
+     * @return Collection|Person[]
+     */
+    public function getEmployees(): Collection
+    {
+        return $this->employees;
+    }
+
+    public function addEmployee(CompanieEmployee $employee): self
+    {
+        if (!$this->employees->contains($employee)) {
+            $this->employees[] = $employee;
+            $employee->setCompanie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmployee(CompanieEmployee $employee): self
+    {
+        if ($this->employees->contains($employee)) {
+            $this->employees->removeElement($employee);
+            // set the owning side to null (unless already changed)
+            if ($employee->getCompanie() === $this) {
+                $employee->setCompanie(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

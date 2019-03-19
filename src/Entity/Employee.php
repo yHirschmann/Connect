@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,9 +24,15 @@ class Employee extends Person
      */
     private $projects;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CompanieEmployee", mappedBy="employee")
+     */
+    private $companies;
+
     public function __construct()
     {
-        $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->projects = new ArrayCollection();
+        $this->companies = new ArrayCollection();
     }
 
     public function __toString()
@@ -41,6 +48,37 @@ class Employee extends Person
     public function getProjects(): ?ArrayCollection
     {
         return $this->projects;
+    }
+
+    /**
+     * @return Collection|CompanieEmployee[]
+     */
+    public function getCompanies(): Collection
+    {
+        return $this->companies;
+    }
+
+    public function addCompany(CompanieEmployee $company): self
+    {
+        if (!$this->companies->contains($company)) {
+            $this->companies[] = $company;
+            $company->setEmployee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompany(CompanieEmployee $company): self
+    {
+        if ($this->companies->contains($company)) {
+            $this->companies->removeElement($company);
+            // set the owning side to null (unless already changed)
+            if ($company->getEmployee() === $this) {
+                $company->setEmployee(null);
+            }
+        }
+
+        return $this;
     }
 
 }

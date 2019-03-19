@@ -46,6 +46,36 @@
             </div>
             <div>
                 {# TODO Query contacts list => display them in a box with a scroll bar ?#}
+                <table>
+                    <thead>
+                        <tr class="bg-dark text-light">
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Année d'entrée</th>
+                        </tr>
+                    </thead>
+                    {% for employees in companie.employees %}
+                        <thead>
+                        <tr>
+                            <th scope="col">
+                                <a href="{{ path('_contact', {'id': employees.employee.id}) }}">
+                                    {{ employees.employee.lastName }}
+                                </a>
+                            </th>
+                            <th scope="col">
+                                <a href="{{ path('_contact', {'id': employees.employee.id}) }}">
+                                    {{ employees.employee.firstName }}
+                                </a>
+                            </th>
+                            <th scope="col">
+                                <a href="{{ path('_contact', {'id': employees.employee.id}) }}">
+                                    {{ employees.enterAt | date('Y')}}
+                                </a>
+                            </th>
+                        </tr>
+                        </thead>
+                    {% endfor %}
+                </table>
             </div>
         </div>
     </div>
