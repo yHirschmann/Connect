@@ -25,7 +25,7 @@ class Employee extends Person
     private $projects;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CompanieEmployee", mappedBy="employee")
+     * @ORM\OneToMany(targetEntity="App\Entity\CompanieEmployee", mappedBy="employee", cascade={"persist"})
      */
     private $companies;
 

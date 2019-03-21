@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -29,6 +31,16 @@ class User extends Person implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CompanieEmployee", mappedBy="added_by")
+     */
+    private $employees_added;
+
+    public function __construct()
+    {
+        $this->employees_added = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -95,4 +107,36 @@ class User extends Person implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    /**
+     * @return Collection|CompanieEmployee[]
+     */
+    public function getEmployeesAdded(): Collection
+    {
+        return $this->employees_added;
+    }
+
+    public function addEmployeesAdded(CompanieEmployee $employeesAdded): self
+    {
+        if (!$this->employees_added->contains($employeesAdded)) {
+            $this->employees_added[] = $employeesAdded;
+            $employeesAdded->setAddedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmployeesAdded(CompanieEmployee $employeesAdded): self
+    {
+        if ($this->employees_added->contains($employeesAdded)) {
+            $this->employees_added->removeElement($employeesAdded);
+            // set the owning side to null (unless already changed)
+            if ($employeesAdded->getAddedBy() === $this) {
+                $employeesAdded->setAddedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

@@ -57,4 +57,12 @@ class EmployeeRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->execute();
     }
+
+    public function findByEmail(String $email){
+        return $this->createQueryBuilder('e')
+                    ->andWhere('e.email = :email')
+                    ->setParameter('email', $email)
+                    ->getQuery()
+                    ->execute();
+    }
 }

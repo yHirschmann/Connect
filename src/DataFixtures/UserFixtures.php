@@ -7,25 +7,20 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 //TODO composer require fixtures ?
-class UserFixtures extends Fixture
+class UserFixtures
 {
-    private $passwordEncoder;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function loader(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder)
     {
-         $this->passwordEncoder = $passwordEncoder;
-    }
-
-    public function load(ObjectManager $manager)
-    {
-        $this->classicUser($manager);
-        $this->adminUser($manager);
+        $user = $this->classicUser($manager, $passwordEncoder);
+        $this->adminUser($manager, $passwordEncoder);
         $manager->flush();
+        return $user;
     }
 
-    public function classicUser(ObjectManager $manager){
+    public function classicUser(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder){
         $user = new User();
-        $user->setPassword($this->passwordEncoder->encodePassword(
+        $user->setPassword($passwordEncoder->encodePassword(
             $user,
             'Aa1234567890.'
         ));
@@ -45,11 +40,12 @@ class UserFixtures extends Fixture
             ['ROLE_USER']
         );
         $manager->persist($user);
+        return $user;
     }
 
-    public function adminUser(ObjectManager $manager){
+    public function adminUser(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder){
         $user = new User();
-        $user->setPassword($this->passwordEncoder->encodePassword(
+        $user->setPassword($passwordEncoder->encodePassword(
             $user,
             'Aa1234567890.'
         ));

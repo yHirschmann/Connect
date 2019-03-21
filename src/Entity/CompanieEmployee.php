@@ -40,9 +40,21 @@ class CompanieEmployee
      */
     private $out_at;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $added_at;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="employees_added")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $added_by;
+
     public function __construct()
     {
         $this->out_at = new \DateTime('9999-1-1');
+        $this->added_at = new \DateTime("now");
     }
 
     public function getId(): ?int
@@ -94,6 +106,30 @@ class CompanieEmployee
     public function setEmployee(?Employee $employee): self
     {
         $this->employee = $employee;
+
+        return $this;
+    }
+
+    public function getAddedAt(): ?\DateTimeInterface
+    {
+        return $this->added_at;
+    }
+
+    public function setAddedAt(\DateTimeInterface $added_at): self
+    {
+        $this->added_at = $added_at;
+
+        return $this;
+    }
+
+    public function getAddedBy(): ?User
+    {
+        return $this->added_by;
+    }
+
+    public function setAddedBy(?User $added_by): self
+    {
+        $this->added_by = $added_by;
 
         return $this;
     }

@@ -10,6 +10,7 @@ namespace App\Form\Type;
 
 use App\Entity\Employee;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -30,13 +31,13 @@ class AddContactType extends AbstractType
                 ]
             )
             ->add('FirstName',
-                    TextType::class,[
-                        'label'=>'Prénom',
-                        'attr' =>[
-                            'pattern' => '[A-Z][a-zA-Z][^#&<>\"~;$^%{}?]{1,20}$',
-                            'class'=>'form-control',
-                        ]
+                TextType::class,[
+                    'label'=>'Prénom',
+                    'attr' =>[
+                        'pattern' => '[A-Z][a-zA-Z][^#&<>\"~;$^%{}?]{1,20}$',
+                        'class'=>'form-control',
                     ]
+                ]
                 )
             ->add('Email',
                 EmailType::class, [
@@ -84,11 +85,18 @@ class AddContactType extends AbstractType
                     TelType::class, [
                         'label'=>'Téléphone',
                         'attr' =>[
-                            'pattern' => '^0[1-68]([-. ]?\d{2}){4}$',
+                            'pattern' => '^0[1-8]([-. ]?\d{2}){4}$',
                             'class'=>'form-control',
                         ]
                     ]
                 )
+            ->add('companies', CollectionType::class, [
+                'entry_type' => AddCompanieEmployeeType::class,
+                'entry_options' => ['label' => false],
+                'label' => false,
+                'allow_add' => true,
+                'by_reference' => false,
+            ])
         ;
     }
     public function configureOptions(OptionsResolver $resolver)

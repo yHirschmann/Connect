@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
 
@@ -56,9 +57,11 @@ class AddArticleController extends AbstractController
             {
                 $entityManager->persist($companie);
                 $entityManager->flush();
+                $this->addFlash('added','Les informations ont bien été enregistré.');
+                return $this->redirectToRoute("_addCompanie");
             }else{
                 $this->addFlash('existing','Cette entreprise existe déjà dans la base de donnée.');
-                return $this->redirectToRoute("_addCompanie");
+                return $this->redirect($request->headers->get('referer'));
             }
 
         }
@@ -74,25 +77,41 @@ class AddArticleController extends AbstractController
      * @param ValidatorInterface $validator
      * @param Request $request
      * @return Response
+     * @param UserInterface $user
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function addContact(ValidatorInterface $validator, Request $request){
+    public function addContact(ValidatorInterface $validator,Request $request, UserInterface $user){
         $this->denyAccessUnlessGranted('ROLE_USER');
         $entityManager = $this->getDoctrine()->getManager();
         $contact = new Employee();
+
         $form = $this->createForm(AddContactType::class,$contact);
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid()){
             $contact = $form->getData();
-
-            if(empty($this  ->getDoctrine()
-                            ->getRepository(Employee::class)
-                            ->findByExisting($contact->getLastName(), $contact->getFirstName())))
+            foreach($contact->getCompanies() as $company){
+                $company->setAddedBy($user);
+            }
+            $repository = $this->getDoctrine()->getRepository(Employee::class);
+            $queryNames = $repository->findByExisting($contact->getLastName(), $contact->getFirstName());
+            $queryEmail = $repository->findByEmail($contact->getEmail());
+            if(empty($queryNames) && empty($queryEmail))
             {
                 $entityManager->persist($contact);
                 $entityManager->flush();
-            }else{
-                $this->addFlash('existing','Ce contact existe déjà dans la base de donnée.');
+                $this->addFlash('added','Les informations ont bien été enregistré.');
                 return $this->redirectToRoute('_addContact');
+            }else{
+                if(!empty($queryNames)){
+                    $this->addFlash('existing','L\'email de ce contact existe déjà dans la base de donnée.');
+                }
+                elseif(!empty($queryEmail)){
+                    $this->addFlash('existing','Ce contact existe déjà dans la base de donnée.');
+                }else{
+                    $this->addFlash('existing','Un problème est survenue lors de la requête, il se peut que le contact existe déjà.');
+                }
+                return $this->redirect($request->headers->get('referer'));
             }
         }
         return $this->render('form/AddContact.html.twig', array(

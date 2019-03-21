@@ -19,7 +19,15 @@
         </div>
         <div class="col">
             <div class="row">
-                Entreprise : {#{ contact.companie.name }#}TODO
+                Entreprise : {{ contact.companies.last.companie.CompanieName }}
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                Ajouté le : {{ contact.companies.first.addedAt | date('d-m-Y') }}
+            </div>
+            <div class="row">
+                Par :<a href="{{ path('_profile', {'id': contact.companies.first.addedBy.id}) }}">{{ contact.companies.first.addedBy.UserName}}</a>
             </div>
         </div>
     </div>

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    {% for message in app.flashes('existing') %}
+  {% for message in app.flashes('existing') %}
         <div class="flash-notice alert alert-danger alert-dismissible fade show" role="alert">
             {{ message }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -14,7 +14,18 @@
         </div>
     {% endfor %}
     {{  form_start(formContact) }}
-        {{ form_widget(formContact) }}
+        {{ form_row(formContact.FirstName) }}
+        {{ form_row(formContact.LastName) }}
+        {{ form_row(formContact.phoneNumber) }}
+        {{ form_row(formContact.Email) }}
+        {# TODO Implement JS => on check => able to use the out_at datetime input#}
+        <ul class="add-companies" data-prototype="{{ form_widget(formContact.companies.vars.prototype)|e }}" style="padding-left: 0px">
+        </ul>
         <input type="submit" class="btn btn-dark" value="Ajouter" />
     {{ form_end(formContact) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('addContactForm') }}
 {% endblock %}
