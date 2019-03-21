@@ -32,7 +32,7 @@ class AddCompanieEmployeeType extends AbstractType
             ->add('enter_at',
                 DateType::class,[
                     'choice_translation_domain' => true,
-                    'label' => 'Date d\'entré',
+                    'label' => 'Date d\'entrée',
                     'widget' => 'single_text',
                     'attr' => [
                         'class'=> 'form-control'

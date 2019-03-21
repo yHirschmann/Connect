@@ -94,6 +94,7 @@ class Project
     {
         $this->contacts = new ArrayCollection();
         $this->companies = new ArrayCollection();
+        $this->updatedAt = new \DateTime('now');
     }
 
     public function getId(): ?int
