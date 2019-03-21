@@ -1,0 +1,24 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }}Ajouter
+{% endblock %}
+{% block content %}
+    {% for message in app.flashes('existing') %}
+        <div class="flash-notice alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+    {{  form_start() }}
+    <ul class="add-companies" data-prototype="{{ form_widget(formContact.companies.vars.prototype)|e }}" style="padding-left: 0px">
+    </ul>
+    <input type="submit" class="btn btn-dark" value="Ajouter" />
+    {{ form_end(formContact) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

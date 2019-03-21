@@ -18,7 +18,6 @@
         {{ form_row(formContact.LastName) }}
         {{ form_row(formContact.phoneNumber) }}
         {{ form_row(formContact.Email) }}
-        {# TODO Implement JS => on check => able to use the out_at datetime input#}
         <ul class="add-companies" data-prototype="{{ form_widget(formContact.companies.vars.prototype)|e }}" style="padding-left: 0px">
         </ul>
         <input type="submit" class="btn btn-dark" value="Ajouter" />

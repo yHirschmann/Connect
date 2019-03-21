@@ -11,23 +11,23 @@
     <div id="contact-info" class="row border border-secondary rounded" style="margin-bottom: 20px; padding: 5px;">
         <div class="col">
             <div class="row">
-                Email: {{ contact.email }}
+                Email: <span style="margin-left: auto;margin-right: 45%">{{ contact.email }}</span>
             </div>
             <div class="row">
-                Numéro de Téléphone: {{ contact.phoneNumber }}
-            </div>
-        </div>
-        <div class="col">
-            <div class="row">
-                Entreprise : {{ contact.companies.last.companie.CompanieName }}
+                Numéro de Téléphone: <span style="margin-left: auto;margin-right: 45%">{{ contact.phoneNumber }}</span>
             </div>
         </div>
         <div class="col">
             <div class="row">
-                Ajouté le : {{ contact.companies.first.addedAt | date('d-m-Y') }}
+                Entreprise : <span style="margin-left: auto;margin-right: 45%">{{ contact.companies.last.companie.CompanieName }}</span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                Ajouté le : <span style="margin-left: auto;margin-right: 45%">{{ contact.companies.first.addedAt | date('d-m-Y') }}</span>
             </div>
             <div class="row">
-                Par :<a href="{{ path('_profile', {'id': contact.companies.first.addedBy.id}) }}">{{ contact.companies.first.addedBy.UserName}}</a>
+                Par :<a href="{{ path('_profile', {'id': contact.companies.first.addedBy.id}) }}" style="margin-left: auto;margin-right: 45%">{{ contact.companies.first.addedBy.UserName}}</a>
             </div>
         </div>
     </div>
