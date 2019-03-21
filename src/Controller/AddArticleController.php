@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Companies;
 use App\Entity\Employee;
+use App\Entity\Project;
 use App\Form\Type\AddCompanieType;
 use App\Form\Type\AddContactType;
+use App\Form\Type\AddProjectType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +26,7 @@ class AddArticleController extends AbstractController
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function index()
+    public function addArticleIndex()
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         return $this->render('add_article/AddArticle.html.twig', [
@@ -116,6 +118,35 @@ class AddArticleController extends AbstractController
         }
         return $this->render('form/AddContact.html.twig', array(
             'formContact' => $form->createView(),
+            'controller_name' => 'AddArticleController',
+        ));
+    }
+
+    /**
+     * @Route("/ajouter/projet", name="_addProject")
+     * @param ValidatorInterface $validator
+     * @param Request $request
+     * @return Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function addProject(ValidatorInterface $validator, Request $request){
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $entityManager = $this->getDoctrine()->getManager();
+        $project = new Project();
+
+        $form = $this->createForm(AddProjectType::class, $project);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $project = $form->getData();
+            $entityManager->persist($project);
+            $entityManager->flush();
+            $this->addFlash('added','Les informations ont bien été enregistré.');
+            return $this->redirectToRoute('_addContact');
+        }
+
+        return $this->render('form/AddProject.html.twig', array(
+            'formProject' => $form->createView(),
             'controller_name' => 'AddArticleController',
         ));
     }
