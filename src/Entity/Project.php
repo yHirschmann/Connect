@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use \DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
@@ -79,22 +80,32 @@ class Project
     private $updatedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Employee", inversedBy="projects")
-     * @ORM\JoinTable(name="projects_contacts")
+     * @ORM\ManyToMany(targetEntity="App\Entity\companies", inversedBy="projects")
+     */
+    private $companies;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\employee", inversedBy="projects")
      */
     private $contacts;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Companies", inversedBy="projects")
-     * @ORM\JoinTable(name="projects_companies")
+     * @ORM\Column(type="datetime")
      */
-    private $companies;
+    private $created_at;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="projects")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $createdBy;
 
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
         $this->companies = new ArrayCollection();
-        $this->updatedAt = new \DateTime('now');
+        $this->created_at = new DateTime('now');
+//        $this->updatedAt = new \DateTime('now');
     }
 
     public function getId(): ?int
@@ -210,16 +221,6 @@ class Project
         return $this;
     }
 
-    public function getContacts(): ?Collection
-    {
-        return $this->contacts;
-    }
-
-    public function getCompanies(): ?Collection
-    {
-        return $this->companies;
-    }
-
     public function getImgFile(){
         return $this->imgFile;
     }
@@ -243,6 +244,85 @@ class Project
     public function setUpdatedAt(\DateTimeInterface $updated_at): self
     {
         $this->updatedAt = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Companies[]
+     */
+    public function getCompanies(): Collection
+    {
+        return $this->companies;
+    }
+
+    public function addCompany(Companies $company): self
+    {
+        if (!$this->companies->contains($company)) {
+            $this->companies->add($company);
+            $company->addProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompany(Companies $company): self
+    {
+        if ($this->companies->contains($company)) {
+            $this->companies->removeElement($company);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Employee[]
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Employee $contact): self
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts->add($contact);
+            $contact->addProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Employee $contact): self
+    {
+        if ($this->contacts->contains($contact)) {
+            $this->contacts->removeElement($contact);
+            $contact->removeProject($this);
+        }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

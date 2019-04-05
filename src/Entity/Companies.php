@@ -88,11 +88,6 @@ class Companies
     private $effective = 0;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Project", mappedBy="companies")²
-     */
-    private $projects;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\CompanieType", inversedBy="companies")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -102,6 +97,11 @@ class Companies
      * @ORM\OneToMany(targetEntity="App\Entity\CompanieEmployee", mappedBy="companie")
      */
     private $employees;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Project", mappedBy="companies")
+     */
+    private $projects;
 
     public function __construct()
     {
@@ -229,15 +229,6 @@ class Companies
         return $this;
     }
 
-    public function setProjects(?ArrayCollection $projects): self{
-        $this->projects = $projects;
-        return $this;
-    }
-
-    public function getProjects(): ?ArrayCollection{
-        return $this->projects;
-    }
-
     /**
      * @param Companies $companie
      * @return Companies
@@ -282,7 +273,7 @@ class Companies
     public function addEmployee(CompanieEmployee $employee): self
     {
         if (!$this->employees->contains($employee)) {
-            $this->employees[] = $employee;
+            $this->employees->add($employee);
             $employee->setCompanie($this);
         }
 
@@ -297,6 +288,34 @@ class Companies
             if ($employee->getCompanie() === $this) {
                 $employee->setCompanie(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Project[]
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects->add($project);
+            $project->addCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): self
+    {
+        if ($this->projects->contains($project)) {
+            $this->projects->removeElement($project);
+            $project->removeCompany($this);
         }
 
         return $this;

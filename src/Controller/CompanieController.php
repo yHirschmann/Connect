@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\CompanieEmployee;
 use App\Entity\Companies;
-use App\Entity\Employee;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;

@@ -19,15 +19,14 @@ class Employee extends Person
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Project", mappedBy="contacts")
-     *
-     */
-    private $projects;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\CompanieEmployee", mappedBy="employee", cascade={"persist"})
      */
     private $companies;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Project", mappedBy="contacts")
+     */
+    private $projects;
 
     public function __construct()
     {
@@ -45,10 +44,6 @@ class Employee extends Person
         return $this->id;
     }
 
-    public function getProjects(): ?ArrayCollection
-    {
-        return $this->projects;
-    }
 
     /**
      * @return Collection|CompanieEmployee[]
@@ -80,5 +75,34 @@ class Employee extends Person
 
         return $this;
     }
+
+    /**
+     * @return Collection|Project[]
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects[] = $project;
+            $project->addContact($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): self
+    {
+        if ($this->projects->contains($project)) {
+            $this->projects->removeElement($project);
+            $project->removeContact($this);
+        }
+
+        return $this;
+    }
+
 
 }

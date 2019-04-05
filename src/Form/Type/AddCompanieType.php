@@ -21,53 +21,52 @@ class AddCompanieType extends AbstractType
             ->add('companie_name',
                 TextType::class, [
                     'label'=>'Nom de l\'Entreprise',
+                    'required' => false,
                     'attr'=>[
                         'pattern' => '[A-Za-z&]{1,}',
                         'class'=>'form-control',
                         'Placeholder' => 'ex: Entreprise Exemple & Entreprise',
                     ]
                 ])
-            ->add('Adress',
-                TextType::class, [
+            ->add('Adress',TextType::class, [
                     'label'=>'Adresse',
+                    'required' => false,
                     'attr'=>[
                         'pattern' => '^\d{1,2}([. ]?[A-Za-z ]{1,}){1,}([.]?$)',
                         'class'=>'form-control',
                         'Placeholder' => 'ex: 15 rue des fleurs',
                     ]
                 ])
-            ->add('postal_code',
-                TextType::class, [
-                    'label'=>'Code postal'
-                    , 'attr'=>[
+            ->add('postal_code',TextType::class, [
+                    'label'=>'Code postal',
+                    'required' => false,
+                    'attr'=>[
                         'pattern' => '\d{5}',
                         'class'=>'form-control',
                         'Placeholder' => 'ex: 67000',
                     ]
                 ])
-            ->add('City',
-                TextType::class,  [
+            ->add('City',TextType::class,  [
                     'label'=>'Ville',
+                    'required' => false,
                     'attr'=>[
                         'pattern' => '^[A-Z]([- ]?[A-Za-z]){1,}',
                         'class'=>'form-control',
                         'Placeholder' => 'ex: Strasbourg',
                     ]
                 ])
-            ->add('phone_number',
-                TelType::class, [
+            ->add('phone_number',TelType::class, [
                     'label'=>'Téléphone Fixe',
-                    'required'   => false,
+                    'required' => false,
                     'attr'=>[
                         'pattern' => '^0[1-68]([-. ]?\d{2}){4}$',
                         'class'=>'form-control',
                         'Placeholder' => 'ex: 99.99.99.99.99',
                     ]
                 ])
-            ->add('turnover',
-                IntegerType::class, [
+            ->add('turnover',IntegerType::class, [
                     'label'=>'Chiffre d\'Affaire',
-                    'required'   => false,
+                    'required' => false,
                     'attr'=>[
                         'pattern' => '',
                         'class'=>'form-control',
@@ -83,10 +82,10 @@ class AddCompanieType extends AbstractType
                         'Placeholder' => 'ex: ',
                     ]
                 ])
-            ->add('type',
-                EntityType::class,[
+            ->add('type',EntityType::class,[
                     'class' => CompanieType::class,
                     'choice_label' => 'label',
+                    'required' => false,
                     'attr'=> [
                         'class' => 'form-control'
                     ]
@@ -97,7 +96,6 @@ class AddCompanieType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Companies::class,
-            ''
         ]);
     }
 }

@@ -18,10 +18,10 @@ class CompanieEmployeeFixtures
             $ce = new CompanieEmployee();
             $ce->setCompanie($companies->offsetGet(mt_rand(0,19)));
             $ce->setEmployee($employees->offsetGet(mt_rand(0,49)));
-            $ce->setEnterAt(\DateTime::createFromFormat('Y-m-d H:i:s',date('Y-m-d H:i:s')));
             $ce->setAddedBy($user);
             $manager->persist($ce);
         }
         $manager->flush();
+        return $user;
     }
 }

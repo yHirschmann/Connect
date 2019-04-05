@@ -21,27 +21,27 @@ class AddContactType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $option){
         $builder
-            ->add('LastName',
-                TextType::class, [
+            ->add('LastName',TextType::class, [
                     'label'=>'Nom',
+                    'required' => false,
                     'attr' =>[
                         'pattern' => '[A-Z][a-zA-Z][^#&<>\"~;$^%{}?]{1,20}$',
                         'class'=>'form-control',
                     ]
                 ]
             )
-            ->add('FirstName',
-                TextType::class,[
+            ->add('FirstName',TextType::class,[
                     'label'=>'Prénom',
+                    'required' => false,
                     'attr' =>[
                         'pattern' => '[A-Z][a-zA-Z][^#&<>\"~;$^%{}?]{1,20}$',
                         'class'=>'form-control',
                     ]
                 ]
                 )
-            ->add('Email',
-                EmailType::class, [
+            ->add('Email',EmailType::class, [
                         'label'=>'Email',
+                        'required' => false,
                         'attr' =>[
                             'pattern' => '(?(DEFINE)
                                             (?<addr_spec> (?&local_part) @ (?&domain) )
@@ -81,9 +81,9 @@ class AddContactType extends AbstractType
                         ]
                     ]
                 )
-            ->add('phoneNumber',
-                    TelType::class, [
+            ->add('phoneNumber',TelType::class, [
                         'label'=>'Téléphone',
+                        'required' => false,
                         'attr' =>[
                             'pattern' => '^0[1-8]([-. ]?\d{2}){4}$',
                             'class'=>'form-control',
@@ -94,6 +94,7 @@ class AddContactType extends AbstractType
                 'entry_type' => AddCompanieEmployeeType::class,
                 'entry_options' => ['label' => false],
                 'label' => false,
+                'required' => false,
                 'allow_add' => true,
                 'by_reference' => false,
             ])
@@ -103,7 +104,6 @@ class AddContactType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Employee::class,
-            ''
         ]);
     }
 }

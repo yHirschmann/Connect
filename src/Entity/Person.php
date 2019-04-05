@@ -22,7 +22,6 @@ abstract class Person
      * @Validator\Regex("/[A-Za-z&]{1,}/")
      */
     protected $last_name;
-
     /**
      * @ORM\Column(type="string", length=10)
      * @Validator\Length(

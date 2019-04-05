@@ -3,16 +3,15 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-//TODO composer require fixtures ?
+
 class UserFixtures
 {
-
     public function loader(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = $this->classicUser($manager, $passwordEncoder);
+        $this->JPSUser($manager, $passwordEncoder);
         $this->adminUser($manager, $passwordEncoder);
         $manager->flush();
         return $user;
@@ -41,6 +40,30 @@ class UserFixtures
         );
         $manager->persist($user);
         return $user;
+    }
+
+    public function JPSUser(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder){
+        $user = new User();
+        $user->setPassword($passwordEncoder->encodePassword(
+            $user,
+            'JPSE1267.'
+        ));
+        $user->setFirstName(
+            'JPS'
+        );
+        $user->setLastName(
+            'JPS'
+        );
+        $user->setPhoneNumber(
+            '1234567890'
+        );
+        $user->setEmail(
+            'jpseclairage@gmail.com'
+        );
+        $user->setRoles(
+            ['ROLE_USER']
+        );
+        $manager->persist($user);
     }
 
     public function adminUser(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder){

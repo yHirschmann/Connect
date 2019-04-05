@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Companies;
+use App\Entity\CompanieType;
 use App\Entity\Employee;
 use App\Entity\Project;
 use App\Form\Type\AddCompanieType;
@@ -12,12 +13,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
 
 class AddArticleController extends AbstractController
 {
+    private $user;
+
+    public function __construct(Security $security)
+    {
+        $this->user = $security->getUser();;
+    }
+
     /**
      * @Route("/ajouter" , name="_add")
      * @param Environment $environment
@@ -79,10 +87,9 @@ class AddArticleController extends AbstractController
      * @param ValidatorInterface $validator
      * @param Request $request
      * @return Response
-     * @param UserInterface $user
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function addContact(ValidatorInterface $validator,Request $request, UserInterface $user){
+    public function addContact(ValidatorInterface $validator,Request $request){
         $this->denyAccessUnlessGranted('ROLE_USER');
         $entityManager = $this->getDoctrine()->getManager();
         $contact = new Employee();
@@ -93,7 +100,7 @@ class AddArticleController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $contact = $form->getData();
             foreach($contact->getCompanies() as $company){
-                $company->setAddedBy($user);
+                $company->setAddedBy($this->user);
             }
             $repository = $this->getDoctrine()->getRepository(Employee::class);
             $queryNames = $repository->findByExisting($contact->getLastName(), $contact->getFirstName());
@@ -139,10 +146,41 @@ class AddArticleController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $project = $form->getData();
+            $repository = $this->getDoctrine()->getRepository(CompanieType::class);
+            $unexistingCompanies = $request->request->get('add_project')['unexistingCompanies'];
+            $unexistingContact = $request->request->get('add_project')['unexistingContacts'];
+            foreach ($unexistingCompanies as $company){
+                if(!empty($company['companie_name'])){
+                    $comp = new Companies();
+                    $comp->setCompanieName($company['companie_name']);
+                    $comp->setAdress($company['Adress']);
+                    $comp->setPostalCode($company['postal_code']);
+                    $comp->setCity($company['City']);
+                    $comp->setPhoneNumber($company['phone_number']);
+                    $comp->setTurnover($company['turnover']);
+                    $comp->setSocialReason($company['social_reason']);
+                    $comp->setType($repository->find(intval($company['type'])));
+                    $project->addCompany($comp);
+                    $entityManager->persist($comp);
+                }
+            }
+            foreach($unexistingContact as $contact){
+                if(!empty($contact['FirstName'])){
+                    $employee = new Employee();
+                    $employee->setFirstName($contact['FirstName']);
+                    $employee->setLastName($contact['LastName']);
+                    $employee->setEmail($contact['Email']);
+                    $employee->setPhoneNumber($contact['phoneNumber']);
+                    $project->addContact($employee);
+                    $entityManager->persist($employee);
+                }
+            }
+            //TODO manage the file upload
+            $project->setCreatedBy($this->user);
             $entityManager->persist($project);
             $entityManager->flush();
             $this->addFlash('added','Les informations ont bien été enregistré.');
-            return $this->redirectToRoute('_addContact');
+            return $this->redirectToRoute('_addProject');
         }
 
         return $this->render('form/AddProject.html.twig', array(

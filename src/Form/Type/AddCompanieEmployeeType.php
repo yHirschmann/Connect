@@ -20,44 +20,19 @@ class AddCompanieEmployeeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('companie',
-            EntityType::class,[
+        $builder->add('companie',EntityType::class,[
                 'class' => Companies::class,
                 'label' => 'Entreprise',
                 'choice_label' => 'companie_name',
                 'attr' => [
                   'class' => 'form-control'
                 ],
-            ])
-            ->add('enter_at',
-                DateType::class,[
-                    'choice_translation_domain' => true,
-                    'label' => 'Date d\'entrée',
-                    'widget' => 'single_text',
-                    'attr' => [
-                        'class'=> 'form-control'
-                    ]
-                ])
-            ->add('out_at',
-                DateType::class,[
-                    'data' => new \DateTime('9999-1-1'),
-                    'choice_translation_domain' => true,
-                    //'label' => 'Date de sortie (optionnel)',
-                    'label' => false,
-                    'widget' => 'single_text',
-                    'required' => false,
-                    'attr' => [
-                        'class'=> 'form-control',
-                        'hidden' => true,
-                        //'disabled'=> true,
-                    ]
-                ]);
+            ]);
     }
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => CompanieEmployee::class,
-            ''
         ]);
     }
 }

@@ -33,16 +33,6 @@ class CompanieEmployee
     /**
      * @ORM\Column(type="datetime")
      */
-    private $enter_at;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $out_at;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
     private $added_at;
 
     /**
@@ -70,30 +60,6 @@ class CompanieEmployee
     public function setCompanie(?Companies $companie): self
     {
         $this->companie = $companie;
-
-        return $this;
-    }
-
-    public function getEnterAt(): ?\DateTimeInterface
-    {
-        return $this->enter_at;
-    }
-
-    public function setEnterAt(\DateTimeInterface $enter_at): self
-    {
-        $this->enter_at = $enter_at;
-
-        return $this;
-    }
-
-    public function getOutAt(): ?\DateTimeInterface
-    {
-        return $this->out_at;
-    }
-
-    public function setOutAt(\DateTimeInterface $out_at): self
-    {
-        $this->out_at = $out_at;
 
         return $this;
     }
