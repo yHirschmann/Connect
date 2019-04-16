@@ -8,7 +8,9 @@
 
 namespace App\Form\Type;
 
+use App\Entity\Companies;
 use App\Entity\Employee;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -90,13 +92,13 @@ class AddContactType extends AbstractType
                         ]
                     ]
                 )
-            ->add('companies', CollectionType::class, [
-                'entry_type' => AddCompanieEmployeeType::class,
-                'entry_options' => ['label' => false],
-                'label' => false,
-                'required' => false,
-                'allow_add' => true,
-                'by_reference' => false,
+            ->add('companie',EntityType::class,[
+                'class' => Companies::class,
+                'label' => 'Entreprise',
+                'choice_label' => 'companie_name',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
             ])
         ;
     }

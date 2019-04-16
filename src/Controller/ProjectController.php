@@ -19,7 +19,7 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/project", name="_projects")
+     * @Route("/projet", name="_projects")
      * @param Environment $environment
      * @return Response
      * @throws \Twig_Error_Loader
@@ -33,7 +33,7 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/project/{id}", name="_project")
+     * @Route("/projet/{id}", name="_project")
      * @param Environment $environment
      * @return Response
      * @throws \Twig_Error_Loader

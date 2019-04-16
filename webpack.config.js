@@ -20,7 +20,6 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     .addEntry('addContactForm', './assets/js/addContactForm.js')
-    .addEntry('addProjectCompForm', './assets/js/addProjectCompForm.js')
     .addEntry('addProjectContForm', './assets/js/addProjectContForm.js')
     .addEntry('addUnexistingCompanieForm', './assets/js/addUnexistingCompaniesForm.js')
     .addEntry('addUnexistingContactForm', './assets/js/addUnexistingContactForm.js')

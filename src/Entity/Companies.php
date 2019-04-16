@@ -26,19 +26,14 @@ class Companies
     private $companie_name;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $nb_projects = 0;
-
-    /**
      * @ORM\Column(type="string", length=255)
      *  @Validator\Regex("/^[A-Z]([- ]?[A-Za-z]){1,}/")
      */
     private $City;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Validator\Regex("/^\d{1,2}([. ]?[A-Za-z ]{1,}){1,}([.]?$)/")
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Validator\Regex("/^$|^\d{1,2}([\.\,\ ]?[A-Za-z ]{1,}){1,}([.]?$)/")
      */
     private $Adress;
 
@@ -59,19 +54,20 @@ class Companies
      * @Validator\Length(
      *     min = 10,
      *     max = 14,
-     *     minMessage = "Un numéro de téléphone doit être composé de {{ limit }} chiffres : trop court",
-     *     maxMessage = "Un numéro de téléphone doit être composé de {{ limit }} chiffres : trop long"
+     *     minMessage = "Un numéro de téléphone doit être composé de {{ limit }} caractères : trop court",
+     *     maxMessage = "Un numéro de téléphone doit être composé de {{ limit }} caractères : trop long"
      * )
      * @Validator\Regex("/^0[1-68]([-. ]?\d{2}){4}$/")
      */
     private $phone_number;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)*
+     * @ORM\Column(type="integer", nullable=true)
      * @Validator\Type(
      *     "integer",
      *     message="La valeur {{ value }} n'est pas un nombre)"
      * )
+     *
      */
     private $turnover;
 
@@ -94,21 +90,19 @@ class Companies
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CompanieEmployee", mappedBy="companie")
-     */
-    private $employees;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Project", mappedBy="companies")
      */
     private $projects;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Employee", mappedBy="companie")
+     */
+    private $employees;
 
     public function __construct()
     {
         $this->projects = new ArrayCollection();
         $this->employees = new ArrayCollection();
-
-
     }
 
     public function __toString()
@@ -129,18 +123,6 @@ class Companies
     public function setCompanieName(string $companie_name): self
     {
         $this->companie_name = $companie_name;
-
-        return $this;
-    }
-
-    public function getNbProjects(): ?int
-    {
-        return $this->nb_projects;
-    }
-
-    public function setNbProjects(?int $nb_projects): self
-    {
-        $this->nb_projects = $nb_projects;
 
         return $this;
     }
@@ -222,13 +204,6 @@ class Companies
         return $this->effective;
     }
 
-    public function setEffective(?int $effective): self
-    {
-        $this->effective = $effective;
-
-        return $this;
-    }
-
     /**
      * @param Companies $companie
      * @return Companies
@@ -258,38 +233,6 @@ class Companies
     public function setType(?CompanieType $type): self
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Person[]
-     */
-    public function getEmployees(): Collection
-    {
-        return $this->employees;
-    }
-
-    public function addEmployee(CompanieEmployee $employee): self
-    {
-        if (!$this->employees->contains($employee)) {
-            $this->employees->add($employee);
-            $employee->setCompanie($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEmployee(CompanieEmployee $employee): self
-    {
-        if ($this->employees->contains($employee)) {
-            $this->employees->removeElement($employee);
-            // set the owning side to null (unless already changed)
-            if ($employee->getCompanie() === $this) {
-                $employee->setCompanie(null);
-            }
-        }
-
         return $this;
     }
 
@@ -318,6 +261,38 @@ class Companies
             $project->removeCompany($this);
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Collection|Employee[]
+     */
+    public function getEmployees(): Collection
+    {
+        return $this->employees;
+    }
+
+    public function addEmployee(Employee $employee): self
+    {
+        if (!$this->employees->contains($employee)) {
+            $this->employees->add($employee);
+            $this->effective += 1;
+            $employee->setCompanie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmployee(Employee $employee): self
+    {
+        if ($this->employees->contains($employee)) {
+            $this->employees->removeElement($employee);
+            $this->effective -= 1;
+            // set the owning side to null (unless already changed)
+            if ($employee->getCompanie() === $this) {
+                $employee->setCompanie(null);
+            }
+        }
         return $this;
     }
 

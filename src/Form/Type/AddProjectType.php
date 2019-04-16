@@ -35,7 +35,7 @@ class AddProjectType extends AbstractType
                 ]
             ])
                 ->add('adress', TextType::class, [
-                    'label' => 'Adress',
+                    'label' => 'Adresse',
                     'attr' => [
                         'class' => 'form-control'
                     ]
@@ -54,6 +54,7 @@ class AddProjectType extends AbstractType
                 ])
                 ->add('cost', NumberType::class, [
                     'label' => 'Coût',
+                    'required' => false,
                     'attr' => [
                         'class' => 'form-control'
                     ]
@@ -113,15 +114,6 @@ class AddProjectType extends AbstractType
                     'allow_add' => true,
                     'by_reference' => false,
                 ])
-                ->add('unexistingCompanies', CollectionType::class, [
-                        'entry_type' => AddCompanieType::class,
-                        'required' => false,
-                        'entry_options' => ['label' => false],
-                        'label' => false,
-                        'allow_add' => true,
-                        'by_reference' => false,
-                        'mapped' => false,
-                    ])
                 ->add('unexistingContacts', CollectionType::class, [
                     'entry_type' => AddContactType::class,
                     'entry_options' => ['label' => false],
@@ -131,7 +123,7 @@ class AddProjectType extends AbstractType
                     'by_reference' => false,
                     'mapped' => false,
                 ])
-                ->add('imgFile', FileType::class, [
+                ->add('imageFile', FileType::class, [
                     'label' => 'Photo du projet',
                 ]);
     //TODO Add files of the project

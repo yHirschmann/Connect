@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use \DateTime;
 
@@ -63,15 +65,18 @@ class Project
     private $cost;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $img_path;
-
-    /**
-     * @Vich\UploadableField(mapping="project_images", fileNameProperty="image")
+     * @Vich\UploadableField(mapping="project_images", fileNameProperty="image.name", size="image.size", mimeType="image.mimeType", originalName="image.originalName")
      * @var File
      */
-    private $imgFile;
+    private $imageFile;
+
+    /**
+
+     * @ORM\Embedded(class="Vich\UploaderBundle\Entity\File")
+     *
+     * @var EmbeddedFile
+     */
+    private $image;
 
     /**
      * @ORM\Column(type="datetime")
@@ -102,10 +107,11 @@ class Project
 
     public function __construct()
     {
+        $this->image = new EmbeddedFile();
         $this->contacts = new ArrayCollection();
         $this->companies = new ArrayCollection();
+        $this->updatedAt =  new DateTime('now');
         $this->created_at = new DateTime('now');
-//        $this->updatedAt = new \DateTime('now');
     }
 
     public function getId(): ?int
@@ -209,43 +215,39 @@ class Project
         return $this;
     }
 
-    public function getImgPath(): ?string
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the  update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|UploadedFile $imageFile
+     */
+    public function setImageFile(?File $imageFile = null)
     {
-        return $this->img_path;
-    }
+        $this->imageFile = $imageFile;
 
-    public function setImgPath(?string $img_path): self
-    {
-        $this->img_path = $img_path;
-
-        return $this;
-    }
-
-    public function getImgFile(){
-        return $this->imgFile;
-    }
-
-    public function setImgFile(File $image = null){
-        $this->imageFile = $image;
-
-        // VERY IMPORTANT:
-        // It is required that at least one field changes if you are using Doctrine,
-        // otherwise the event listeners won't be called and the file is lost
-        if ($image) {
-            // if 'updatedAt' is not defined in your entity, use another property
-            $this->updatedAt = new \DateTime('now');
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
         }
     }
 
-    public function getUpdatedAt(){
-        return $this->updatedAt;
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    public function setImage(EmbeddedFile $image)
     {
-        $this->updatedAt = $updated_at;
+        $this->image = $image;
+    }
 
-        return $this;
+    public function getImage(): ?EmbeddedFile
+    {
+        return $this->image;
     }
 
     /**

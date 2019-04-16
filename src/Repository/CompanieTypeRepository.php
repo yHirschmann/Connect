@@ -19,6 +19,18 @@ class CompanieTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, CompanieType::class);
     }
 
+    /**
+     * @param string $label label of the CompanieType
+     * @return bool return true if the given label match whith an existing label in the database
+     */
+    public function findByLabel(string $label) :bool{
+        return !empty($this  ->createQueryBuilder('ct')
+                            ->where('ct.label = :label')
+                            -> setParameter('label', $label)
+                            ->getQuery()
+                            ->execute());
+
+    }
     // /**
     //  * @return CompanieType[] Returns an array of CompanieType objects
     //  */

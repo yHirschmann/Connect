@@ -26,8 +26,8 @@
         {{ form_row(formContact.LastName) }}
         {{ form_row(formContact.phoneNumber) }}
         {{ form_row(formContact.Email) }}
-        <ul class="add-contact-companies" data-prototype="{{ form_widget(formContact.companies.vars.prototype)|e }}" style="padding-left: 0px">
-        </ul>
+        {{ form_row(formContact.companie) }}
+{#        TODO Allow to add unexisting companie#}
         <input type="submit" class="btn btn-dark" value="Enregistrer" />
     {{ form_end(formContact) }}
 {% endblock %}

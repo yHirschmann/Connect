@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\CompanieEmployee;
 use App\Entity\Companies;
+use App\Entity\Employee;
+use App\Entity\Project;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,8 +45,9 @@ class CompanieController extends AbstractController
      */
     public function companieAction(Environment $environment, $id){
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $companie = $this->getDoctrine()->getRepository(Companies::class)->find($id);
-        $employees = $this->getDoctrine()->getRepository(CompanieEmployee::class)->findEmployeesInCompany($companie->getId());
+        $doctrine = $this->getDoctrine();
+        $companie = $doctrine->getRepository(Companies::class)->find($id);
+        $employees = $doctrine->getRepository(Employee::class)->findEmployeesInCompany($id);
         foreach($employees as $employee){
             $companie->addEmployee($employee);
         }

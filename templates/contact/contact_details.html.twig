@@ -19,15 +19,19 @@
         </div>
         <div class="col">
             <div class="row">
-                Entreprise : <span style="margin-left: auto;margin-right: 45%">{{ contact.companies.last.companie.CompanieName }}</span>
+                Entreprise : <span style="margin-left: auto;margin-right: 45%">
+                    <a href="{{ path('_companie', {'id': contact.companie.Id}) }}">
+                        {{ contact.companie.CompanieName }}
+                    </a>
+                </span>
             </div>
         </div>
         <div class="col">
             <div class="row">
-                Ajouté le : <span style="margin-left: auto;margin-right: 45%">{{ contact.companies.first.addedAt | date('d-m-Y') }}</span>
+                Ajouté le : <span style="margin-left: auto;margin-right: 45%">{{ contact.addedAt | date('d-m-Y') }}</span>
             </div>
             <div class="row">
-                Par :<a href="{{ path('_profile', {'id': contact.companies.first.addedBy.id}) }}" style="margin-left: auto;margin-right: 45%">{{ contact.companies.first.addedBy.UserName}}</a>
+                Par :<a href="{{ path('_profile', {'id': contact.addedBy.id}) }}" style="margin-left: auto;margin-right: 45%">{{ contact.addedBy.UserName}}</a>
             </div>
         </div>
     </div>

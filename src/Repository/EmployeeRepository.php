@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Companies;
 use App\Entity\Employee;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -65,4 +66,16 @@ class EmployeeRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->execute();
     }
+
+    public function findEmployeesInCompany($id)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('e')
+            ->andWhere('e.companie = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
+
+
 }

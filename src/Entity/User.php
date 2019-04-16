@@ -33,19 +33,19 @@ class User extends Person implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CompanieEmployee", mappedBy="added_by")
-     */
-    private $employees_added;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="createdBy")
      */
     private $projects;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Employee", mappedBy="added_by")
+     */
+    private $employees_added;
+
     public function __construct()
     {
-        $this->employees_added = new ArrayCollection();
         $this->projects = new ArrayCollection();
+        $this->employees_added = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,37 +115,6 @@ class User extends Person implements UserInterface
     }
 
     /**
-     * @return Collection|CompanieEmployee[]
-     */
-    public function getEmployeesAdded(): Collection
-    {
-        return $this->employees_added;
-    }
-
-    public function addEmployeesAdded(CompanieEmployee $employeesAdded): self
-    {
-        if (!$this->employees_added->contains($employeesAdded)) {
-            $this->employees_added[] = $employeesAdded;
-            $employeesAdded->setAddedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEmployeesAdded(CompanieEmployee $employeesAdded): self
-    {
-        if ($this->employees_added->contains($employeesAdded)) {
-            $this->employees_added->removeElement($employeesAdded);
-            // set the owning side to null (unless already changed)
-            if ($employeesAdded->getAddedBy() === $this) {
-                $employeesAdded->setAddedBy(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Project[]
      */
     public function getProjects(): Collection
@@ -170,6 +139,37 @@ class User extends Person implements UserInterface
             // set the owning side to null (unless already changed)
             if ($project->getCreatedBy() === $this) {
                 $project->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Employee[]
+     */
+    public function getEmployeesAdded(): Collection
+    {
+        return $this->employees_added;
+    }
+
+    public function addEmployeesAdded(Employee $employeesAdded): self
+    {
+        if (!$this->employees_added->contains($employeesAdded)) {
+            $this->employees_added[] = $employeesAdded;
+            $employeesAdded->setAddedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmployeesAdded(Employee $employeesAdded): self
+    {
+        if ($this->employees_added->contains($employeesAdded)) {
+            $this->employees_added->removeElement($employeesAdded);
+            // set the owning side to null (unless already changed)
+            if ($employeesAdded->getAddedBy() === $this) {
+                $employeesAdded->setAddedBy(null);
             }
         }
 

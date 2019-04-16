@@ -19,19 +19,31 @@ class Employee extends Person
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CompanieEmployee", mappedBy="employee", cascade={"persist"})
-     */
-    private $companies;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Project", mappedBy="contacts")
      */
     private $projects;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $added_at;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Companies", inversedBy="employees")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $companie;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="employees_added")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $added_by;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
-        $this->companies = new ArrayCollection();
+        $this->added_at = \DateTime::createFromFormat('Y-m-d H:i:s',date('Y-m-d H:i:s'));
     }
 
     public function __toString()
@@ -42,38 +54,6 @@ class Employee extends Person
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-
-    /**
-     * @return Collection|CompanieEmployee[]
-     */
-    public function getCompanies(): Collection
-    {
-        return $this->companies;
-    }
-
-    public function addCompany(CompanieEmployee $company): self
-    {
-        if (!$this->companies->contains($company)) {
-            $this->companies[] = $company;
-            $company->setEmployee($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCompany(CompanieEmployee $company): self
-    {
-        if ($this->companies->contains($company)) {
-            $this->companies->removeElement($company);
-            // set the owning side to null (unless already changed)
-            if ($company->getEmployee() === $this) {
-                $company->setEmployee(null);
-            }
-        }
-
-        return $this;
     }
 
     /**
@@ -104,5 +84,31 @@ class Employee extends Person
         return $this;
     }
 
+    public function getCompanie(): ?Companies
+    {
+        return $this->companie;
+    }
+
+    public function setCompanie(?Companies $companie): self
+    {
+        $this->companie = $companie;
+        return $this;
+    }
+
+    public function getAddedAt(){
+        return $this->added_at;
+    }
+
+    public function getAddedBy(): ?user
+    {
+        return $this->added_by;
+    }
+
+    public function setAddedBy(?user $added_by): self
+    {
+        $this->added_by = $added_by;
+
+        return $this;
+    }
 
 }

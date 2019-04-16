@@ -47,7 +47,7 @@
                      aria-label="Placeholder: Thumbnail">
                     <title>{{ project.projectName }}</title>
                     <rect fill="#ffffff" width="45%" height="100%"></rect>
-                    <image xlink:href="{{ asset('/build/images/upload/project/img1.jpg')}}" x="0" y="0"
+                    <image xlink:href="{{ vich_uploader_asset(project, 'imageFile')}}" x="0" y="0"
                            width="100%" height="100%"></image>
                 </svg>
                 <div class="card-body text-wrap">

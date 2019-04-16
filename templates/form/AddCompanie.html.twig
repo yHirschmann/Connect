@@ -22,7 +22,30 @@
         </div>
     {% endfor %}
     {{  form_start(formCompanie) }}
-        {{ form_widget(formCompanie) }}
+        {{ form_row(formCompanie.companie_name) }}
+        {{ form_row(formCompanie.Adress) }}
+        {{ form_row(formCompanie.postal_code) }}
+        {{ form_row(formCompanie.City) }}
+        {{ form_row(formCompanie.phone_number) }}
+        {{ form_row(formCompanie.turnover) }}
+        {{ form_row(formCompanie.social_reason) }}
+        {{ form_row(formCompanie.type) }}
+        <div class="accordion" id="accordionContact">
+            <div class="card">
+                <div class="card-header" id="headingContact">
+                    <h2 class="mb-0">
+                        <button class="btn" type="button" data-toggle="collapse" data-target="#collapseContact" aria-expanded="false" aria-controls="collapseThree">
+                            Ajouter un domaine d'activité non enregistré.
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseContact" class="collapse" aria-labelledby="headingContact" data-parent="#accordionContact">
+                    <div class="card-body">
+                        {{ form_row(formCompanie.unexistingType)}}
+                    </div>
+                </div>
+            </div>
+        </div>
         <input type="submit" class="btn btn-dark" value="Enregistrer" />
     {{ form_end(formCompanie) }}
 {% endblock %}

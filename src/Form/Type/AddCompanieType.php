@@ -6,7 +6,7 @@ use App\Entity\Companies;
 use App\Entity\CompanieType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,12 +18,11 @@ class AddCompanieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('companie_name',
-                TextType::class, [
+            ->add('companie_name', TextType::class, [
                     'label'=>'Nom de l\'Entreprise',
                     'required' => false,
                     'attr'=>[
-                        'pattern' => '[A-Za-z&]{1,}',
+                        'pattern' => '[A-Za-z& -.]{1,}',
                         'class'=>'form-control',
                         'Placeholder' => 'ex: Entreprise Exemple & Entreprise',
                     ]
@@ -32,7 +31,7 @@ class AddCompanieType extends AbstractType
                     'label'=>'Adresse',
                     'required' => false,
                     'attr'=>[
-                        'pattern' => '^\d{1,2}([. ]?[A-Za-z ]{1,}){1,}([.]?$)',
+                        'pattern' => '^\d{1,2}([,. -]?[A-Za-z ]{1,}){1,}([.]?$)',
                         'class'=>'form-control',
                         'Placeholder' => 'ex: 15 rue des fleurs',
                     ]
@@ -64,32 +63,37 @@ class AddCompanieType extends AbstractType
                         'Placeholder' => 'ex: 99.99.99.99.99',
                     ]
                 ])
-            ->add('turnover',IntegerType::class, [
+            ->add('turnover',NumberType::class, [
                     'label'=>'Chiffre d\'Affaire',
                     'required' => false,
                     'attr'=>[
-                        'pattern' => '',
+                        'pattern' => '\d{1,}',
                         'class'=>'form-control',
                         'Placeholder' => 'ex: 3857000',
                     ]
                 ])
-            ->add('social_reason',
-                TextType::class, [
+            ->add('social_reason',TextType::class, [
                     'label'=>'Raison Social',
                     'attr'=>[
-                        'pattern' => '[A-Za-z&]{1,}',
+                        'pattern' => '[A-Za-z& -.]{1,}',
                         'class'=>'form-control',
                         'Placeholder' => 'ex: ',
                     ]
                 ])
             ->add('type',EntityType::class,[
                     'class' => CompanieType::class,
+                    'label'=>'Activité',
                     'choice_label' => 'label',
                     'required' => false,
                     'attr'=> [
                         'class' => 'form-control'
                     ]
                 ])
+            ->add('unexistingType', AddCompanieTypeType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => false,
+            ])
         ;
     }
     public function configureOptions(OptionsResolver $resolver)

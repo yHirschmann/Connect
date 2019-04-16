@@ -24,7 +24,20 @@ class Loader extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $user = CompanieEmployeeFixtures::loader($manager, $this->passwordEncoder);
-        ProjectFixtures::loader($manager,$user);
+        $user = new UserFixtures();
+        $user = $user->loader($manager, $this->passwordEncoder);
+//        $employees = EmployeeFixtures::loader($manager, $user);
+//        $this->setCompaniesEmployees($employees, $manager);
+//        ProjectFixtures::loader($manager,$user);
+    }
+
+    private function setCompaniesEmployees(\ArrayObject $employees, ObjectManager $manager){
+        foreach($employees as $employee){
+            $companie = $employee->getCompanie();
+            $companie->addEmployee($employee);
+            $manager->persist($companie);
+        }
+        $manager->flush();
     }
 }
+

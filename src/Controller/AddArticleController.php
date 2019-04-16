@@ -7,6 +7,7 @@ use App\Entity\CompanieType;
 use App\Entity\Employee;
 use App\Entity\Project;
 use App\Form\Type\AddCompanieType;
+use App\Form\Type\AddCompanieTypeType;
 use App\Form\Type\AddContactType;
 use App\Form\Type\AddProjectType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -60,6 +61,19 @@ class AddArticleController extends AbstractController
             $companie = $form->getData();
             $companie = $companie->formatCompaniePhoneNumber($companie);
             $companie = $companie->formatCompanieSocialReason($companie);
+            $unexistingType = $request->request->get('add_companie')['unexistingType']["label"];
+
+            if(!empty($unexistingType)){
+                $newType = new CompanieType();
+                $newType->setLabel($unexistingType);
+                $repository = $this->getDoctrine()->getRepository(CompanieType::class);
+                if(!$repository->findByLabel($newType->getLabel())){
+                    $entityManager->persist($newType);
+                }
+            }
+            if(is_null($companie->getType())){
+                $companie->setType($newType);
+            }
 
             if(empty($this  ->getDoctrine()
                             ->getRepository(Companies::class)
@@ -99,12 +113,11 @@ class AddArticleController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $contact = $form->getData();
-            foreach($contact->getCompanies() as $company){
-                $company->setAddedBy($this->user);
-            }
+            $contact->setAddedBy($this->getUser());
             $repository = $this->getDoctrine()->getRepository(Employee::class);
             $queryNames = $repository->findByExisting($contact->getLastName(), $contact->getFirstName());
             $queryEmail = $repository->findByEmail($contact->getEmail());
+
             if(empty($queryNames) && empty($queryEmail))
             {
                 $entityManager->persist($contact);
@@ -146,36 +159,21 @@ class AddArticleController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $project = $form->getData();
+            //TODO unexisting contact not registering on submitting project form
             $repository = $this->getDoctrine()->getRepository(CompanieType::class);
-            $unexistingCompanies = $request->request->get('add_project')['unexistingCompanies'];
             $unexistingContact = $request->request->get('add_project')['unexistingContacts'];
-            foreach ($unexistingCompanies as $company){
-                if(!empty($company['companie_name'])){
-                    $comp = new Companies();
-                    $comp->setCompanieName($company['companie_name']);
-                    $comp->setAdress($company['Adress']);
-                    $comp->setPostalCode($company['postal_code']);
-                    $comp->setCity($company['City']);
-                    $comp->setPhoneNumber($company['phone_number']);
-                    $comp->setTurnover($company['turnover']);
-                    $comp->setSocialReason($company['social_reason']);
-                    $comp->setType($repository->find(intval($company['type'])));
-                    $project->addCompany($comp);
-                    $entityManager->persist($comp);
-                }
-            }
+
             foreach($unexistingContact as $contact){
-                if(!empty($contact['FirstName'])){
-                    $employee = new Employee();
-                    $employee->setFirstName($contact['FirstName']);
-                    $employee->setLastName($contact['LastName']);
-                    $employee->setEmail($contact['Email']);
-                    $employee->setPhoneNumber($contact['phoneNumber']);
-                    $project->addContact($employee);
+                $employee = $this->createNewContact($contact, $project);
+                if($employee != null){
                     $entityManager->persist($employee);
+                    $companie = $employee->getCompanie();
+                    $companie->addEmployee($employee);
+                    $project->addCompany($companie);
                 }
             }
-            //TODO manage the file upload
+
+            //TODO manage multiple uploads
             $project->setCreatedBy($this->user);
             $entityManager->persist($project);
             $entityManager->flush();
@@ -187,5 +185,27 @@ class AddArticleController extends AbstractController
             'formProject' => $form->createView(),
             'controller_name' => 'AddArticleController',
         ));
+    }
+
+    /**
+     * @param Employee $contact
+     * @param Project $project
+     * @return Employee
+     */
+    private function createNewContact($contact, $project){
+        if(!empty($contact['FirstName'])){
+            $employee = new Employee();
+            $employee->setFirstName($contact['FirstName']);
+            $employee->setLastName($contact['LastName']);
+            $employee->setEmail($contact['Email']);
+            $employee->setPhoneNumber($contact['phoneNumber']);
+            $employee->setAddedBy($this->getUser());
+            $companie = $this->getDoctrine()->getRepository(Companies::class)->find(intval($contact['companie']));
+            $employee->setCompanie($companie);
+
+            $project->addContact($employee);
+
+            return $employee;
+        }
     }
 }
