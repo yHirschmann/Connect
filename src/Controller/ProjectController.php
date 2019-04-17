@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\CompanieType;
 use App\Entity\Project;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,7 +29,7 @@ class ProjectController extends AbstractController
      */
     public function projectsAction(Environment $environment){
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $projects = $this->initProjectPage();
+        $projects = $this->getDoctrine()->getRepository(Project::class)->findAll();
         return new Response($environment->render('project/projects.html.twig', array('projects' => $projects)));
     }
 
@@ -42,9 +43,10 @@ class ProjectController extends AbstractController
      */
     public function projectAction(Environment $environment, $id){
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $repository = $this->getDoctrine()->getRepository(Project::class);
-        $project = $repository->find($id);
-        return new Response($environment->render('project/project_details.html.twig', array('project' => $project)));
+        $doctrine = $this->getDoctrine();
+        $project = $doctrine->getRepository(Project::class)->find($id);
+        $companieTypes = $doctrine->getRepository(CompanieType::class)->findAll();
+        return new Response($environment->render('project/project_details.html.twig', array('project' => $project, 'types' => $companieTypes)));
     }
 
     //init the project page whit the 9 first row of the database

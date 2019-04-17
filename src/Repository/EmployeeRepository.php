@@ -49,17 +49,21 @@ class EmployeeRepository extends ServiceEntityRepository
     }
     */
 
-    public function findByExisting(String $lastName, String $firstName){
-        return $this->createQueryBuilder('e')
-                    ->andWhere('e.last_name = :lastName')
-                    ->andWhere('e.first_name = :firstName')
-                    ->setParameter('lastName',$lastName)
-                    ->setParameter('firstName',$firstName)
-                    ->getQuery()
-                    ->execute();
+    public function findByExisting(String $lastName = null, String $firstName = null){
+        if($lastName != null && $firstName != null){
+            return $this->createQueryBuilder('e')
+                ->andWhere('e.last_name = :lastName')
+                ->andWhere('e.first_name = :firstName')
+                ->setParameter('lastName',$lastName)
+                ->setParameter('firstName',$firstName)
+                ->getQuery()
+                ->execute();
+        }else{
+            return null;
+        }
     }
 
-    public function findByEmail(String $email){
+    public function findByEmail(String $email = null){
         return $this->createQueryBuilder('e')
                     ->andWhere('e.email = :email')
                     ->setParameter('email', $email)

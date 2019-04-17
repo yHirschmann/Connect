@@ -21,20 +21,22 @@
                         width="300" height="300" frameborder="0" class="border border-dark rounded" allowfullscreen></iframe>
             </div>
         </div>
-        <div id="project-companies-column" class="col">
-            <div class="text-left">
-                Entreprises :
-                <ul id="project-companie-list" class="list-group">
-                    {{ render(controller('App\\Controller\\ProjectCompaniesController::ProjectCompanies', {'project' : project})) }}
-                </ul>
-            </div>
-        </div>
         <div id="project-contact-column" class="col">
             <div class="text-left">
                 Contacts :
-                <ul id="project-contact-list" class="list-group">
-                    {{ render(controller('App\\Controller\\ProjectContactsController::ProjectContacts', {'project' : project})) }}
-                </ul>
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Entreprise</th>
+                        <th scope="col">Type d'entreprise</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {{ render(controller('App\\Controller\\ProjectContactsController::ProjectContacts', {'project' : project})) }}
+                    </tbody>
+                </table>
             </div>
         </div>
         <div id="project-specificities" class="col">
@@ -52,24 +54,28 @@
                 </svg>
                 <div class="card-body text-wrap">
                     <div class="row text-secondary text-sm-left">
-                        Année de début: {{ project.startedAt|date ("d/m/Y") }}
+                        Date de début: {{ project.startedAt|date ("d/m/Y") }}
                     </div>
                     {% if project.endedAt != null %}
                         <div class="row text-secondary text-sm-left">
-                                Année de Fin :{{ project.endedAt|date ("d/m/Y") }}
+                            Date de Fin :{{ project.endedAt|date ("d/m/Y") }}
+                        </div>
+                    {% endif %}
+                    {% if project.cost != null %}
+                        <div class="row text-secondary">
+                            Coût: {{ project.cost }}€
+                        </div>
+                    {% else %}
+                        <div class="row text-secondary">
+                            Coût: -
                         </div>
                     {% endif %}
                     <div class="row text-secondary">
-                        Coût: {{ project.cost }}€
-                    </div>
-                    <div class="row text-secondary">
                         Statut:
-                        {% if project.statut == 1%}
-                            Etude en cours
-                        {% elseif project.statut == 2 %}
-                            Chantier en cours
-                        {% elseif project.statut == 3 %}
-                            Chantier terminé
+                        {% if (project.endedAt <  "now"|date("Y/m/d")) or  (project.endedAt is null) %}
+                            En cours
+                        {% else  %}
+                            Terminé
                         {% endif %}
                     </div>
                 </div>

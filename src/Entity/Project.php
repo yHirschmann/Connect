@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use \DateTime;
+use Symfony\Component\Validator\Constraints as Validator;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
@@ -36,13 +37,9 @@ class Project
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Validator\LessThanOrEqual("today")
      */
     private $ended_at;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $statut;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -57,7 +54,7 @@ class Project
     /**
      * @ORM\Column(type="integer")
      */
-    private $postal_code;
+    private $postalCode;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -155,18 +152,6 @@ class Project
         return $this;
     }
 
-    public function getStatut(): ?int
-    {
-        return $this->statut;
-    }
-
-    public function setStatut(int $statut): self
-    {
-        $this->statut = $statut;
-
-        return $this;
-    }
-
     public function getCity(): ?string
     {
         return $this->city;
@@ -193,12 +178,12 @@ class Project
 
     public function getPostalCode(): ?int
     {
-        return $this->postal_code;
+        return $this->postalCode;
     }
 
-    public function setPostalCode(int $postal_code): self
+    public function setPostalCode(int $postalCode): self
     {
-        $this->postal_code = $postal_code;
+        $this->postalCode = $postalCode;
 
         return $this;
     }

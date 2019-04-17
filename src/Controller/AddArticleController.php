@@ -28,22 +28,6 @@ class AddArticleController extends AbstractController
     }
 
     /**
-     * @Route("/ajouter" , name="_add")
-     * @param Environment $environment
-     * @return Response
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
-     */
-    public function addArticleIndex()
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-        return $this->render('add_article/AddArticle.html.twig', [
-            'controller_name' => 'AddArticleController',
-        ]);
-    }
-
-    /**
      * @Route("/ajouter/entreprise" , name="_addCompanie")
      * @param ValidatorInterface $validator
      * @param Request $request

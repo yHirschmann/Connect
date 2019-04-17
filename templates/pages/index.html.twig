@@ -58,10 +58,21 @@
         </div>
         <!--Btn add-->
         <div class="row">
-            <button class="btn btn-dark rounded" id="btn-add-article">
-                <span data-feather="plus"></span>
-                Ajouter un article
-            </button>
+            <div class="col-md-4">
+                <a href="{{ path('_addProject') }}">
+                    <button class="btn btn-dark">Ajouter un Projet</button>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{{ path('_addCompanie') }}">
+                    <button class="btn btn-dark">Ajouter une Entreprise</button>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{{ path('_addContact') }}">
+                    <button class="btn btn-dark">Ajouter un Contact</button>
+                </a>
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -23,11 +23,17 @@
     {% endfor %}
     {{  form_start(formContact) }}
         {{ form_row(formContact.FirstName) }}
+        {{ form_errors(formContact.FirstName) }}
         {{ form_row(formContact.LastName) }}
+        {{ form_errors(formContact.LastName) }}
         {{ form_row(formContact.phoneNumber) }}
         {{ form_row(formContact.Email) }}
+        {{ form_errors(formContact.Email) }}
         {{ form_row(formContact.companie) }}
-{#        TODO Allow to add unexisting companie#}
+        {{ form_errors(formContact.companie) }}
+        <a class="btn btn-dark" href="{{ path('_index') }}">
+            Retour
+        </a>
         <input type="submit" class="btn btn-dark" value="Enregistrer" />
     {{ form_end(formContact) }}
 {% endblock %}

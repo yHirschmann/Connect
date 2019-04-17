@@ -74,16 +74,6 @@ class AddProjectType extends AbstractType
                         'class' => 'form-control'
                     ]
                 ])
-                ->add('statut', ChoiceType::class, [
-                    'choices' => [
-                        'Etude en cours' => 1,
-                        'Chantier en cours' => 2,
-                        'Chantier terminé' => 3,
-                    ],
-                    'attr' => [
-                        'class' => 'form-control'
-                    ]
-                ])
                 ->add('companies', CollectionType::class,[
                     'label' => false,
                     'entry_type' => EntityType::class,

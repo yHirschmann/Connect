@@ -27,15 +27,22 @@
         <div class="row">
             <div class="col">
                 {{ form_row(formProject.projectName) }}
+                {{ form_errors(formProject.projectName) }}
                 {{ form_row(formProject.adress) }}
+                {{ form_errors(formProject.adress) }}
                 {{ form_row(formProject.postalCode) }}
+                {{ form_errors(formProject.postalCode) }}
                 {{ form_row(formProject.city) }}
+                {{ form_errors(formProject.city) }}
                 {{ form_row(formProject.cost) }}
+                {{ form_errors(formProject.cost) }}
                 {{ form_row(formProject.startedAt) }}
+                {{ form_errors(formProject.startedAt) }}
                 {{ form_row(formProject.endedAt) }}
-                {{ form_row(formProject.statut) }}
+                {{ form_errors(formProject.endedAt) }}
                 {{ form_widget(formProject.imageFile, {'attr': {'class': 'imgProject-button'}}) }}
                 {{ form_label(formProject.imageFile,'Photo du projet' ,{'label_attr' : {'class' : 'imgInput-label btn btn-dark'}})}}
+                {{ form_errors(formProject.imageFile) }}
             </div>
             <div class="col">
                 <div>Contacts</div>
@@ -60,6 +67,9 @@
                 </div>
             </div>
         </div>
+        <a class="btn btn-dark" href="{{ path('_index') }}">
+            Retour
+        </a>
         <input type="submit" class="btn btn-dark" value="Enregistrer" />
     {{ form_end(formProject) }}
 {% endblock %}
