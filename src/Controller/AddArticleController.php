@@ -126,6 +126,7 @@ class AddArticleController extends AbstractController
         ));
     }
 
+    //TODO manage multiple uploads
     /**
      * @Route("/ajouter/projet", name="_addProject")
      * @param ValidatorInterface $validator
@@ -141,30 +142,30 @@ class AddArticleController extends AbstractController
         $form = $this->createForm(AddProjectType::class, $project);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if($form->isSubmitted() && $form->isValid()) {
             $project = $form->getData();
-            //TODO unexisting contact not registering on submitting project form
-            $repository = $this->getDoctrine()->getRepository(CompanieType::class);
-            $unexistingContact = $request->request->get('add_project')['unexistingContacts'];
+            $project->setCreatedBy($this->user);
 
-            foreach($unexistingContact as $contact){
+            foreach ($project->getContacts() as $contact) {
+                $companie = $contact->getCompanie();
+                $project->addCompany($companie);
+            }
+
+            $unexistingContact = $request->request->get('add_project')['unexistingContacts'];
+            foreach ($unexistingContact as $contact) {
                 $employee = $this->createNewContact($contact, $project);
-                if($employee != null){
+                if ($employee != null) {
                     $entityManager->persist($employee);
                     $companie = $employee->getCompanie();
                     $companie->addEmployee($employee);
                     $project->addCompany($companie);
                 }
             }
-
-            //TODO manage multiple uploads
-            $project->setCreatedBy($this->user);
             $entityManager->persist($project);
             $entityManager->flush();
             $this->addFlash('added','Les informations ont bien été enregistré.');
             return $this->redirectToRoute('_addProject');
         }
-
         return $this->render('form/AddProject.html.twig', array(
             'formProject' => $form->createView(),
             'controller_name' => 'AddArticleController',

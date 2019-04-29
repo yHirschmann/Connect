@@ -72,9 +72,15 @@
                     {% endif %}
                     <div class="row text-secondary">
                         Statut:
-                        {% if (project.endedAt <  "now"|date("Y/m/d")) or  (project.endedAt is null) %}
-                            En cours
-                        {% else  %}
+                        {% if project.phase == 0 %}
+                            Etude
+                        {% elseif project.phase == 1 %}
+                            Avant projet Sommaire
+                        {% elseif project.phase == 2 %}
+                            Avant projet Détaillé
+                        {% elseif project.phase == 3 %}
+                            Chantier en cours
+                        {% elseif project.phase == 4 %}
                             Terminé
                         {% endif %}
                     </div>

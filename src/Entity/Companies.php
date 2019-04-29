@@ -66,8 +66,7 @@ class Companies
      * @Validator\Type(
      *     "integer",
      *     message="La valeur {{ value }} n'est pas un nombre)"
-     * )
-     *
+     * )     *
      */
     private $turnover;
 

@@ -19,11 +19,12 @@ Encore
      * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
-    .addEntry('addContactForm', './assets/js/addContactForm.js')
-    .addEntry('addProjectContForm', './assets/js/addProjectContForm.js')
-    .addEntry('addUnexistingCompanieForm', './assets/js/addUnexistingCompaniesForm.js')
-    .addEntry('addUnexistingContactForm', './assets/js/addUnexistingContactForm.js')
-    .addEntry('addProjectImgInput', './assets/js/addProjectImgInput.js')
+    .addEntry('addContactForm', './assets/js/addContactForm')
+    .addEntry('projectUtilities', './assets/js/addProjectUtilities')
+    .addEntry('addProjectContForm', './assets/js/addProjectContForm')
+    .addEntry('addProjectCompForm', './assets/js/addProjectCompForm')
+    .addEntry('addUnexistingContactForm', './assets/js/addUnexistingContactForm')
+    .addEntry('addProjectImgInput', './assets/js/addProjectImgInput')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 

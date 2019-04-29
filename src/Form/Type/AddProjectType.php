@@ -26,6 +26,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AddProjectType extends AbstractType
 {
+    //TODO Add files of the project
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('projectName',TextType::class,[
@@ -36,6 +37,7 @@ class AddProjectType extends AbstractType
             ])
                 ->add('adress', TextType::class, [
                     'label' => 'Adresse',
+                    'required' => false,
                     'attr' => [
                         'class' => 'form-control'
                     ]
@@ -71,6 +73,19 @@ class AddProjectType extends AbstractType
                     'widget' => 'single_text',
                     'required' => false,
                     'attr' => [
+                        'class' => 'form-control',
+                        'readonly' => true,
+                    ]
+                ])
+                ->add('phase', ChoiceType::class, [
+                    'choices' => [
+                        'Etude' => 0,
+                        'Avant projet sommaire' => 1,
+                        'Avant projet détaillé' => 2,
+                        'Chantier en cour' => 3,
+                        'Terminé' => 4,
+                    ],
+                    'attr' => [
                         'class' => 'form-control'
                     ]
                 ])
@@ -87,6 +102,8 @@ class AddProjectType extends AbstractType
                     ],
                     'allow_add' => true,
                     'by_reference' => false,
+                    'empty_data' => null,
+                    'required' => false,
                 ])
                 ->add('contacts', CollectionType::class,[
                     'label' => false,
@@ -115,8 +132,9 @@ class AddProjectType extends AbstractType
                 ])
                 ->add('imageFile', FileType::class, [
                     'label' => 'Photo du projet',
+                    'required' => false,
                 ]);
-    //TODO Add files of the project
+
     }
     public function configureOptions(OptionsResolver $resolver)
     {

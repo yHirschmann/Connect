@@ -49,7 +49,6 @@ function addNewInputFile(btnfileId, i) {
         i = addNewInputFile('#btnfile'+i, i)
     });
     feather.replace();
-    console.log(i);
     return i;
 }
 

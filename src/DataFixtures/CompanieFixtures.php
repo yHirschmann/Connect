@@ -4,27 +4,25 @@ namespace App\DataFixtures;
 
 use App\Entity\Companies;
 use Doctrine\Common\Persistence\ObjectManager;
+use function PHPSTORM_META\type;
 
 class CompanieFixtures {
 
     public static function loader(ObjectManager $manager)
     {
-        $types = CompanieTypeFixtures::loader($manager);
-        $CompArray = new \ArrayObject();
-        for ($i = 1; $i < 21; $i++) {
-            $companie = new Companies();
-            $companie->setCompanieName('Entreprise '.$i);
-            $companie->setCity('Strasbourg');
-            $companie->setAdress($i.' rue des Marchands');
-            $companie->setPostalCode(strval(mt_rand(6699,6901)));
-            $companie->setPhoneNumber('1234567890');
-            $companie->setSocialReason($companie->getCompanieName().' SA');
-            $companie->setTurnover(mt_rand(100000, 1000000));
-            $companie->setType($types->offsetGet(mt_rand(0,5)));
-            $CompArray->append($companie);
-            $manager->persist($companie);
-        }
+        $type = CompanieTypeFixtures::loader($manager);
+
+        $companie = new Companies();
+        $companie->setCompanieName("JPS Eclairage");
+        $companie->setAdress("13A Rue Hannah Arendt, Parc des Forges");
+        $companie->setPostalCode("67200");
+        $companie->setCity("Strasbourg");
+        $companie->setPhoneNumber("");
+        $companie->setTurnover(3750000);
+        $companie->setSocialReason("JPS Eclairage");
+        $companie->setType($type);
+        $manager->persist($companie);
         $manager->flush();
-        return $CompArray;
+        return $companie;
     }
 }

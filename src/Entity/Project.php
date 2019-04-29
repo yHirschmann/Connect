@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use DateTime;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,12 +11,16 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use \DateTime;
+
+use App\Validator\Constraints as CustomValidator;
 use Symfony\Component\Validator\Constraints as Validator;
+
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
  * @Vich\Uploadable
+ * @CustomValidator\CronstraintDateLessThanAnother()
  */
 class Project
 {
@@ -47,7 +53,7 @@ class Project
     private $city;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $adress;
 
@@ -62,21 +68,33 @@ class Project
     private $cost;
 
     /**
-     * @Vich\UploadableField(mapping="project_images", fileNameProperty="image.name", size="image.size", mimeType="image.mimeType", originalName="image.originalName")
+     * @Vich\UploadableField(mapping="project_images", fileNameProperty="imageName", size="imageSize", mimeType="imageMimeType", originalName="imageOriginalName")
      * @var File
      */
     private $imageFile;
 
     /**
-
-     * @ORM\Embedded(class="Vich\UploaderBundle\Entity\File")
-     *
-     * @var EmbeddedFile
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image;
+    private $imageName;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $imageSize;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imageMineType;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imageOriginalName;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      * @var \DateTime
      */
     private $updatedAt;
@@ -101,6 +119,21 @@ class Project
      * @ORM\JoinColumn(nullable=false)
      */
     private $createdBy;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Validator\Type(
+     *     "integer",
+     *     message="La valeur {{ value }} n'est pas un nombre)"
+     * )
+     * @Validator\Range(
+     *      min = 0,
+     *      max = 4,
+     *      minMessage = "La phase que vous avez tenté d'entrer est incorrecte",
+     *      maxMessage = "La phase que vous avez tenté d'entrer est incorrecte"
+     * )
+     */
+    private $phase;
 
     public function __construct()
     {
@@ -313,4 +346,65 @@ class Project
 
         return $this;
     }
+
+    public function getPhase(): ?int
+    {
+        return $this->phase;
+    }
+
+    public function setPhase(int $phase): self
+    {
+        $this->phase = $phase;
+
+        return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $imageName): self
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getImageSize(): ?int
+    {
+        return $this->imageSize;
+    }
+
+    public function setImageSize(?int $imageSize): self
+    {
+        $this->imageSize = $imageSize;
+
+        return $this;
+    }
+
+    public function getImageMineType(): ?string
+    {
+        return $this->imageMineType;
+    }
+
+    public function setImageMineType(?string $imageMineType): self
+    {
+        $this->imageMineType = $imageMineType;
+
+        return $this;
+    }
+
+    public function getImageOriginalName(): ?string
+    {
+        return $this->imageOriginalName;
+    }
+
+    public function setImageOriginalName(?string $imageOriginalName): self
+    {
+        $this->imageOriginalName = $imageOriginalName;
+
+        return $this;
+    }
+
 }
