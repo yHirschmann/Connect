@@ -24,25 +24,23 @@ class AddContactType extends AbstractType
         $builder
             ->add('LastName',TextType::class, [
                     'label'=>'Nom',
-                    'required' => false,
+                    'required' => true,
                     'attr' =>[
-                        'pattern' => '[A-Z][a-zA-Z][^#&<>\"~;$^%{}?]{1,20}$',
+                        'pattern' => '^[A-Z]([\-\ ]?[A-zÀ-ÿ]{1,}){1,}\D$',
                         'class'=>'form-control',
                     ]
-                ]
-            )
+                ])
             ->add('FirstName',TextType::class,[
                     'label'=>'Prénom',
-                    'required' => false,
+                    'required' => true,
                     'attr' =>[
-                        'pattern' => '[A-Z][a-zA-Z][^#&<>\"~;$^%{}?]{1,20}$',
+                        'pattern' => '^[A-Z]([\-\ ]?[A-zÀ-ÿ]{1,}){1,}\D$',
                         'class'=>'form-control',
                     ]
-                ]
-                )
+                ])
             ->add('Email',EmailType::class, [
                         'label'=>'Email',
-                        'required' => false,
+                        'required' => true,
                         'attr' =>[
                             'pattern' => '(?(DEFINE)
                                             (?<addr_spec> (?&local_part) @ (?&domain) )
@@ -80,17 +78,23 @@ class AddContactType extends AbstractType
                                         ^(?&addr_spec)$',
                             'class'=>'form-control',
                         ]
-                    ]
-                )
+                    ])
             ->add('phoneNumber',TelType::class, [
                         'label'=>'Téléphone',
-                        'required' => false,
+                        'required' => true,
                         'attr' =>[
                             'pattern' => '^0[1-8]([-. ]?\d{2}){4}$',
                             'class'=>'form-control',
                         ]
+                    ])
+            ->add('position', TextType::class,[
+                    'label'=>'Poste',
+                    'required' => true,
+                    'attr' =>[
+                        'pattern' => '^[A-Z]([\-\ ]?[A-zÀ-ÿ]{1,}){1,}\D$',
+                        'class'=>'form-control',
                     ]
-                )
+            ])
             ->add('companie',EntityType::class,[
                 'class' => Companies::class,
                 'label' => 'Entreprise',
@@ -99,6 +103,7 @@ class AddContactType extends AbstractType
                     'class' => 'form-control'
                 ],
             ])
+
         ;
     }
     public function configureOptions(OptionsResolver $resolver)

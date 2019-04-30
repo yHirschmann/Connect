@@ -59,6 +59,11 @@
                 {{ form_widget(formProject.imageFile, {'attr': {'class': 'imgProject-button'}}) }}
                 {{ form_label(formProject.imageFile,'Photo du projet' ,{'label_attr' : {'class' : 'imgInput-label btn btn-dark'}})}}
                 {{ form_errors(formProject.imageFile) }}
+                <div class="row">
+                    {{ form_widget(formProject.imageFile, {'attr': {'class': 'imgProject-button'}}) }}
+                    {{ form_label(formProject.imageFile,'Autre fichier' ,{'label_attr' : {'class' : 'imgInput-label btn btn-dark'}})}}
+                    {{ form_errors(formProject.imageFile) }}
+                </div>
             </div>
 
             <div class="col-md-2">

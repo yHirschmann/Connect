@@ -11,7 +11,7 @@
             <a href="{{ path('_companie', {'id': contact.companie.id}) }}">{{ contact.companie.companieName }}</a>
         </td>
         <td>
-            <a href="">{{ contact.companie.type.label }}</a>
+            <a href="{{ path('_companies') }}">{{ contact.companie.type.label }}</a>
         </td>
     </tr>
 {% endfor %}

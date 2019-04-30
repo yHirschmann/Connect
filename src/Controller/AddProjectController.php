@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Companies;
+use App\Entity\Employee;
 use App\Entity\Project;
 use App\Form\Type\AddProjectType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,19 +34,19 @@ class AddProjectController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $entityManager = $this->getDoctrine()->getManager();
         $project = new Project();
-
         $form = $this->createForm(AddProjectType::class, $project);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
             $project = $form->getData();
             $project->setCreatedBy($this->user);
-
+            /**
+             * @var Employee $contact
+             */
             foreach ($project->getContacts() as $contact) {
                 $companie = $contact->getCompanie();
                 $project->addCompany($companie);
             }
-
             $unexistingContact = $request->request->get('add_project')['unexistingContacts'];
             foreach ($unexistingContact as $contact) {
                 $employee = $this->createNewContact($contact, $project);
@@ -64,6 +66,28 @@ class AddProjectController extends AbstractController
             'formProject' => $form->createView(),
             'controller_name' => 'AddArticleController',
         ));
+    }
+
+    /**
+     * @param Employee $contact
+     * @param Project $project
+     * @return Employee
+     */
+    private function createNewContact($contact, $project){
+        if(!empty($contact['FirstName'])){
+            $employee = new Employee();
+            $employee->setFirstName($contact['FirstName']);
+            $employee->setLastName($contact['LastName']);
+            $employee->setEmail($contact['Email']);
+            $employee->setPhoneNumber($contact['phoneNumber']);
+            $employee->setAddedBy($this->getUser());
+            $companie = $this->getDoctrine()->getRepository(Companies::class)->find(intval($contact['companie']));
+            $employee->setCompanie($companie);
+
+            $project->addContact($employee);
+
+            return $employee;
+        }
     }
 
 }

@@ -40,6 +40,11 @@ class Employee extends Person
      */
     private $added_by;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $position;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
@@ -107,6 +112,18 @@ class Employee extends Person
     public function setAddedBy(?user $added_by): self
     {
         $this->added_by = $added_by;
+
+        return $this;
+    }
+
+    public function getPosition(): ?string
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?string $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }

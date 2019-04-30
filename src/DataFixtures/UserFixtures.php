@@ -13,6 +13,7 @@ class UserFixtures
         $user = $this->classicUser($manager, $passwordEncoder);
         $this->JPSUser($manager, $passwordEncoder);
         $this->adminUser($manager, $passwordEncoder);
+        $this->guestUser($manager, $passwordEncoder);
         $manager->flush();
         return $user;
     }
@@ -66,6 +67,31 @@ class UserFixtures
         $manager->persist($user);
     }
 
+    public function guestUser(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder){
+        $user = new User();
+        $user->setPassword($passwordEncoder->encodePassword(
+            $user,
+            'Aa1234567890.'
+        ));
+        $user->setFirstName(
+            'UserGuest'
+        );
+        $user->setLastName(
+            'UserGuest'
+        );
+        $user->setPhoneNumber(
+            '1234567890'
+        );
+        $user->setEmail(
+            'guest@a.a'
+        );
+        $user->setRoles(
+            ['ROLE_GUEST', 'ROLE_USER']
+        );
+
+        $manager->persist($user);
+    }
+
     public function adminUser(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder){
         $user = new User();
         $user->setPassword($passwordEncoder->encodePassword(
@@ -85,7 +111,7 @@ class UserFixtures
             'admin@a.a'
         );
         $user->setRoles(
-            ['ROLE_ADMIN']
+            ['ROLE_ADMIN', 'ROLE_USER']
         );
 
         $manager->persist($user);

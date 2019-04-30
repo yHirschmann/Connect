@@ -23,7 +23,7 @@ abstract class Person
      */
     protected $last_name;
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=10, nullable=true)
      * @Validator\Length(
      *     min = 10,
      *     max = 14,

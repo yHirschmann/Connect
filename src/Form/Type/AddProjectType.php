@@ -13,6 +13,7 @@ use App\Entity\Companies;
 use App\Entity\CompanieType;
 use App\Entity\Employee;
 use App\Entity\Project;
+use App\Entity\ProjectFile;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -133,6 +134,12 @@ class AddProjectType extends AbstractType
                 ->add('imageFile', FileType::class, [
                     'label' => 'Photo du projet',
                     'required' => false,
+                ])
+                ->add('projectFiles', CollectionType::class,[
+                    'entry_type' => ProjectFileType::class,
+                    'required' => false,
+                    'allow_add' => true,
+                    'by_reference' => false,
                 ]);
 
     }

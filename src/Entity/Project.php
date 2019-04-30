@@ -9,9 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
 use App\Validator\Constraints as CustomValidator;
 use Symfony\Component\Validator\Constraints as Validator;
 
@@ -21,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Validator;
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
  * @Vich\Uploadable
  * @CustomValidator\CronstraintDateLessThanAnother()
+ * @CustomValidator\ConstraintStatusIsRight()
  */
 class Project
 {
@@ -68,7 +67,7 @@ class Project
     private $cost;
 
     /**
-     * @Vich\UploadableField(mapping="project_images", fileNameProperty="imageName", size="imageSize", mimeType="imageMimeType", originalName="imageOriginalName")
+     * @Vich\UploadableField(mapping="project_images", fileNameProperty="imageName", size="imageSize", mimeType="imageMineType", originalName="imageOriginalName")
      * @var File
      */
     private $imageFile;
@@ -135,13 +134,18 @@ class Project
      */
     private $phase;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProjectFile", mappedBy="project")
+     */
+    private $projectFiles;
+
     public function __construct()
     {
-        $this->image = new EmbeddedFile();
         $this->contacts = new ArrayCollection();
         $this->companies = new ArrayCollection();
         $this->updatedAt =  new DateTime('now');
         $this->created_at = new DateTime('now');
+        $this->projectFiles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -256,16 +260,6 @@ class Project
     public function getImageFile(): ?File
     {
         return $this->imageFile;
-    }
-
-    public function setImage(EmbeddedFile $image)
-    {
-        $this->image = $image;
-    }
-
-    public function getImage(): ?EmbeddedFile
-    {
-        return $this->image;
     }
 
     /**
@@ -403,6 +397,37 @@ class Project
     public function setImageOriginalName(?string $imageOriginalName): self
     {
         $this->imageOriginalName = $imageOriginalName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProjectFile[]
+     */
+    public function getProjectFiles(): Collection
+    {
+        return $this->projectFiles;
+    }
+
+    public function addProjectFile(ProjectFile $projectFile): self
+    {
+        if (!$this->projectFiles->contains($projectFile)) {
+            $this->projectFiles[] = $projectFile;
+            $projectFile->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjectFile(ProjectFile $projectFile): self
+    {
+        if ($this->projectFiles->contains($projectFile)) {
+            $this->projectFiles->removeElement($projectFile);
+            // set the owning side to null (unless already changed)
+            if ($projectFile->getProject() === $this) {
+                $projectFile->setProject(null);
+            }
+        }
 
         return $this;
     }

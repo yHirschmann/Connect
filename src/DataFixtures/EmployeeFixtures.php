@@ -18,6 +18,7 @@ class EmployeeFixtures
         $employee->setLastName("HIRSCHMANN");
         $employee->setPhoneNumber("0600000000");
         $employee->setEmail("yann.hirschmann@hotmail.com");
+        $employee->setPosition("informatitien");
         $employee->setCompanie($companie);
         $employee->setAddedBy($user);
         $manager->persist($employee);

@@ -73,25 +73,4 @@ class AddContactController extends AbstractController
         ));
     }
 
-    /**
-     * @param Employee $contact
-     * @param Project $project
-     * @return Employee
-     */
-    private function createNewContact($contact, $project){
-        if(!empty($contact['FirstName'])){
-            $employee = new Employee();
-            $employee->setFirstName($contact['FirstName']);
-            $employee->setLastName($contact['LastName']);
-            $employee->setEmail($contact['Email']);
-            $employee->setPhoneNumber($contact['phoneNumber']);
-            $employee->setAddedBy($this->getUser());
-            $companie = $this->getDoctrine()->getRepository(Companies::class)->find(intval($contact['companie']));
-            $employee->setCompanie($companie);
-
-            $project->addContact($employee);
-
-            return $employee;
-        }
-    }
 }
