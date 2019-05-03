@@ -16,9 +16,9 @@ class AddCompanieController extends AbstractController
 {
     private $user;
 
-    public function __construct()
+    public function __construct(Security $security)
     {
-        $this->user = $this->getUser();;
+        $this->user = $security->getUser();;
     }
 
     /**
