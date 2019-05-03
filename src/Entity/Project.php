@@ -18,8 +18,7 @@ use Symfony\Component\Validator\Constraints as Validator;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
  * @Vich\Uploadable
- * @CustomValidator\CronstraintDateLessThanAnother()
- * @CustomValidator\ConstraintStatusIsRight()
+ * @CustomValidator\ConstraintProject
  */
 class Project
 {
@@ -69,6 +68,12 @@ class Project
     /**
      * @Vich\UploadableField(mapping="project_images", fileNameProperty="imageName", size="imageSize", mimeType="imageMineType", originalName="imageOriginalName")
      * @var File
+     * /**
+     * @Validator\File(
+     *     maxSize = "1024k",
+     *     mimeTypes = {"image/jpeg",  "image/png", "image/tiff"},
+     *     mimeTypesMessage = "Seul les images en .jpeg, .png et .tiff sont autorisé"
+     * )
      */
     private $imageFile;
 
@@ -135,7 +140,7 @@ class Project
     private $phase;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProjectFile", mappedBy="project")
+     * @ORM\OneToMany(targetEntity="App\Entity\ProjectFile", mappedBy="project", cascade={"persist"})
      */
     private $projectFiles;
 

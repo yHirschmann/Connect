@@ -57,22 +57,21 @@
                 {{ form_row(formProject.phase) }}
                 {{ form_errors(formProject.phase) }}
                 {{ form_widget(formProject.imageFile, {'attr': {'class': 'imgProject-button'}}) }}
-                {{ form_label(formProject.imageFile,'Photo du projet' ,{'label_attr' : {'class' : 'imgInput-label btn btn-dark'}})}}
                 {{ form_errors(formProject.imageFile) }}
-                <div class="row">
-                    {{ form_widget(formProject.imageFile, {'attr': {'class': 'imgProject-button'}}) }}
-                    {{ form_label(formProject.imageFile,'Autre fichier' ,{'label_attr' : {'class' : 'imgInput-label btn btn-dark'}})}}
-                    {{ form_errors(formProject.imageFile) }}
-                </div>
             </div>
 
             <div class="col-md-2">
+                <div>Fichiers</div>
+                <ul class="add-files" data-prototype="{{ form_widget(formProject.projectFiles.vars.prototype)|e('html_attr') }}">
+                </ul>
+            </div>
+
+            <div id="companies-list" class="col-md-2">
                 <div>Entreprise</div>
                 <ul class="add-companies" data-prototype="{{ form_widget(formProject.companies.vars.prototype)|e('html_attr')}}">
                 </ul>
             </div>
-
-            <div class="col-md-2">
+            <div id="contact-list" class="col-md-2">
                 <div>Contacts</div>
                 <ul class="add-contacts" data-prototype="{{ form_widget(formProject.contacts.vars.prototype)|e }}">
                 </ul>
@@ -87,7 +86,7 @@
                         </div>
                         <div id="collapseContact" class="collapse" aria-labelledby="headingContact" data-parent="#accordionContact">
                             <div class="card-body">
-                                <ul class="add-unexisting-contacts" data-prototype="{{ form_widget(formProject.unexistingContacts.vars.prototype)|e }}" style="padding-left: 0px">
+                                <ul class="add-unexisting-contacts" data-prototype="{{ form_widget(formProject.unexistingContacts.vars.prototype)|e }}">
                                 </ul>
                             </div>
                         </div>
@@ -109,4 +108,5 @@
     {{ encore_entry_script_tags('addProjectContForm') }}
     {{ encore_entry_script_tags('addProjectCompForm') }}
     {{ encore_entry_script_tags('addUnexistingContactForm') }}
+    {{ encore_entry_script_tags('addProjectFiles') }}
 {% endblock %}

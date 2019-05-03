@@ -21,7 +21,6 @@ $(document).ready(function() {
     $addUnexistingContactsButton.on('click', function(e){
         addUnexistingContactsForm($collectionHolder, $newLinkLi);
     });
-    $('input[value$="Enregistrer"]').nextUntil($('#add_project__token'), "div").remove();
 });
 
 function addUnexistingContactsForm($collectionHolder, $newLinkLi) {

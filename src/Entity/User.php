@@ -42,10 +42,16 @@ class User extends Person implements UserInterface
      */
     private $employees_added;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProjectFile", mappedBy="addedBy")
+     */
+    private $projectFiles;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
         $this->employees_added = new ArrayCollection();
+        $this->projectFiles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -170,6 +176,37 @@ class User extends Person implements UserInterface
             // set the owning side to null (unless already changed)
             if ($employeesAdded->getAddedBy() === $this) {
                 $employeesAdded->setAddedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProjectFile[]
+     */
+    public function getProjectFiles(): Collection
+    {
+        return $this->projectFiles;
+    }
+
+    public function addProjectFile(ProjectFile $projectFile): self
+    {
+        if (!$this->projectFiles->contains($projectFile)) {
+            $this->projectFiles[] = $projectFile;
+            $projectFile->setAddedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjectFile(ProjectFile $projectFile): self
+    {
+        if ($this->projectFiles->contains($projectFile)) {
+            $this->projectFiles->removeElement($projectFile);
+            // set the owning side to null (unless already changed)
+            if ($projectFile->getAddedBy() === $this) {
+                $projectFile->setAddedBy(null);
             }
         }
 

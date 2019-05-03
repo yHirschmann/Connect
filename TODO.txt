@@ -15,3 +15,5 @@ TODO Implement Search function
 TODO Modify the look of the file imput button of ProjectFiles
 TODO Implement the js code that allow to add new files
 TODO BackOffice
+TODO Security for added files => check MineType, set max size
+TODO Send email when Admin add a new user, then the user enter his password

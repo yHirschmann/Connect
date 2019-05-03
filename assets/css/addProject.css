@@ -1,4 +1,4 @@
-input.imgProject-button{
+input#add_project_imageFile_file {
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
@@ -6,15 +6,41 @@ input.imgProject-button{
     position: absolute;
     z-index: -1;
 }
-input.imgProject-button:focus-within + label.imgInput-label{
+
+input#add_project_imageFile_file:focus-within + label.imgInput-label{
     border-color: #80bdff;
     outline: 0;
     box-shadow: 0 0 0 .2rem rgba(0,123,255,.25);
 }
-label.imgInput-label{
+
+input#add_project_imageFile_file + label.imgInput-label {
+    cursor: pointer; /* "hand" cursor */
+}
+
+div.vich-image{
     margin-top: 20px;
+}
+
+input.btn-addFile{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+input.btn-addFile:focus-within + label.fileInput-label{
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 .2rem rgba(0,123,255,.25);
+}
+
+input.btn-addFile + label.fileInput-label {
+    cursor: pointer; /* "hand" cursor */
 }
 
 ul.add-companies + ul.add-contacts{
     padding-left: 0px
 }
+

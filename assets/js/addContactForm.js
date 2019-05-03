@@ -41,7 +41,7 @@ function addCompaniesForm($collectionHolder, $newLinkLi) {
     // increase the index with one for the next item
     $collectionHolder.data('index', index + 1);
     // Display the form in the page in an li, before the "Ajouter une Entreprise" link li
-    var $newFormLi = $('<li class="companies-from" style="list-style-type: none; margin-top: 25px"></li>').append(newForm);
+    var $newFormLi = $('<li class="contacts-from" style="list-style-type: none; margin-top: 25px"></li>').append(newForm);
     $newLinkLi.before($newFormLi);
     addCompaniesFormDeleteLink($newFormLi);
 

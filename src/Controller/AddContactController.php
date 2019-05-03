@@ -22,9 +22,9 @@ class AddContactController extends AbstractController
 {
     private $user;
 
-    public function __construct(Security $security)
+    public function __construct()
     {
-        $this->user = $security->getUser();;
+        $this->user = $this->getUser();;
     }
 
     /**

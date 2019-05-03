@@ -6,9 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Validator;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectFileRepository")
+ * @Vich\Uploadable
  */
 class ProjectFile
 {
@@ -26,7 +28,7 @@ class ProjectFile
     private $project;
 
     /**
-     * @Vich\UploadableField(mapping="file", fileNameProperty="fileName", size="fileSize", mimeType="fileMimeType", originalName="fileOriginalName")
+     * @Vich\UploadableField(mapping="project_files", fileNameProperty="fileName", size="fileSize", mimeType="fileMineType", originalName="fileOriginalName")
      * @var File
      */
     private $file;
@@ -56,6 +58,12 @@ class ProjectFile
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="projectFiles")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $addedBy;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -81,7 +89,7 @@ class ProjectFile
      *
      * @param File|UploadedFile $file
      */
-    public function setImageFile(?File $file = null)
+    public function setFile(?File $file = null)
     {
         $this->file = $file;
 
@@ -92,7 +100,7 @@ class ProjectFile
         }
     }
 
-    public function getImageFile(): ?File
+    public function getFile(): ?File
     {
         return $this->file;
     }
@@ -153,6 +161,18 @@ class ProjectFile
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getAddedBy(): ?User
+    {
+        return $this->addedBy;
+    }
+
+    public function setAddedBy(?User $addedBy): self
+    {
+        $this->addedBy = $addedBy;
 
         return $this;
     }

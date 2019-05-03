@@ -6,16 +6,16 @@ use Symfony\Component\Validator\Constraint;
 
 /**
  * @Annotation
- * Class CronstraintStatusIsRight
- * @package App\Validator\Constraints
  */
-class ConstraintStatusIsRight extends Constraint
+    class ConstraintProject extends Constraint
 {
     /*
      * Any public properties become valid options for the annotation.
      * Then, use these in your validator class.
      */
-    public $message = 'La phase du projet ne peut pas être "Terminé" si vous mettez une date de fin';
+    public $statusMessage = 'La phase du projet ne peut pas être "Terminé" si vous mettez une date de fin';
+
+    public $endDateMessage = "La date de fin d'un projet doit être supérieur à sa date de début";
 
     public function validatedBy()
     {

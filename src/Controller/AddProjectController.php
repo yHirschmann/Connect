@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Companies;
 use App\Entity\Employee;
 use App\Entity\Project;
+use App\Entity\ProjectFile;
 use App\Form\Type\AddProjectType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,6 @@ class AddProjectController extends AbstractController
         $this->user = $security->getUser();;
     }
 
-    //TODO manage multiple uploads
     /**
      * @Route("/ajouter/projet", name="_addProject")
      * @param ValidatorInterface $validator
@@ -34,12 +34,17 @@ class AddProjectController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $entityManager = $this->getDoctrine()->getManager();
         $project = new Project();
+
         $form = $this->createForm(AddProjectType::class, $project);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var Project project
+             */
             $project = $form->getData();
             $project->setCreatedBy($this->user);
+
             /**
              * @var Employee $contact
              */
@@ -57,15 +62,17 @@ class AddProjectController extends AbstractController
                     $project->addCompany($companie);
                 }
             }
+            $files = $project->getProjectFiles();
+            /** @var ProjectFile $file */
+            foreach($files as $file){
+                $file->setAddedBy($this->getUser());
+            }
             $entityManager->persist($project);
             $entityManager->flush();
             $this->addFlash('added','Les informations ont bien été enregistré.');
             return $this->redirectToRoute('_addProject');
         }
-        return $this->render('form/AddProject.html.twig', array(
-            'formProject' => $form->createView(),
-            'controller_name' => 'AddArticleController',
-        ));
+        return $this->render('form/AddProject.html.twig', array('formProject' => $form->createView(),'controller_name' => 'AddArticleController',));
     }
 
     /**
