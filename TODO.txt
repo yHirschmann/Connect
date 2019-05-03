@@ -4,7 +4,6 @@ TODO use next code to allow acces to informations
 {% endif %}
 
 TODO setup basket for deleted items
-TODO Create multiple acces lvls to the db (1 Admin, all privileges; 1 User, Add and deletes rows; 1 Guest, only query items).
 TODO Add to project if it's sold or not and to how.
 TODO Edit displayed information depending of user access lvl (admin, user, guest).
 TODO Add sorting method for the displayed elements in tables.

@@ -49,6 +49,7 @@ class ProjectController extends AbstractController
         return new Response($environment->render('project/project_details.html.twig', array('project' => $project, 'types' => $companieTypes)));
     }
 
+    //TODO create function for query the nexts 9 articles (btn 'next')
     //init the project page whit the 9 first row of the database
     private function initProjectPage(){
         $query = $this->entityManager->createQuery('SELECT p FROM App\\Entity\\Project p ORDER BY p.project_name ')->setMaxResults(9);
@@ -56,5 +57,4 @@ class ProjectController extends AbstractController
         return $result;
     }
 
-    //TODO create function for query the nexts 9 articles (btn 'next')
 }

@@ -89,7 +89,16 @@
             <div class="text-right">
                 <input id="project-edit-btn" type="button" value="Editer" class="btn btn-dark">
             </div>
-
         </div>
     </div>
+
+    {% if not is_granted('ROLE_GUEST') %}
+        <h3>Fichiers</h3>
+        <div class="row border-dark">
+            {% for file in project.projectFiles %}
+{#                TODO custom file link display #}
+                <a href="{{ vich_uploader_asset(file, 'file') }}">{{ file.fileOriginalName }}</a>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}
