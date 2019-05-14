@@ -8,9 +8,9 @@ input#add_project_imageFile_file {
 }
 
 input#add_project_imageFile_file:focus-within + label.imgInput-label{
-    border-color: #80bdff;
+    border-color: #6c757d;
     outline: 0;
-    box-shadow: 0 0 0 .2rem rgba(0,123,255,.25);
+    box-shadow: 0 0 0 .1rem #6c757d;
 }
 
 input#add_project_imageFile_file + label.imgInput-label {
@@ -31,9 +31,9 @@ input.btn-addFile{
 }
 
 input.btn-addFile:focus-within + label.fileInput-label{
-    border-color: #80bdff;
+    border-color: #6c757d;
     outline: 0;
-    box-shadow: 0 0 0 .2rem rgba(0,123,255,.25);
+    box-shadow: 0 0 0 .1rem #6c757d;
 }
 
 input.btn-addFile + label.fileInput-label {
@@ -44,3 +44,18 @@ ul.add-companies + ul.add-contacts{
     padding-left: 0px
 }
 
+img#projectImage{
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+}
+
+label.labelImgSet{
+    max-width: 50%;
+}
+
+img.projectFiles{
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+}

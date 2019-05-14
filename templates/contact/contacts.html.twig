@@ -15,6 +15,7 @@
         <th scope="col">Prénom</th>
         <th scope="col">Numéro de téléphone</th>
         <th scope="col">Email</th>
+        <th scope="col">Entreprise</th>
     </tr>
     </thead>
     {% for contact in contacts %}
@@ -38,6 +39,11 @@
             <th scope="col">
                 <a href="{{ path('_contact', {'id': contact.Id}) }}">
                     {{ contact.email }}
+                </a>
+            </th>
+            <th scope="col">
+                <a href="{{ path('_companie', {'id': contact.Id}) }}">
+                    {{ contact.companie.companieName }}
                 </a>
             </th>
         </tr>

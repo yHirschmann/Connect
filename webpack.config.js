@@ -47,7 +47,6 @@ Encore
     .enableVersioning(Encore.isProduction())
     .addPlugin(new CopyWebpackPlugin([
         {from: './assets/images', to: 'images'},
-        {from: './assets/ressources', to: 'ressources'}
     ]))
     // enables Sass/SCSS support
     //.enableSassLoader()

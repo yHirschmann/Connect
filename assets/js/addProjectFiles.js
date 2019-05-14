@@ -1,5 +1,6 @@
 var $addFilesButton = $('<button type="button" class="btn btn-dark add_files_link">Ajouter un autre Fichier</button>');
 var $newLinkLi = $('<li style="list-style-type: none; margin-top: 10px"></li>').append($addFilesButton);
+var _URL = window.URL || window.webkitURL;
 var $collectionHolder;
 
 //addButton & Delete button must not be displayed until the user add a file
@@ -58,18 +59,42 @@ function addFilesFormDeleteLink($filesFormLi) {
 function setLabel($newFormLi){
     var $fileInputLabel = $('<label class="fileInput-label btn btn-dark"></label>');
     var $emptyFileSpan = $('<span data-feather="file-plus"></span>');
-    var $fullFileSpan = $('<span data-feather="file-text"></span>')
+    var $fullFileSpan = $('<span data-feather="file-text"></span>');
+    var $divFileName = $('<div class="FileName"></div>');
     var $vichFile = $newFormLi.find('div.vich-file');
     var $fileInput = $vichFile.find('input');
     var $tmpLabel =  $fileInputLabel;
 
+    $vichFile.append($divFileName);
     $fileInput.on('change',function(){
-        $fileInputLabel.html($fullFileSpan);
-        feather.replace();
+        var $img = $('<img class="border border-dark rounded projectFiles" src="" alt="">');
+        var file = $fileInput.prop('files')[0];
+        var fileType = file.type;
+
+        if(fileType.toString() === "image/png" || fileType.toString() === "image/jpeg") {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $img.attr('id', e.target.result);
+                $img.attr('src', e.target.result);
+                $img.attr('alt', e.target.result);
+                $divFileName.attr('id',e.target.result);
+            };
+            $divFileName.html(file.name);
+            $fileInputLabel.children().remove();
+            $fileInputLabel.attr("class", null);
+            $fileInputLabel.append($img);
+            reader.readAsDataURL(file);
+        }else{
+            $fileInputLabel.attr("class", "fileInput-label btn btn-dark");
+            $divFileName.attr('id',file.name);
+            $divFileName.html(file.name);
+            $fileInputLabel.html($fullFileSpan);
+            feather.replace();
+        }
     });
+
     $tmpLabel.append($emptyFileSpan);
     $tmpLabel.attr("for", $fileInput.attr("id"));
     $vichFile.prepend($tmpLabel);
     feather.replace();
-
 }

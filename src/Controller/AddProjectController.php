@@ -20,7 +20,7 @@ class AddProjectController extends AbstractController
 
     public function __construct(Security $security)
     {
-        $this->user = $security->getUser();;
+        $this->user = $security->getUser();
     }
 
     /**
@@ -55,7 +55,7 @@ class AddProjectController extends AbstractController
             $unexistingContact = $request->request->get('add_project')['unexistingContacts'];
             foreach ($unexistingContact as $contact) {
                 $employee = $this->createNewContact($contact, $project);
-                if ($employee != null) {
+                if ($employee !== null) {
                     $entityManager->persist($employee);
                     $companie = $employee->getCompanie();
                     $companie->addEmployee($employee);
@@ -67,6 +67,7 @@ class AddProjectController extends AbstractController
             foreach($files as $file){
                 $file->setAddedBy($this->getUser());
             }
+            dump($project);
             $entityManager->persist($project);
             $entityManager->flush();
             $this->addFlash('added','Les informations ont bien été enregistré.');

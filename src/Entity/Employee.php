@@ -96,7 +96,16 @@ class Employee extends Person
 
     public function setCompanie(?Companies $companie): self
     {
-        $this->companie = $companie;
+
+        if($this->companie != $companie) {
+            if($this->companie != null){
+                $this->companie->removeEmployee($this);
+            }
+            $this->companie = $companie;
+            if($this->first_name != null){
+                $this->companie->addEmployee($this);
+            }
+        }
         return $this;
     }
 

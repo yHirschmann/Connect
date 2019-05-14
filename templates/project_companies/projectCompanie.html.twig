@@ -1,8 +1,11 @@
 {% for companie in companies %}
-    <a href="">
-        <li class="list-group-item">
-            {# TODO ask what to display at this place #}
-            {{ companie.getCompanieName() }}
-        </li>
-    </a>
+    <tr>
+        <td>
+            <a href="{{ path('_companie', {'id': companie.id}) }}">{{ companie.companieName }}</a>
+
+        </td>
+        <td>
+            <a href="{{ path('_companie', {'id': companie.id}) }}">{{ companie.type.label }}</a>
+        </td>
+    </tr>
 {% endfor %}

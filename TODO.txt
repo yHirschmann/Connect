@@ -8,11 +8,8 @@ TODO Add to project if it's sold or not and to how.
 TODO Edit displayed information depending of user access lvl (admin, user, guest).
 TODO Add sorting method for the displayed elements in tables.
 TODO Create the edition pages for : Project, contact, companie.
-TODO Edit Employee to add he's post in the companie.
-TODO Validator for Project => if status == 4 then the enddate must be set.
 TODO Implement Search function
-TODO Modify the look of the file imput button of ProjectFiles
-TODO Implement the js code that allow to add new files
 TODO BackOffice
 TODO Security for added files => check MineType, set max size
 TODO Send email when Admin add a new user, then the user enter his password
+TODO set * char to mandatory forms fields

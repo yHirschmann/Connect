@@ -51,6 +51,9 @@
                         <tr class="bg-dark text-light">
                             <th scope="col">Nom</th>
                             <th scope="col">Prénom</th>
+                            <th scope="col">Téléphone</th>
+                            <th scope="col">Mail</th>
+                            <th scope="col">Entreprise</th>
                         </tr>
                     </thead>
                     {% for employee in companie.employees %}
@@ -64,6 +67,21 @@
                             <th scope="col">
                                 <a href="{{ path('_contact', {'id': employee.id}) }}">
                                     {{ employee.firstName }}
+                                </a>
+                            </th>
+                            <th scope="col">
+                                <a href="{{ path('_contact', {'id': employee.id}) }}">
+                                    {{ employee.phoneNumber}}
+                                </a>
+                            </th>
+                            <th scope="col">
+                                <a href="{{ path('_contact', {'id': employee.id}) }}">
+                                    {{ employee.email }}
+                                </a>
+                            </th>
+                            <th scope="col">
+                                <a href="{{ path('_companie', {'id': companie.id}) }}">
+                                    {{ companie.companieName }}
                                 </a>
                             </th>
                         </tr>

@@ -9,7 +9,6 @@ class ProjectCompaniesController extends AbstractController
 {
     public function ProjectCompanies(Project $project)
     {
-
         $companies = $project->getCompanies();
         return $this->render(
             'project_companies/projectCompanie.html.twig',

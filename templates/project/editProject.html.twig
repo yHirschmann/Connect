@@ -1,0 +1,61 @@
+{% extends "./layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }}Editer
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            {{ form_widget(editProject.projectName) }}
+            <div class="col">
+                <div class="row">
+                    {{ form_widget(editProject.adress) }}
+                    {{ form_widget(editProject.postalCode) }}
+                    {{ form_widget(editProject.city) }}
+                </div>
+            </div>
+        </div>
+        <div id="project-contact-column" class="col">
+            <div class="text-left">
+                Contacts :
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Entreprise</th>
+                        <th scope="col">Type d'entreprise</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+    {#                Project contacts#}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="project-specificities" class="col">
+            <div class="card mb-4 shadow-sm float-right">
+{#                {{ form_widget(editProject.imageFile) }}#}
+                <div class="card-body text-wrap">
+                    <div class="row text-secondary text-sm-left">
+                        {{ form_widget(editProject.startedAt) }}
+                    </div>
+                    <div class="row text-secondary text-sm-left">
+                        {{ form_widget(editProject.endedAt) }}
+                    </div>
+                    <div class="row text-secondary">
+                        {{ form_widget(editProject.cost) }}
+                    </div>
+                    <div class="row text-secondary">
+                        {{ form_widget(editProject.phase) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
