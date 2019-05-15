@@ -26,6 +26,7 @@ Encore
     .addEntry('addUnexistingContactForm', './assets/js/addUnexistingContactForm')
     .addEntry('addProjectImgInput', './assets/js/addProjectImgInput')
     .addEntry('addProjectFiles', './assets/js/addProjectFiles')
+    .addEntry('projectDetails', './assets/js/projectDetails')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 
