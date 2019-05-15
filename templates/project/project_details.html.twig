@@ -119,8 +119,8 @@
         <h3>Fichiers</h3>
         <div id="file-collection" class="border border-dark rounded-top row border-dark">
             {% for file in project.projectFiles %}
-                <div class="card shadow-sm bg-light mb-3" style="max-width: 15em;">
-                    <div class="file-display" style="min-height: 10em; max-width: 10em">
+                <div class="card shadow-sm bg-light mb-3" style="max-width: 10em;">
+                    <div class="file-display" style="min-height: 10em; max-width: 100%">
                         {% if file.fileMineType == 'image/jpeg'
                             or file.fileMineType == 'image/jpg'
                             or file.fileMineType == 'image/png' %}

@@ -3,7 +3,6 @@ img.img-file{
     height: auto;
 }
 
-img.img-file-1{
-    max-width: 10%;
-    height: auto;
+#file-collection{
+    padding: 1rem 1rem 0;
 }
