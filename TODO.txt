@@ -1,15 +1,15 @@
-TODO use next code to allow acces to informations
-{% if not is_granted('ROLE_GUEST') %}
-    coucou
-{% endif %}
-
 TODO setup basket for deleted items
+
 TODO Add to project if it's sold or not and to how.
-TODO Edit displayed information depending of user access lvl (admin, user, guest).
-TODO Add sorting method for the displayed elements in tables.
-TODO Create the edition pages for : Project, contact, companie.
+
+TODO Add sorting method for the displayed elements in tables. => look at Bootstrap Table https://bootstrap-table.com/
+
+TODO Create the edition pages for : contact, companie.
+
 TODO Implement Search function
+
 TODO BackOffice
-TODO Security for added files => check MineType, set max size
+
 TODO Send email when Admin add a new user, then the user enter his password
+
 TODO set * char to mandatory forms fields

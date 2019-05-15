@@ -88,6 +88,7 @@ class ProjectFile
      * during Doctrine hydration.
      *
      * @param File|UploadedFile $file
+     * @throws \Exception
      */
     public function setFile(?File $file = null)
     {

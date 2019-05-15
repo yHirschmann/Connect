@@ -20,7 +20,7 @@ class AddCompanieType extends AbstractType
         $builder
             ->add('companie_name', TextType::class, [
                     'label'=>'Nom de l\'Entreprise',
-                    'required' => false,
+                    'required' => true,
                     'attr'=>[
                         'pattern' => '[A-Za-z& -.]{1,}',
                         'class'=>'form-control',
@@ -38,7 +38,7 @@ class AddCompanieType extends AbstractType
                 ])
             ->add('postal_code',TextType::class, [
                     'label'=>'Code postal',
-                    'required' => false,
+                    'required' => true,
                     'attr'=>[
                         'pattern' => '\d{5}',
                         'class'=>'form-control',
@@ -47,7 +47,7 @@ class AddCompanieType extends AbstractType
                 ])
             ->add('City',TextType::class,  [
                     'label'=>'Ville',
-                    'required' => false,
+                    'required' => true,
                     'attr'=>[
                         'pattern' => '^[A-Z]([- ]?[A-Za-z]){1,}',
                         'class'=>'form-control',
@@ -74,6 +74,7 @@ class AddCompanieType extends AbstractType
                 ])
             ->add('social_reason',TextType::class, [
                     'label'=>'Raison Social',
+                    'required' => false,
                     'attr'=>[
                         'pattern' => '[A-Za-z& -.]{1,}',
                         'class'=>'form-control',
@@ -84,7 +85,7 @@ class AddCompanieType extends AbstractType
                     'class' => CompanieType::class,
                     'label'=>'Activité',
                     'choice_label' => 'label',
-                    'required' => false,
+                    'required' => true,
                     'attr'=> [
                         'class' => 'form-control'
                     ]
