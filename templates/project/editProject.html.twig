@@ -4,77 +4,106 @@
     {{ parent() }}Editer
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('ProjectEdit') }}
+{% endblock %}
+
 {% block content %}
-    <div class="row">
-        <div class="col">
-            {{ form_widget(editProject.projectName) }}
+{#    {{  form_start(editProject) }}#}
+        <div class="row">
             <div class="col">
-                <div class="row">
-                    {{ form_widget(editProject.adress) }}
-                    {{ form_widget(editProject.postalCode) }}
-                    {{ form_widget(editProject.city) }}
-                </div>
-            </div>
-        </div>
-        <div id="project-companie-colum" class="col">
-            <div class="text-left">
-                Entreprises :
-                <table data-toggle="table">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Entreprise</th>
-                        <th scope="col">Domaine d'activité</th>
-                        <th scope="col">Supprimer</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-{#                    project companies#}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div id="project-contact-column" class="col">
-            <div class="text-left">
-                Contacts :
-                <table data-toggle="table">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Nom</th>
-                        <th scope="col">Prénom</th>
-                        <th scope="col">Entreprise</th>
-                        <th scope="col">Type d'entreprise</th>
-                        <th scope="col">Supprimer</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-    {#                Project contacts#}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div id="project-specificities" class="col">
-            <div class="card mb-4 shadow-sm float-right">
-{#                {{ form_widget(editProject.imageFile) }}#}
-{#                TODO Display Project image as input-file#}
-                <div class="card-body text-wrap">
-                    <div class="row text-secondary text-sm-left">
-                        {{ form_widget(editProject.startedAt) }}
-                    </div>
-                    <div class="row text-secondary text-sm-left">
-                        {{ form_widget(editProject.endedAt) }}
-                    </div>
-                    <div class="row text-secondary">
-                        {{ form_widget(editProject.cost) }}
-                    </div>
-                    <div class="row text-secondary">
-                        {{ form_widget(editProject.phase) }}
+                {{ form_label(editProject.projectName) }}
+                {{ form_widget(editProject.projectName) }}
+                <div class="col">
+                    <div class="row">
+                        {{ form_label(editProject.adress) }}
+                        {{ form_widget(editProject.adress) }}
+                        {{ form_widget(editProject.postalCode) }}
+                        {{ form_widget(editProject.city) }}
                     </div>
                 </div>
             </div>
+            <div id="project-companie-colum" class="col">
+                <div class="text-left">
+                    Entreprises :
+{#                    TODO Add sorting option for table fields#}
+                    <table data-toggle="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Entreprise</th>
+                            <th scope="col">Domaine d'activité</th>
+                            <th scope="col">Supprimer</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {{ render(controller('App\\Controller\\ProjectCompaniesController::ProjectCompaniesEdit', {'project' : project})) }}
+{#                        TODO Display the comapnies filed as tr, allow adds#}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="project-contact-column" class="col">
+                <div class="text-left">
+                    Contacts :
+                    <table data-toggle="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Entreprise</th>
+                            <th scope="col">Supprimer</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {{ render(controller('App\\Controller\\ProjectContactsController::ProjectContactsEdit', {'project' : project})) }}
+{#                        TODO Display the contacts filed as tr, allow adds#}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="project-specificities" class="col">
+                <div class="card mb-4 shadow-sm float-right">
+                    <div id="project-img-input-container">
+                        {{ form_widget(editProject.imageFile.file, {'attr': {'class': 'project-img-input'}}) }}
+                        <label class="project-img-label" for="edit_project_form_imageFile_file">
+                            <img id="project-img" src="{{ vich_uploader_asset(project, 'imageFile') }}" alt="Photo du projet: {{ project.imageOriginalName }}" width="100%%">
+                        </label>
+                    </div>
+                    <div class="card-body text-wrap">
+                        <div class="row text-secondary text-sm-left">
+                            <label for="edit_project_form_startedAt">Date de début</label>
+                            {{ form_widget(editProject.startedAt) }}
+                        </div>
+                        <div class="row text-secondary text-sm-left">
+                            <label for="edit_project_form_endedAt">
+                                Date de fin
+                                <input id="endDate-checkbox" type="checkbox">
+                            </label>
+                            {{ form_widget(editProject.endedAt) }}
+                        </div>
+                        <div class="row text-secondary">
+                            <label for="edit_project_form_cost">Coût</label>
+                            {{ form_widget(editProject.cost) }}
+                        </div>
+                        <div class="row text-secondary">
+                            <label for="edit_project_form_phase">Statut</label>
+                            {{ form_widget(editProject.phase) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+        <a class="btn btn-dark" href="{{ path('_project', {'id': project.id}) }}">
+            Retour
+        </a>
+        {% if not is_granted('ROLE_GUEST') %}
+            <input type="submit" class="btn btn-dark" value="Enregistrer" />
+        {% endif %}
+{#    {{ form_end(editProject) }}#}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    {{ encore_entry_script_tags('ProjectEdit') }}
 {% endblock %}

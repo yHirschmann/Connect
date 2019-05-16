@@ -37,7 +37,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {{ render(controller('App\\Controller\\ProjectCompaniesController::ProjectCompanies', {'project' : project})) }}
+                        {{ render(controller('App\\Controller\\ProjectCompaniesController::ProjectCompanies', {'project' : project})) }}
                     </tbody>
                 </table>
             </div>
@@ -71,7 +71,7 @@
                      aria-label="Placeholder: Thumbnail">
                     <title>{{ project.projectName }}</title>
                     <rect fill="#ffffff" width="45%" height="100%"></rect>
-                    <image xlink:href="{{ vich_uploader_asset(project, 'imageFile')}}" x="0" y="0"
+                    <image xlink:href="{{ vich_uploader_asset(project, 'imageFile') }}" x="0" y="0"
                            width="100%" height="100%"></image>
                 </svg>
                 <div class="card-body text-wrap">
@@ -157,5 +157,3 @@
         {{ encore_entry_script_tags('projectDetails') }}
     {% endif %}
 {% endblock %}
-
-

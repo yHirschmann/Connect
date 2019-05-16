@@ -1,0 +1,14 @@
+{% for companie in companies %}
+    <tr>
+        <td>
+            <a href="{{ path('_companie', {'id': companie.id}) }}">{{ companie.companieName }}</a>
+
+        </td>
+        <td>
+            <a href="{{ path('_companie', {'id': companie.id}) }}">{{ companie.type.label }}</a>
+        </td>
+        <td>
+            <input class="btn btn-dark" type="button" value="supprimer">
+        </td>
+    </tr>
+{% endfor %}

@@ -1,0 +1,18 @@
+input.project-img-input{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+input.project-img-input:focus-within + label.project-img-label{
+    border-color: #6c757d;
+    outline: 0;
+    box-shadow: 0 0 0 .1rem #6c757d;
+}
+
+input.project-img-input + label.project-img-label{
+    cursor: pointer; /* "hand" cursor */
+}

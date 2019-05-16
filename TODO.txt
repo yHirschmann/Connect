@@ -1,13 +1,13 @@
 TODO setup basket for deleted items
 
-TODO Add to project if it's sold or not and to how.
-
 TODO Create the edition pages for : contact, companie.
 
-TODO Implement Search function
+TODO Implement Search function for searchBar
 
 TODO BackOffice
 
 TODO Send email when Admin add a new user, then the user enter his password => /connect/create_account
 
 TODO Add accound management section
+
+TODO list of same companie type => one of them will be the companie that get the project (the companie that have worked on the project)

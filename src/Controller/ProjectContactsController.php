@@ -15,4 +15,12 @@ class ProjectContactsController extends AbstractController
             ['contacts' => $contacts]
         );
     }
+
+    public function projectContactsEdit(Project $project){
+        $contacts = $project->getContacts();
+        return $this->render(
+            'project_contacts/projectContactEdit.html.twig',
+            ['contacts' => $contacts]
+        );
+    }
 }

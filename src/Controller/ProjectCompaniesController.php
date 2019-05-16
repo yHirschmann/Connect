@@ -15,4 +15,12 @@ class ProjectCompaniesController extends AbstractController
             ['companies' => $companies]
         );
     }
+
+    public function ProjectCompaniesEdit(Project $project){
+        $companies = $project->getCompanies();
+        return $this->render(
+            'project_companies/projectCompanieEdit.html.twig',
+            ['companies' => $companies]
+        );
+    }
 }

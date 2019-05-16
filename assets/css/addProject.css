@@ -41,7 +41,7 @@ input.btn-addFile + label.fileInput-label {
 }
 
 ul.add-companies + ul.add-contacts{
-    padding-left: 0px
+    padding-left: 0;
 }
 
 img#projectImage{

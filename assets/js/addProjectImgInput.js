@@ -1,8 +1,12 @@
 require('../css/addProject.css');
+
 var $divFileName = $('<div id="imageFileName"></div>');
 var $image = $('<img id="projectImage" class="border border-dark rounded" src="" alt="">');
 var $imgInput, $label, $parent;
 
+/**
+ * main
+ */
 $(document).ready(function () {
     $imgInput = $('#add_project_imageFile_file');
     $label = $imgInput.next();

@@ -74,6 +74,7 @@ class ProjectController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $project = $form->getData();
             $this->addFlash('added','Les informations ont bien été enregistré.');
             return $this->redirectToRoute('_project', ['id' => $id]);
         }

@@ -1,0 +1,17 @@
+{% for contact in contacts %}
+    <tr>
+        <td>
+            <a href="{{ path('_contact', {'id': contact.id}) }}">{{ contact.lastName }}</a>
+
+        </td>
+        <td>
+            <a href="{{ path('_contact', {'id': contact.id}) }}">{{ contact.firstName }}</a>
+        </td>
+        <td>
+            <a href="{{ path('_companie', {'id': contact.companie.id}) }}">{{ contact.companie.companieName }}</a>
+        </td>
+        <td>
+            <input class="btn btn-dark" type="button" value="supprimer">
+        </td>
+    </tr>
+{% endfor %}
