@@ -99,7 +99,7 @@
             Retour
         </a>
         {% if not is_granted('ROLE_GUEST') %}
-{#            <input type="submit" class="btn btn-dark" value="Enregistrer" />#}
+            <input type="submit" class="btn btn-dark" value="Enregistrer" />
         {% endif %}
     {{ form_end(editProject) }}
 {% endblock %}
