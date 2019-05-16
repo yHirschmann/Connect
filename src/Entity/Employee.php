@@ -102,9 +102,6 @@ class Employee extends Person
                 $this->companie->removeEmployee($this);
             }
             $this->companie = $companie;
-            if($this->first_name != null){
-                $this->companie->addEmployee($this);
-            }
         }
         return $this;
     }

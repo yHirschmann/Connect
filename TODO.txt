@@ -2,14 +2,12 @@ TODO setup basket for deleted items
 
 TODO Add to project if it's sold or not and to how.
 
-TODO Add sorting method for the displayed elements in tables. => look at Bootstrap Table https://bootstrap-table.com/
-
 TODO Create the edition pages for : contact, companie.
 
 TODO Implement Search function
 
 TODO BackOffice
 
-TODO Send email when Admin add a new user, then the user enter his password
+TODO Send email when Admin add a new user, then the user enter his password => /connect/create_account
 
-TODO set * char to mandatory forms fields
+TODO Add accound management section

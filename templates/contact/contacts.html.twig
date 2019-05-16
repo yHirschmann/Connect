@@ -8,45 +8,45 @@
     <div id="contacts-title" class="text-left">
         <h2>Contacts</h2>
     </div>
-    <table class="table">
-    <thead>
+    <table data-toggle="table" data-search="true">
+    <thead class="thead-dark">
     <tr class="bg-dark text-light">
-        <th scope="col">Nom</th>
-        <th scope="col">Prénom</th>
-        <th scope="col">Numéro de téléphone</th>
-        <th scope="col">Email</th>
-        <th scope="col">Entreprise</th>
+        <th scope="col" data-sortable="true">Nom</th>
+        <th scope="col" data-sortable="true">Prénom</th>
+        <th scope="col" data-sortable="true">Numéro de téléphone</th>
+        <th scope="col" data-sortable="true">Email</th>
+        <th scope="col" data-sortable="true">Entreprise</th>
     </tr>
     </thead>
+    <tbody>
     {% for contact in contacts %}
-        <thead>
         <tr>
-            <th scope="col">
+            <td scope="col">
                 <a href="{{ path('_contact', {'id': contact.Id}) }}">
                     {{ contact.lastName }}
                 </a>
-            </th>
-            <th scope="col">
+            </td>
+            <td scope="col">
                 <a href="{{ path('_contact', {'id': contact.Id}) }}">
                     {{ contact.firstName }}
                 </a>
-            </th>
-            <th scope="col">
+            </td>
+            <td scope="col">
                 <a href="{{ path('_contact', {'id': contact.Id}) }}">
                     {{ contact.phoneNumber }}
                 </a>
-            </th>
-            <th scope="col">
+            </td>
+            <td scope="col">
                 <a href="{{ path('_contact', {'id': contact.Id}) }}">
                     {{ contact.email }}
                 </a>
-            </th>
-            <th scope="col">
+            </td>
+            <td scope="col">
                 <a href="{{ path('_companie', {'id': contact.Id}) }}">
                     {{ contact.companie.companieName }}
                 </a>
-            </th>
+            </td>
         </tr>
-        </thead>
     {% endfor %}
+    </tbody>
 {% endblock %}

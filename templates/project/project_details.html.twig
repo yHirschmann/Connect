@@ -29,11 +29,12 @@
         <div id="project-companie-colum" class="col">
             <div class="text-left">
                 Entreprises :
-                <table class="table">
+                <table data-toggle="table"
+                       data-search="true">
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Entreprise</th>
-                        <th scope="col">Domaine d'activité</th>
+                        <th scope="col" data-sortable="true">Entreprise</th>
+                        <th scope="col" data-sortable="true">Domaine d'activité</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -45,13 +46,15 @@
         <div id="project-contact-column" class="col">
             <div class="text-left">
                 Contacts :
-                <table class="table">
+                <table data-toggle="table" data-pagination="true"
+                       data-search="true">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Nom</th>
-                            <th scope="col">Prénom</th>
-                            <th scope="col">Entreprise</th>
-                            <th scope="col">Type d'entreprise</th>
+                            <th scope="col" data-sortable="true">Nom</th>
+                            <th scope="col" data-sortable="true">Prénom</th>
+                            <th scope="col" data-sortable="true">Entreprise</th>
+                            <th scope="col" data-sortable="true">Type d'entreprise</th>
+                            <th scope="col" data-sortable="true">Poste</th>
                         </tr>
                     </thead>
                     <tbody>

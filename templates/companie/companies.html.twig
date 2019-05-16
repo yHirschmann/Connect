@@ -8,59 +8,45 @@
     <div id="companies-title" class="text-left">
         <h2>Entreprises</h2>
     </div>
-    <table class="table">
-        <thead>
+    <table data-toggle="table" data-search="true">
+        <thead class="thead-dark">
         <tr class="bg-dark text-light">
-            <th scope="col">Nom</th>
-            <th scope="col">Ville</th>
-            <th scope="col">Adresse</th>
-            <th scope="col">Code Postal</th>
-            <th scope="col">Chiffre d'affaire</th>
-            <th scope="col">Effectif</th>
-            <th scope="col">Domaine d'activité</th>
+            <th scope="col" data-sortable="true">Nom</th>
+            <th scope="col" data-sortable="true">Ville</th>
+            <th scope="col" data-sortable="true">Adresse</th>
+            <th scope="col" data-sortable="true">Code Postal</th>
+            <th scope="col" data-sortable="true">Chiffre d'affaire</th>
+            <th scope="col" data-sortable="true">Effectif</th>
+            <th scope="col" data-sortable="true">Domaine d'activité</th>
         </tr>
         </thead>
+        <tbody>
         {% for companie in companies %}
-           <thead>
                 <tr>
-                    <th scope="col">
-                        <a href="{{ path('_companie', {'id': companie.Id}) }}">
-                            {{ companie.companieName() }}
-                        </a>
-                    </th>
-                    <th scope="col">
-                        <a href="{{ path('_companie', {'id': companie.Id}) }}">
-                            {{ companie.City() }}
-                        </a>
-                    </th>
-                    <th scope="col">
-                        <a href="{{ path('_companie', {'id': companie.Id}) }}">
-                            {{ companie.Adress() }}
-                        </a>
-                    </th>
-                    <th scope="col">
-                        <a href="{{ path('_companie', {'id': companie.Id}) }}">
-                            {{ companie.PostalCode() }}
-                        </a>
-                    </th>
-                    <th scope="col">
-                        <a href="{{ path('_companie', {'id': companie.Id}) }}">
-                            {{ companie.Turnover() }}
-                        </a>
-                    </th>
-                    <th scope="col">
-                        <a href="{{ path('_companie', {'id': companie.Id}) }}">
-                            {{ companie.Effective() }}
-                        </a>
-                    </th>
-                    <th scope="col">
-                        <a href="{{ path('_companie', {'id': companie.Id}) }}">
-                            {{ companie.type.label }}
-                        </a>
-                    </th>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.companieName() }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.City() }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.Adress() }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.PostalCode() }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.Turnover() }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.Effective() }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.type.label }}</a>
+                    </td>
                 </tr>
-           </thead>
         {% endfor %}
+        </tbody>
     </table>
 
 {% endblock %}

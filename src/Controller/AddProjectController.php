@@ -39,6 +39,7 @@ class AddProjectController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+
             /**
              * @var Project project
              */
@@ -52,22 +53,23 @@ class AddProjectController extends AbstractController
                 $companie = $contact->getCompanie();
                 $project->addCompany($companie);
             }
+
             $unexistingContact = $request->request->get('add_project')['unexistingContacts'];
             foreach ($unexistingContact as $contact) {
                 $employee = $this->createNewContact($contact, $project);
                 if ($employee !== null) {
-                    $entityManager->persist($employee);
                     $companie = $employee->getCompanie();
                     $companie->addEmployee($employee);
                     $project->addCompany($companie);
+                    $entityManager->persist($employee);
                 }
             }
             $files = $project->getProjectFiles();
             /** @var ProjectFile $file */
             foreach($files as $file){
+                $file->setFileOriginalName(str_replace(' ', '_', $file->getFileOriginalName()));
                 $file->setAddedBy($this->getUser());
             }
-            dump($project);
             $entityManager->persist($project);
             $entityManager->flush();
             $this->addFlash('added','Les informations ont bien été enregistré.');
@@ -91,7 +93,6 @@ class AddProjectController extends AbstractController
             $employee->setAddedBy($this->getUser());
             $companie = $this->getDoctrine()->getRepository(Companies::class)->find(intval($contact['companie']));
             $employee->setCompanie($companie);
-
             $project->addContact($employee);
 
             return $employee;

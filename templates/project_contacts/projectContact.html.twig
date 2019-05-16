@@ -13,5 +13,8 @@
         <td>
             <a href="{{ path('_companies') }}">{{ contact.companie.type.label }}</a>
         </td>
+        <td>
+            <a href="{{ path('_contact', {'id': 'x'}) }}">{{ contact.position }}</a>
+        </td>
     </tr>
 {% endfor %}
