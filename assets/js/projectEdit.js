@@ -5,6 +5,7 @@ require('../css/projectEdit.css');
  */
 $(document).ready(function () {
     // let $input = $('input[type = "file"].project-img');
+    $('input[type="submit"]').next().remove();
 });
 
 //TODO display new image on project-img change

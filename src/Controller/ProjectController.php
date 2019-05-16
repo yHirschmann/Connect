@@ -75,8 +75,9 @@ class ProjectController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $project = $form->getData();
-            $this->addFlash('added','Les informations ont bien été enregistré.');
-            return $this->redirectToRoute('_project', ['id' => $id]);
+            dump($project);
+//            $this->addFlash('added','Les informations ont bien été enregistré.');
+//            return $this->redirectToRoute('_project', ['id' => $id]);
         }
         return $this->render('project/editProject.html.twig', array(
             'project' => $project,

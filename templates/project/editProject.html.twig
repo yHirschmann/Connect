@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-{#    {{  form_start(editProject) }}#}
+    {{  form_start(editProject) }}
         <div class="row">
             <div class="col">
                 {{ form_label(editProject.projectName) }}
@@ -31,8 +31,8 @@
                     <table data-toggle="table">
                         <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Entreprise</th>
-                            <th scope="col">Domaine d'activité</th>
+                            <th scope="col" data-sortable="true">Entreprise</th>
+                            <th scope="col" data-sortable="true">Domaine d'activité</th>
                             <th scope="col">Supprimer</th>
                         </tr>
                         </thead>
@@ -49,10 +49,10 @@
                     <table data-toggle="table">
                         <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Nom</th>
-                            <th scope="col">Prénom</th>
-                            <th scope="col">Entreprise</th>
-                            <th scope="col">Supprimer</th>
+                            <th scope="col" data-sortable="true">Nom</th>
+                            <th scope="col" data-sortable="true">Prénom</th>
+                            <th scope="col" data-sortable="true">Entreprise</th>
+                            <th scope="col" data-sortable="true">Supprimer</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -94,13 +94,14 @@
                 </div>
             </div>
         </div>
+{#    TODO Display files & allow edition#}
         <a class="btn btn-dark" href="{{ path('_project', {'id': project.id}) }}">
             Retour
         </a>
         {% if not is_granted('ROLE_GUEST') %}
-            <input type="submit" class="btn btn-dark" value="Enregistrer" />
+{#            <input type="submit" class="btn btn-dark" value="Enregistrer" />#}
         {% endif %}
-{#    {{ form_end(editProject) }}#}
+    {{ form_end(editProject) }}
 {% endblock %}
 
 {% block javascripts %}
