@@ -16,3 +16,12 @@ input.project-img-input:focus-within + label.project-img-label{
 input.project-img-input + label.project-img-label{
     cursor: pointer; /* "hand" cursor */
 }
+
+img.img-file{
+    max-width: 100%;
+    height: auto;
+}
+
+#file-collection{
+    padding: 1rem 1rem 0;
+}

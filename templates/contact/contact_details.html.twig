@@ -25,14 +25,58 @@
                     </a>
                 </span>
             </div>
+            <div class="row">
+                Poste : <span style="margin-left: auto;margin-right: 45%">
+                    {{ contact.position }}
+                </span>
+            </div>
         </div>
         <div class="col">
             <div class="row">
                 Ajouté le : <span style="margin-left: auto;margin-right: 45%">{{ contact.addedAt | date('d-m-Y') }}</span>
             </div>
             <div class="row">
-                Par :<a href="{{ path('_profile', {'id': contact.addedBy.id}) }}" style="margin-left: auto;margin-right: 45%">{{ contact.addedBy.UserName}}</a>
+                Par :<a href="{{ path('_profile', {'id': contact.addedBy.id}) }}" style="margin-left: auto;margin-right: 45%">{{ contact.addedBy.FirstName }} {{ contact.addedBy.LastName }}</a>
             </div>
         </div>
     </div>
+    <div>
+        <table data-toggle="table" data-search="true">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col" data-sortable="true">Nom du Projet</th>
+                <th scope="col" data-sortable="true">Ville</th>
+                <th scope="col" data-sortable="true">Adresse</th>
+                <th scope="col" data-sortable="true">Date de Début</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for project in contact.projects %}
+                <tr>
+                    <td scope="col">
+                        <a href="{{ path('_project', {'id': project.id}) }}">
+                            {{ project.ProjectName }}
+                        </a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_project', {'id': project.id }) }}">
+                            {{ project.City }}
+                        </a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_project', {'id': project.id }) }}">
+                            {{ project.Adress }}
+                        </a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_project', {'id': project.id}) }}">
+                            {{ project.StartedAt|date("d/m/Y") }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{#    TODO Display project list #}
 {% endblock %}

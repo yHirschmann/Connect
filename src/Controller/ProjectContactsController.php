@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Project;
+use App\Form\Type\AddProjectContactType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProjectContactsController extends AbstractController
@@ -16,11 +17,4 @@ class ProjectContactsController extends AbstractController
         );
     }
 
-    public function projectContactsEdit(Project $project){
-        $contacts = $project->getContacts();
-        return $this->render(
-            'project_contacts/projectContactEdit.html.twig',
-            ['contacts' => $contacts]
-        );
-    }
 }

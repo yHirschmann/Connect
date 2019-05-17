@@ -22,6 +22,7 @@ class EmployeeFixtures
         $employee->setCompanie($companie);
         $employee->setAddedBy($user);
         $manager->persist($employee);
+        $companie->addEmployee($employee);
         $manager->flush();
     }
 }

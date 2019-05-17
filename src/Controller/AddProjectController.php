@@ -59,9 +59,9 @@ class AddProjectController extends AbstractController
                 $employee = $this->createNewContact($contact, $project);
                 if ($employee !== null) {
                     $companie = $employee->getCompanie();
+                    $entityManager->persist($employee);
                     $companie->addEmployee($employee);
                     $project->addCompany($companie);
-                    $entityManager->persist($employee);
                 }
             }
             $files = $project->getProjectFiles();
@@ -90,6 +90,7 @@ class AddProjectController extends AbstractController
             $employee->setLastName($contact['LastName']);
             $employee->setEmail($contact['Email']);
             $employee->setPhoneNumber($contact['phoneNumber']);
+            $employee->setPosition($contact['position']);
             $employee->setAddedBy($this->getUser());
             $companie = $this->getDoctrine()->getRepository(Companies::class)->find(intval($contact['companie']));
             $employee->setCompanie($companie);

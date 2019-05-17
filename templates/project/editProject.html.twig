@@ -24,6 +24,7 @@
                     </div>
                 </div>
             </div>
+
             <div id="project-companie-colum" class="col">
                 <div class="text-left">
                     Entreprises :
@@ -32,36 +33,57 @@
                         <thead class="thead-dark">
                         <tr>
                             <th scope="col" data-sortable="true">Entreprise</th>
-                            <th scope="col" data-sortable="true">Domaine d'activité</th>
                             <th scope="col">Supprimer</th>
                         </tr>
                         </thead>
                         <tbody>
-                            {{ render(controller('App\\Controller\\ProjectCompaniesController::ProjectCompaniesEdit', {'project' : project})) }}
+                            {% set i = 0 %}
+                            {% for companie in project.companies %}
+                                <tr>
+                                    <td>
+                                        {{ form_widget(editProject.companies['' ~ i]) }}
+                                    </td>
+                                    <td>
+                                        <input class="btn btn-dark" type="button" value="supprimer">
+                                    </td>
+                                </tr>
+                                {% set i= i + 1 %}
+                            {% endfor %}
 {#                        TODO Display the comapnies filed as tr, allow adds#}
                         </tbody>
                     </table>
                 </div>
             </div>
+
             <div id="project-contact-column" class="col">
                 <div class="text-left">
                     Contacts :
                     <table data-toggle="table">
                         <thead class="thead-dark">
                         <tr>
-                            <th scope="col" data-sortable="true">Nom</th>
-                            <th scope="col" data-sortable="true">Prénom</th>
-                            <th scope="col" data-sortable="true">Entreprise</th>
-                            <th scope="col" data-sortable="true">Supprimer</th>
+                            <th scope="col" data-sortable="true">Contact</th>
+                            <th scope="col">Supprimer</th>
                         </tr>
                         </thead>
                         <tbody>
-                            {{ render(controller('App\\Controller\\ProjectContactsController::ProjectContactsEdit', {'project' : project})) }}
-{#                        TODO Display the contacts filed as tr, allow adds#}
+                            {% set i = 0 %}
+                            {% for contact in project.contacts %}
+                                <tr>
+                                    <td>
+                                        {{ form_widget(editProject.contacts['' ~ i]) }}
+                                    </td>
+                                    <td>
+                                        <input class="btn btn-dark" type="button" value="supprimer">
+                                    </td>
+                                </tr>
+                                {% set i= i + 1 %}
+                            {% endfor %}
+{#                        TODO allow adds#}
                         </tbody>
                     </table>
                 </div>
             </div>
+
             <div id="project-specificities" class="col">
                 <div class="card mb-4 shadow-sm float-right">
                     <div id="project-img-input-container">
@@ -72,35 +94,72 @@
                     </div>
                     <div class="card-body text-wrap">
                         <div class="row text-secondary text-sm-left">
-                            <label for="edit_project_form_startedAt">Date de début</label>
+                            {{ form_label(editProject.startedAt) }}
                             {{ form_widget(editProject.startedAt) }}
                         </div>
                         <div class="row text-secondary text-sm-left">
-                            <label for="edit_project_form_endedAt">
-                                Date de fin
-                                <input id="endDate-checkbox" type="checkbox">
-                            </label>
+                            {{ form_label(editProject.endedAt) }}<input type="checkbox" style="margin-left: 5px">
                             {{ form_widget(editProject.endedAt) }}
                         </div>
                         <div class="row text-secondary">
-                            <label for="edit_project_form_cost">Coût</label>
+                            {{ form_label(editProject.cost) }}
                             {{ form_widget(editProject.cost) }}
                         </div>
                         <div class="row text-secondary">
-                            <label for="edit_project_form_phase">Statut</label>
+                            {{ form_label(editProject.phase) }}
                             {{ form_widget(editProject.phase) }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
 {#    TODO Display files & allow edition#}
+        <div id="file-collection" class="border border-dark rounded-top row border-dark">
+            {% set i = 0 %}
+            {% for file in project.projectFiles %}
+                <div class="card shadow-sm bg-light mb-3" style="max-width: 10em;">
+                    <div class="file-display" style="min-height: 10em; max-width: 100%">
+                        {% if file.fileMineType == 'image/jpeg'
+                            or file.fileMineType == 'image/jpg'
+                            or file.fileMineType == 'image/png' %}
+                            <img class="img-file card-img-top" src="{{ vich_uploader_asset(file, 'file') }}" alt="{{ file.fileOriginalName }}" width="100%" height="100">
+
+                        {% elseif file.fileMineType == 'application/pdf' %}
+                            <img class="img-file card-img-top" src="{{ asset('build/images/site/pdf.png') }}" alt="Image Pdf" width="100%" height="100">
+
+                        {% elseif file.fileMineType == 'application/vnd.ms-excel'
+                            or file.fileMineType == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                            or file.fileMineType == 'application/vnd.oasis.opendocument.spreadsheet' %}
+                            <img class="img-file card-img-top" src="{{ asset('build/images/site/excel.png') }}" alt="Image Excel" width="100%" height="100">
+
+                        {% else %}
+                            <span data-feather="file-text"></span>
+
+                        {% endif %}
+                    </div>
+                    <div class="card-body text-wrap">
+                        <div class="file-name-link">
+                            {{ form_widget(editProject.projectFiles['' ~ i], {'attr': {'hidden' : 'hidden'}}) }}{{ file.fileOriginalName }}
+                        </div>
+                    </div>
+                    <div class="file-remove-input" style="margin-bottom: 10px">
+                        <input class="btn btn-dark" type="button" value="supprimer">
+                    </div>
+                </div>
+                {% set i= i + 1 %}
+            {% endfor %}
+        </div>
+
         <a class="btn btn-dark" href="{{ path('_project', {'id': project.id}) }}">
             Retour
         </a>
+
         {% if not is_granted('ROLE_GUEST') %}
             <input type="submit" class="btn btn-dark" value="Enregistrer" />
         {% endif %}
+
     {{ form_end(editProject) }}
 {% endblock %}
 

@@ -2,9 +2,13 @@
 
 namespace App\Form\Type;
 
+use App\Entity\Companies;
+use App\Entity\Employee;
 use App\Entity\Project;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -81,39 +85,45 @@ class EditProjectFormType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-//            ->add('companies', CollectionType::class, [
-//                'label' => false,
-//                'entry_type' => EntityType::class,
-//                'entry_options' => [
-//                    'label' => false,
-//                    'class' => Companies::class,
-//                    'choice_label' => 'companie_name',
-//                    'attr' => [
-//                        'class' => 'form-control'
-//                    ],
-//                ],
-//                'allow_add' => true,
-//                'by_reference' => false,
-//                'empty_data' => null,
-//                'required' => false,
-//            ])
-//            ->add('contacts', CollectionType::class, [
-//                'label' => false,
-//                'entry_type' => EntityType::class,
-//                'entry_options' => [
-//                    'label' => false,
-//                    'class' => Employee::class,
-//                    'choice_label' => function ($employee) {
-//                        /* @var $employee Employee */
-//                        return $employee->__toString();
-//                    },
-//                    'attr' => [
-//                        'class' => 'form-control'
-//                    ],
-//                ],
-//                'allow_add' => true,
-//                'by_reference' => false,
-//            ])
+            ->add('companies', CollectionType::class, [
+                'label' => false,
+                'entry_type' => EntityType::class,
+                'entry_options' => [
+                    'label' => false,
+                    'class' => Companies::class,
+                    'choice_label' => 'companie_name',
+                    'attr' => [
+                        'class' => 'form-control'
+                    ],
+                ],
+                'allow_add' => true,
+                'by_reference' => false,
+                'empty_data' => null,
+                'required' => false,
+            ])
+            ->add('contacts', CollectionType::class, [
+                'label' => false,
+                'entry_type' => EntityType::class,
+                'entry_options' => [
+                    'label' => false,
+                    'class' => Employee::class,
+                    'choice_label' => function ($employee) {
+                        /* @var $employee Employee */
+                        return $employee->__toString();
+                    },
+                    'attr' => [
+                        'class' => 'form-control'
+                    ],
+                ],
+                'allow_add' => true,
+                'by_reference' => false,
+            ])
+            ->add('projectFiles', CollectionType::class, [
+                'entry_type' => ProjectFileType::class,
+                'required' => false,
+                'allow_add' => true,
+                'by_reference' => false,
+            ])
         ;
     }
 

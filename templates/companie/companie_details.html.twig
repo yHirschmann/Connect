@@ -34,61 +34,99 @@
     <div id="companie-links" class="row border border-secondary rounded" style="margin-top: 20px;padding: 5px">
         <div id="projects-col" class="col">
             <div id="companie-projectNum" class="row">
-{#                Nombre de projet: {{ dump(nbProject)}}#}
+                Nombre de projet: {{ companie.projects.count }}
             </div>
-            <div class="row">
+            <div>
+                <table data-toggle="table" data-search="true">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" data-sortable="true">Nom du Projet</th>
+                        <th scope="col" data-sortable="true">Ville</th>
+                        <th scope="col" data-sortable="true">Adresse</th>
+                        <th scope="col" data-sortable="true">Date de Début</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for project in companie.projects %}
+                            <tr>
+                                <td scope="col">
+                                    <a href="{{ path('_project', {'id': project.id}) }}">
+                                        {{ project.ProjectName }}
+                                    </a>
+                                </td>
+                                <td scope="col">
+                                    <a href="{{ path('_project', {'id': project.id }) }}">
+                                        {{ project.City }}
+                                    </a>
+                                </td>
+                                <td scope="col">
+                                    <a href="{{ path('_project', {'id': project.id }) }}">
+                                        {{ project.Adress }}
+                                    </a>
+                                </td>
+                                <td scope="col">
+                                    <a href="{{ path('_project', {'id': project.id}) }}">
+                                        {{ project.StartedAt|date("d/m/Y") }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-        {# TODO Query projects list => display them in a box with a scroll bar ?#}
         <div id="contact-col" class="col">
             <div id="companie-contactNum" class="row">
                 Effectif: {{ companie.effective }}
             </div>
             <div>
-{#                 TODO Query contacts list => display them in a box with a scroll bar ?#}
-                <table>
-                    <thead>
-                        <tr class="bg-dark text-light">
-                            <th scope="col">Nom</th>
-                            <th scope="col">Prénom</th>
-                            <th scope="col">Téléphone</th>
-                            <th scope="col">Mail</th>
-                            <th scope="col">Entreprise</th>
+                <table data-toggle="table" data-search="true">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" data-sortable="true">Nom</th>
+                            <th scope="col" data-sortable="true">Prénom</th>
+                            <th scope="col" data-sortable="true">Téléphone</th>
+                            <th scope="col" data-sortable="true">Mail</th>
+                            <th scope="col" data-sortable="true">Entreprise</th>
                         </tr>
                     </thead>
-                    {% for employee in companie.employees %}
-                        <thead>
-                        <tr>
-                            <th scope="col">
-                                <a href="{{ path('_contact', {'id': employee.id}) }}">
-                                    {{ employee.lastName }}
-                                </a>
-                            </th>
-                            <th scope="col">
-                                <a href="{{ path('_contact', {'id': employee.id}) }}">
-                                    {{ employee.firstName }}
-                                </a>
-                            </th>
-                            <th scope="col">
-                                <a href="{{ path('_contact', {'id': employee.id}) }}">
-                                    {{ employee.phoneNumber}}
-                                </a>
-                            </th>
-                            <th scope="col">
-                                <a href="{{ path('_contact', {'id': employee.id}) }}">
-                                    {{ employee.email }}
-                                </a>
-                            </th>
-                            <th scope="col">
-                                <a href="{{ path('_companie', {'id': companie.id}) }}">
-                                    {{ companie.companieName }}
-                                </a>
-                            </th>
-                        </tr>
-                        </thead>
-                    {% endfor %}
+                    <tbody>
+                        {% for employee in companie.employees %}
+                                <tr>
+                                    <td scope="col">
+                                        <a href="{{ path('_contact', {'id': employee.id}) }}">
+                                            {{ employee.lastName }}
+                                        </a>
+                                    </td>
+                                    <td scope="col">
+                                        <a href="{{ path('_contact', {'id': employee.id}) }}">
+                                            {{ employee.firstName }}
+                                        </a>
+                                    </td>
+                                    <td scope="col">
+                                        <a href="{{ path('_contact', {'id': employee.id}) }}">
+                                            {{ employee.phoneNumber}}
+                                        </a>
+                                    </td>
+                                    <td scope="col">
+                                        <a href="{{ path('_contact', {'id': employee.id}) }}">
+                                            {{ employee.email }}
+                                        </a>
+                                    </td>
+                                    <td scope="col">
+                                        <a href="{{ path('_companie', {'id': companie.id}) }}">
+                                            {{ companie.companieName }}
+                                        </a>
+                                    </td>
+                                </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
 {% endblock %}

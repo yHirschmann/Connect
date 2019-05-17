@@ -14,7 +14,9 @@ $(document).ready(function() {
     // count the current form inputs we have (e.g. 2), use that as the new
     // index when inserting a new item (e.g. 2)
     $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
     addFilesForm($collectionHolder, $newLinkLi);
+
     $addFilesButton.on('click', function(e) {
         // add a new tag form (see next code block)
         addFilesForm($collectionHolder, $newLinkLi);
