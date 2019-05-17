@@ -54,7 +54,7 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/edit/project/{id}", name="_editProject")
+     * @Route("/edit/projet/{id}", name="_editProject")
      * @param Environment $environment
      * @param $id
      * @param ValidatorInterface $validator
@@ -68,7 +68,7 @@ class ProjectController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $doctrine = $this->getDoctrine();
         $project = $doctrine->getRepository(Project::class)->find($id);
-        $companieTypes = $doctrine->getRepository(CompanieType::class)->findAll();
+
 
         $form = $this->createForm(EditProjectFormType::class, $project);
         $form->handleRequest($request);
@@ -81,7 +81,6 @@ class ProjectController extends AbstractController
         }
         return $this->render('project/editProject.html.twig', array(
             'project' => $project,
-            'types' => $companieTypes,
             'editProject' => $form->createView()
         ));
     }

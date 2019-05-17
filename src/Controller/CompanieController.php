@@ -4,12 +4,17 @@ namespace App\Controller;
 
 use App\Entity\CompanieEmployee;
 use App\Entity\Companies;
+use App\Entity\CompanieType;
 use App\Entity\Employee;
 use App\Entity\Project;
+use App\Form\Type\EditCompanieType;
+use App\Form\Type\EditProjectFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
 
 class CompanieController extends AbstractController
@@ -47,11 +52,49 @@ class CompanieController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $doctrine = $this->getDoctrine();
         $companie = $doctrine->getRepository(Companies::class)->find($id);
-        $employees = $doctrine->getRepository(Employee::class)->findEmployeesInCompany($id);
-        foreach($employees as $employee){
-            $companie->addEmployee($employee);
-        }
         return new Response($environment->render('companie/companie_details.html.twig', array('companie' => $companie)));
+    }
+
+    /**
+     * @Route("/edit/entreprise/{id}", name="_editCompanie")
+     * @param Environment $environment
+     * @param $id
+     * @param ValidatorInterface $validator
+     * @param Request $request
+     * @return Response
+     */
+    public function editCompanieAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $doctrine = $this->getDoctrine();
+        $entityManager = $doctrine->getManager();
+        $companie = $doctrine->getRepository(Companies::class)->find($id);
+        $companieTypes = $doctrine->getRepository(CompanieType::class)->findAll();
+
+        $form = $this->createForm(EditCompanieType::class, $companie);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $companie = $form->getData();
+            $unexistingType = $request->request->get('edit_companie')['unexistingType']["label"];
+            if($unexistingType != null){
+                $newType = new CompanieType();
+                $newType->setLabel($unexistingType);
+                $repository = $this->getDoctrine()->getRepository(CompanieType::class);
+                if(!$repository->findByLabel($newType->getLabel())){
+                    $entityManager->persist($newType);
+                    $companie->setType($newType);
+                }
+            }
+            $entityManager->persist($companie);
+            $entityManager->flush();
+            $this->addFlash('added','Les informations ont bien été enregistré.');
+            return $this->redirectToRoute('_companie', ['id' => $id]);
+        }
+        return $this->render('companie/editCompanie.html.twig', array(
+            'companie' => $companie,
+            'types' => $companieTypes,
+            'editCompanie' => $form->createView()
+        ));
     }
 
     private function initCompaniePage(){

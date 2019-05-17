@@ -5,9 +5,18 @@
 {% endblock %}
 
 {% block content %}
-    <h2 id="companie-name" class="text-left">
-        {{ companie.companieName }}
-    </h2>
+    <div class="row">
+        <h2 id="companie-name" class="text-left">
+            {{ companie.companieName }}
+        </h2>
+        {% if not is_granted('ROLE_GUEST') %}
+            <div style="margin-left: auto">
+                <a id="project-edit-btn" type="button" href="{{ path('_editCompanie', {'id': companie.id }) }}" class="btn btn-dark">
+                    Editer
+                </a>
+            </div>
+        {% endif %}
+    </div>
     <div id="companie-info" class="row border border-secondary rounded" style="margin-bottom: 20px; padding: 5px;">
         <div class="col">
             <div class="row">
@@ -16,7 +25,9 @@
                 {{ companie.city }}
             </div>
             <div class="row">
-               Numéro de Téléphone: {{ companie.phoneNumber }}
+                {% if not companie.phoneNumber == null %}
+                    Numéro de Téléphone: {{ companie.phoneNumber }}
+                {% endif %}
             </div>
         </div>
         <div class="col">
