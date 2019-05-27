@@ -2,18 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\CompanieEmployee;
 use App\Entity\Companies;
 use App\Entity\CompanieType;
-use App\Entity\Employee;
-use App\Entity\Project;
 use App\Form\Type\EditCompanieType;
-use App\Form\Type\EditProjectFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
 
@@ -65,10 +61,7 @@ class CompanieController extends AbstractController
      */
     public function editCompanieAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $doctrine = $this->getDoctrine();
-        $entityManager = $doctrine->getManager();
-        $companie = $doctrine->getRepository(Companies::class)->find($id);
-        $companieTypes = $doctrine->getRepository(CompanieType::class)->findAll();
+        $companie = $this->entityManager->getRepository(Companies::class)->find($id);
 
         $form = $this->createForm(EditCompanieType::class, $companie);
         $form->handleRequest($request);
@@ -81,19 +74,17 @@ class CompanieController extends AbstractController
                 $newType->setLabel($unexistingType);
                 $repository = $this->getDoctrine()->getRepository(CompanieType::class);
                 if(!$repository->findByLabel($newType->getLabel())){
-                    $entityManager->persist($newType);
+                    $this->entityManager->persist($newType);
                     $companie->setType($newType);
                 }
             }
-            $entityManager->persist($companie);
-            $entityManager->flush();
+            $this->entityManager->persist($companie);
+            $this->entityManager->flush();
             $this->addFlash('added','Les informations ont bien été enregistré.');
             return $this->redirectToRoute('_companie', ['id' => $id]);
         }
-        return $this->render('companie/editCompanie.html.twig', array(
-            'companie' => $companie,
-            'types' => $companieTypes,
-            'editCompanie' => $form->createView()
+        return $this->render(
+            'companie/editCompanie.html.twig', array('companie' => $companie,'editCompanie' => $form->createView()
         ));
     }
 

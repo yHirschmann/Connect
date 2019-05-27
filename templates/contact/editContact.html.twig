@@ -1,0 +1,38 @@
+{% extends "./layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }}Edit
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {#    {{ encore_entry_link_tags('') }}#}
+{% endblock %}
+
+{% block content %}
+    {{ form_start(editContact) }}
+        {{ form_label(editContact.last_name) }}
+        {{ form_widget(editContact.last_name) }}
+        {{ form_label(editContact.first_name) }}
+        {{ form_widget(editContact.first_name) }}
+        {{ form_label(editContact.email) }}
+        {{ form_widget(editContact.email) }}
+        {{ form_label(editContact.phone_number) }}
+        {{ form_widget(editContact.phone_number) }}
+        {{ form_label(editContact.position) }}
+        {{ form_widget(editContact.position) }}
+        {{ form_label(editContact.companie) }}
+        {{ form_widget(editContact.companie) }}
+        <a class="btn btn-dark" href="{{ path('_companie', {'id': contact.id}) }}">
+            Retour
+        </a>
+        {% if not is_granted('ROLE_GUEST') %}
+            <input type="submit" class="btn btn-dark" value="Enregistrer" />
+        {% endif %}
+    {{ form_end(editContact) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

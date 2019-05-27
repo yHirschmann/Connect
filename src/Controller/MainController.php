@@ -19,7 +19,6 @@ class MainController extends AbstractController
      */
     public function indexAction(Environment $environment){
         $this->denyAccessUnlessGranted('ROLE_USER');
-        dump($this->getUser());
         return new Response($environment->render('pages/index.html.twig'));
     }
 

@@ -5,9 +5,18 @@
 {% endblock %}
 
 {% block content %}
-    <h2 id="contact-name" class="text-left">
-        {{ contact.lastName }} {{ contact.firstName }}
-    </h2>
+    <div class="row">
+        <h2 id="contact-name" class="text-left">
+            {{ contact.lastName }} {{ contact.firstName }}
+        </h2>
+        {% if not is_granted('ROLE_GUEST') %}
+            <div style="margin-left: auto">
+                <a id="project-edit-btn" type="button" href="{{ path('_editContact', {'id': contact.id }) }}" class="btn btn-dark">
+                    Editer
+                </a>
+            </div>
+        {% endif %}
+    </div>
     <div id="contact-info" class="row border border-secondary rounded" style="margin-bottom: 20px; padding: 5px;">
         <div class="col">
             <div class="row">

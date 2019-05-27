@@ -103,7 +103,6 @@ class AddContactType extends AbstractType
                     'class' => 'form-control'
                 ],
             ])
-
         ;
     }
     public function configureOptions(OptionsResolver $resolver)

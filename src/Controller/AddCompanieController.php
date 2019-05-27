@@ -48,11 +48,8 @@ class AddCompanieController extends AbstractController
                 if(!$repository->findByLabel($newType->getLabel())){
                     $entityManager->persist($newType);
                 }
-            }
-            if(is_null($companie->getType())){
                 $companie->setType($newType);
             }
-
             if(empty($this  ->getDoctrine()
                 ->getRepository(Companies::class)
                 ->findByExisting($companie->getCompanieName(),$companie->getCity(),$companie->getAdress())))
@@ -65,7 +62,6 @@ class AddCompanieController extends AbstractController
                 $this->addFlash('existing','Cette entreprise existe déjà dans la base de donnée.');
                 return $this->redirect($request->headers->get('referer'));
             }
-
         }
 
         return $this->render('form/AddCompanie.html.twig', array(

@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Employee;
+use App\Form\Type\EditContactType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
 
 class ContactController extends AbstractController
@@ -44,6 +47,34 @@ class ContactController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $contact = $this->entityManager->getRepository(Employee::class)->find($id);
         return new Response($environment->render('contact/contact_details.html.twig', array('contact'=>$contact)));
+    }
+
+    /**
+     * @Route("/edit/contact/{id}", name="_editContact")
+     * @param Environment $environment
+     * @param $id
+     * @param ValidatorInterface $validator
+     * @param Request $request
+     * @return Response
+     */
+    public function editContactAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $contact = $this->entityManager->getRepository(Employee::class)->find($id);
+
+        $form = $this->createForm(EditContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $contact = $form->getData();
+
+            $this->entityManager->persist($contact);
+            $this->entityManager->flush();
+            $this->addFlash('added','Les informations ont bien été enregistré.');
+            return $this->redirectToRoute('_contact', ['id' => $id]);
+        }
+        return $this->render('contact/editContact.html.twig', array(
+            'contact'=>$contact, 'editContact' => $form->createView()
+        ));
     }
 
     private function initContactsPage(){
