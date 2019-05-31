@@ -20,9 +20,7 @@
     <div id="companie-info" class="row border border-secondary rounded" style="margin-bottom: 20px; padding: 5px;">
         <div class="col">
             <div class="row">
-               Adresse: {{ companie.adress }}
-                {{ companie.postalCode }}
-                {{ companie.city }}
+               Adresse: {{ companie.adress }} {{ companie.postalCode }} {{ companie.city }}
             </div>
             <div class="row">
                 {% if not companie.phoneNumber == null %}
@@ -32,14 +30,24 @@
         </div>
         <div class="col">
             <div class="row">
-                Raison Social: {{ companie.socialReason }}
+                Raison Social: <span style="margin-left: auto;margin-right: 45%">{{ companie.socialReason }}</span>
             </div>
             <div class="row">
-                Chiffre d'affaire: {{ companie.turnover }}
+                Chiffre d'affaire: <span style="margin-left: auto;margin-right: 45%">{{ companie.turnover }}</span>
             </div>
             <div class="row">
-                Domaine d'activité: {{ companie.type.label }}
+                Domaine d'activité: <span style="margin-left: auto;margin-right: 45%">{{ companie.type.label }}</span>
             </div>
+        </div>
+        <div class="col">
+            {% if not companie.lastUpdateAt == null %}
+            <div class="row">
+                Dernière mise à jour : <span style="margin-left: auto;margin-right: 45%">{{ companie.lastUpdateAt | date('d-m-Y') }}</span>
+            </div>
+            <div class="row">
+                Mise à jour par : <span style="margin-left: auto;margin-right: 45%">{{ companie.lastUpdateBy.firstName }} {{ companie.lastUpdateBy.lastName }}</span>
+            </div>
+            {% endif %}
         </div>
     </div>
     <div id="companie-links" class="row border border-secondary rounded" style="margin-top: 20px;padding: 5px">

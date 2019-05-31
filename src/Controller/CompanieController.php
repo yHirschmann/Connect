@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
+use DateTime;
 
 class CompanieController extends AbstractController
 {
@@ -57,6 +58,7 @@ class CompanieController extends AbstractController
      * @param $id
      * @param ValidatorInterface $validator
      * @param Request $request
+     * @throws
      * @return Response
      */
     public function editCompanieAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
@@ -68,27 +70,39 @@ class CompanieController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $companie = $form->getData();
-            $unexistingType = $request->request->get('edit_companie')['unexistingType']["label"];
-            if($unexistingType != null){
-                $newType = new CompanieType();
-                $newType->setLabel($unexistingType);
-                $repository = $this->getDoctrine()->getRepository(CompanieType::class);
-                if(!$repository->findByLabel($newType->getLabel())){
-                    $this->entityManager->persist($newType);
-                    $companie->setType($newType);
-                }
-            }
+            $companie = $this->setUnexistingType($request, $companie);
+
+            $companie->setLastUpdateAt(new DateTime('now'));
+            $companie->setLastUpdateBy($this->getUser());
+
             $this->entityManager->persist($companie);
             $this->entityManager->flush();
             $this->addFlash('added','Les informations ont bien été enregistré.');
             return $this->redirectToRoute('_companie', ['id' => $id]);
         }
-        return $this->render(
-            'companie/editCompanie.html.twig', array('companie' => $companie,'editCompanie' => $form->createView()
-        ));
+        return $this->render('companie/editCompanie.html.twig', array('companie' => $companie,'editCompanie' => $form->createView()));
     }
 
     private function initCompaniePage(){
         return $this->entityManager->getRepository(Companies::class)->findAll();
+    }
+
+    /**
+     * @param Request $request
+     * @param Companies $companie
+     * @return Companies|null
+     */
+    private function setUnexistingType(Request $request, Companies $companie):?Companies{
+        $unexistingType = $request->request->get('edit_companie')['unexistingType']["label"];
+        if($unexistingType != null){
+            $newType = new CompanieType();
+            $newType->setLabel($unexistingType);
+            $repository = $this->getDoctrine()->getRepository(CompanieType::class);
+            if(!$repository->findByLabel($newType->getLabel())){
+                $this->entityManager->persist($newType);
+                $companie->setType($newType);
+            }
+        }
+        return $companie;
     }
 }
