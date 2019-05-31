@@ -13,3 +13,5 @@ TODO Add accound management section
 TODO list of same companie type => one of them will be the companie that get the project (the companie that have worked on the project)
 
 TODO Create function denyAccesIfGranted
+
+TODO Add Google map for Companies // Only displayed if the adress is set

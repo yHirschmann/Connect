@@ -1,8 +1,28 @@
-//TODO delete files column on input "suprimer" clic
 //TODO allow adds for projectFiles
 
 /**
  * main
  */
-$(document).ready(function () {
+$(document).ready(function(){
+    initDeleteAction();
 });
+
+/**
+ * allow to remove files from the project
+ * @param $rmBtn
+ */
+function setDeleteAction($rmBtn){
+    $rmBtn.click(function () {
+        $rmBtn.parent().parent().remove();
+    });
+}
+
+/**
+ * Set the delete action on existing remove file buttons
+ */
+function initDeleteAction(){
+    let $rmBtnList = $('input.remove-file-input');
+    $rmBtnList.each(function () {
+        setDeleteAction($(this));
+    });
+}

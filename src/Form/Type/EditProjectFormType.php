@@ -14,7 +14,6 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class EditProjectFormType extends AbstractType
 {
@@ -69,10 +68,6 @@ class EditProjectFormType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('imageFile', VichImageType::class, [
-                'label' => 'Photo du projet',
-                'required' => false,
-            ])
             ->add('phase', ChoiceType::class, [
                 'choices' => [
                     'Etude' => 0,
@@ -118,7 +113,7 @@ class EditProjectFormType extends AbstractType
                 'allow_add' => true,
                 'by_reference' => false,
             ])
-            ->add('projectFiles', CollectionType::class, [
+            ->add('files', CollectionType::class, [
                 'entry_type' => ProjectFileType::class,
                 'required' => false,
                 'allow_add' => true,

@@ -8,7 +8,6 @@
 
 namespace App\Form\Type;
 
-
 use App\Entity\Companies;
 use App\Entity\Employee;
 use App\Entity\Project;
@@ -21,7 +20,6 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class AddProjectType extends AbstractType
 {
@@ -34,32 +32,6 @@ class AddProjectType extends AbstractType
                 'class' => 'form-control'
             ]
         ])
-            ->add('adress', TextType::class, [
-                'label' => 'Adresse',
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('postalCode', NumberType::class, [
-                'label' => 'Code Postal',
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('city', TextType::class, [
-                'label' => 'Ville',
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('cost', NumberType::class, [
-                'label' => 'Coût',
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
             ->add('startedAt', DateType::class, [
                 'label' => 'Date de début',
                 'widget' => 'single_text',
@@ -76,33 +48,31 @@ class AddProjectType extends AbstractType
                     'readonly' => true,
                 ]
             ])
-            ->add('phase', ChoiceType::class, [
-                'choices' => [
-                    'Etude' => 0,
-                    'Avant projet sommaire' => 1,
-                    'Avant projet détaillé' => 2,
-                    'Chantier en cour' => 3,
-                    'Terminé' => 4,
-                ],
+            ->add('city', TextType::class, [
+                'label' => 'Ville',
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
-            ->add('companies', CollectionType::class, [
-                'label' => false,
-                'entry_type' => EntityType::class,
-                'entry_options' => [
-                    'label' => false,
-                    'class' => Companies::class,
-                    'choice_label' => 'companie_name',
-                    'attr' => [
-                        'class' => 'form-control'
-                    ],
-                ],
-                'allow_add' => true,
-                'by_reference' => false,
-                'empty_data' => null,
+            ->add('adress', TextType::class, [
+                'label' => 'Adresse',
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('postalCode', NumberType::class, [
+                'label' => 'Code Postal',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('cost', NumberType::class, [
+                'label' => 'Coût',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('contacts', CollectionType::class, [
                 'label' => false,
@@ -121,6 +91,31 @@ class AddProjectType extends AbstractType
                 'allow_add' => true,
                 'by_reference' => false,
             ])
+            ->add('phase', ChoiceType::class, [
+                'choices' => [
+                    'Etude' => 0,
+                    'Avant projet sommaire' => 1,
+                    'Avant projet détaillé' => 2,
+                    'Chantier en cour' => 3,
+                    'Terminé' => 4,
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('files', CollectionType::class, [
+                'entry_type' => ProjectFileType::class,
+                'required' => false,
+                'allow_add' => true,
+                'by_reference' => false,
+            ])
+            ->add('file', CollectionType::class,[
+                'entry_type' => ProjectFileType::class,
+                'allow_add' => true,
+                'required' => false,
+                'mapped' => false,
+                'by_reference' => false,
+            ])
             ->add('unexistingContacts', CollectionType::class, [
                 'entry_type' => AddContactType::class,
                 'entry_options' => ['label' => false],
@@ -130,16 +125,24 @@ class AddProjectType extends AbstractType
                 'by_reference' => false,
                 'mapped' => false,
             ])
-            ->add('imageFile', VichImageType::class, [
-                'label' => 'Photo du projet',
-                'required' => false,
-            ])
-            ->add('projectFiles', CollectionType::class, [
-                'entry_type' => ProjectFileType::class,
-                'required' => false,
+            ->add('otherCompanies', CollectionType::class, [
+                'entry_type' => EntityType::class,
+                'entry_options' => [
+                    'label' => false,
+                    'class' => Companies::class,
+                    'choice_label' => 'companie_name',
+                    'attr' => [
+                        'class' => 'form-control'
+                    ],
+                ],
+                'label' => false,
                 'allow_add' => true,
                 'by_reference' => false,
-            ]);
+                'empty_data' => null,
+                'required' => false,
+                'mapped' => false,
+            ])
+        ;
 
     }
 

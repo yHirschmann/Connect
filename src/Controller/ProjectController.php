@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\CompanieType;
 use App\Entity\Project;
 use App\Form\Type\EditProjectFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -49,8 +48,7 @@ class ProjectController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $doctrine = $this->getDoctrine();
         $project = $doctrine->getRepository(Project::class)->find($id);
-        $companieTypes = $doctrine->getRepository(CompanieType::class)->findAll();
-        return new Response($environment->render('project/project_details.html.twig', array('project' => $project, 'types' => $companieTypes)));
+        return new Response($environment->render('project/project_details.html.twig', array('project' => $project)));
     }
 
     /**
@@ -67,6 +65,7 @@ class ProjectController extends AbstractController
     public function editProjectAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
         $this->denyAccessUnlessGranted('ROLE_USER');
         $doctrine = $this->getDoctrine();
+
         $project = $doctrine->getRepository(Project::class)->find($id);
 
 
@@ -79,9 +78,7 @@ class ProjectController extends AbstractController
 //            $this->addFlash('added','Les informations ont bien été enregistré.');
 //            return $this->redirectToRoute('_project', ['id' => $id]);
         }
-        return $this->render('project/editProject.html.twig', array(
-            'project' => $project,
-            'editProject' => $form->createView()
-        ));
+
+        return $this->render('project/editProject.html.twig', array('project' => $project,'editProject' => $form->createView()));
     }
 }

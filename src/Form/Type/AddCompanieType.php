@@ -27,6 +27,15 @@ class AddCompanieType extends AbstractType
                         'Placeholder' => 'ex: Entreprise Exemple & Entreprise',
                     ]
                 ])
+            ->add('City',TextType::class,  [
+                'label'=>'Ville',
+                'required' => true,
+                'attr'=>[
+                    'pattern' => '^[A-Z]([- ]?[A-Za-z]){1,}',
+                    'class'=>'form-control',
+                    'Placeholder' => 'ex: Strasbourg',
+                ]
+            ])
             ->add('Adress',TextType::class, [
                     'label'=>'Adresse',
                     'required' => false,
@@ -44,15 +53,7 @@ class AddCompanieType extends AbstractType
                         'class'=>'form-control',
                         'Placeholder' => 'ex: 67000',
                     ]
-                ])
-            ->add('City',TextType::class,  [
-                    'label'=>'Ville',
-                    'required' => true,
-                    'attr'=>[
-                        'pattern' => '^[A-Z]([- ]?[A-Za-z]){1,}',
-                        'class'=>'form-control',
-                        'Placeholder' => 'ex: Strasbourg',
-                    ]
+
                 ])
             ->add('phone_number',TelType::class, [
                     'label'=>'Téléphone Fixe',
@@ -81,19 +82,19 @@ class AddCompanieType extends AbstractType
                         'Placeholder' => 'ex: ',
                     ]
                 ])
-            ->add('type',EntityType::class,[
-                    'class' => CompanieType::class,
-                    'label'=>'Activité',
-                    'choice_label' => 'label',
-                    'required' => true,
-                    'attr'=> [
-                        'class' => 'form-control'
-                    ]
-                ])
             ->add('unexistingType', AddCompanieTypeType::class, [
                 'mapped' => false,
                 'required' => false,
                 'label' => false,
+            ])
+            ->add('type',EntityType::class,[
+                'class' => CompanieType::class,
+                'label'=>'Activité',
+                'choice_label' => 'label',
+                'required' => true,
+                'attr'=> [
+                    'class' => 'form-control'
+                ]
             ])
         ;
     }

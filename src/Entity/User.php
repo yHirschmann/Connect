@@ -47,11 +47,35 @@ class User extends Person implements UserInterface
      */
     private $projectFiles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="lastUpdateBy")
+     */
+    private $projectUpdated;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Employee", mappedBy="lastUpdateBy")
+     */
+    private $employeeUpdated;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Companies", mappedBy="lastUpdateBy")
+     */
+    private $companieUpdated;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Companies", mappedBy="addedBy")
+     */
+    private $companies_added;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
         $this->employees_added = new ArrayCollection();
         $this->projectFiles = new ArrayCollection();
+        $this->projectUpdated = new ArrayCollection();
+        $this->employeeUpdated = new ArrayCollection();
+        $this->companieUpdated = new ArrayCollection();
+        $this->companies_added = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -207,6 +231,130 @@ class User extends Person implements UserInterface
             // set the owning side to null (unless already changed)
             if ($projectFile->getAddedBy() === $this) {
                 $projectFile->setAddedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Project[]
+     */
+    public function getProjectUpdated(): Collection
+    {
+        return $this->projectUpdated;
+    }
+
+    public function addProjectUpdated(Project $projectUpdated): self
+    {
+        if (!$this->projectUpdated->contains($projectUpdated)) {
+            $this->projectUpdated[] = $projectUpdated;
+            $projectUpdated->setLastUpdateBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjectUpdated(Project $projectUpdated): self
+    {
+        if ($this->projectUpdated->contains($projectUpdated)) {
+            $this->projectUpdated->removeElement($projectUpdated);
+            // set the owning side to null (unless already changed)
+            if ($projectUpdated->getLastUpdateBy() === $this) {
+                $projectUpdated->setLastUpdateBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Employee[]
+     */
+    public function getEmployeeUpdated(): Collection
+    {
+        return $this->employeeUpdated;
+    }
+
+    public function addEmployeeUpdated(Employee $employeeUpdated): self
+    {
+        if (!$this->employeeUpdated->contains($employeeUpdated)) {
+            $this->employeeUpdated[] = $employeeUpdated;
+            $employeeUpdated->setLastUpdateBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmployeeUpdated(Employee $employeeUpdated): self
+    {
+        if ($this->employeeUpdated->contains($employeeUpdated)) {
+            $this->employeeUpdated->removeElement($employeeUpdated);
+            // set the owning side to null (unless already changed)
+            if ($employeeUpdated->getLastUpdateBy() === $this) {
+                $employeeUpdated->setLastUpdateBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Companies[]
+     */
+    public function getCompanieUpdated(): Collection
+    {
+        return $this->companieUpdated;
+    }
+
+    public function addCompanieUpdated(Companies $companieUpdated): self
+    {
+        if (!$this->companieUpdated->contains($companieUpdated)) {
+            $this->companieUpdated[] = $companieUpdated;
+            $companieUpdated->setLastUpdateBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompanieUpdated(Companies $companieUpdated): self
+    {
+        if ($this->companieUpdated->contains($companieUpdated)) {
+            $this->companieUpdated->removeElement($companieUpdated);
+            // set the owning side to null (unless already changed)
+            if ($companieUpdated->getLastUpdateBy() === $this) {
+                $companieUpdated->setLastUpdateBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Companies[]
+     */
+    public function getCompaniesAdded(): Collection
+    {
+        return $this->companies_added;
+    }
+
+    public function addCompaniesAdded(Companies $companiesAdded): self
+    {
+        if (!$this->companies_added->contains($companiesAdded)) {
+            $this->companies_added[] = $companiesAdded;
+            $companiesAdded->setAddedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompaniesAdded(Companies $companiesAdded): self
+    {
+        if ($this->companies_added->contains($companiesAdded)) {
+            $this->companies_added->removeElement($companiesAdded);
+            // set the owning side to null (unless already changed)
+            if ($companiesAdded->getAddedBy() === $this) {
+                $companiesAdded->setAddedBy(null);
             }
         }
 

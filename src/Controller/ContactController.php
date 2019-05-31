@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Employee;
 use App\Form\Type\EditContactType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -65,8 +66,12 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var Employee $contact
+             */
             $contact = $form->getData();
-
+            $contact->setLastUpdateBy($this->getUser());
+            $contact->setLastUpdateAt(new DateTime('NOW'));
             $this->entityManager->persist($contact);
             $this->entityManager->flush();
             $this->addFlash('added','Les informations ont bien été enregistré.');

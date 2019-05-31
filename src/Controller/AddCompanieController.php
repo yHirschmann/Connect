@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Companies;
 use App\Entity\CompanieType;
 use App\Form\Type\AddCompanieType;
@@ -25,6 +26,8 @@ class AddCompanieController extends AbstractController
      * @Route("/ajouter/entreprise" , name="_addCompanie")
      * @param ValidatorInterface $validator
      * @param Request $request
+     *
+     * @throws
      * @return Response
      */
     public function addCompanie(ValidatorInterface $validator,Request $request){
@@ -40,7 +43,8 @@ class AddCompanieController extends AbstractController
             $companie = $companie->formatCompaniePhoneNumber($companie);
             $companie = $companie->formatCompanieSocialReason($companie);
             $unexistingType = $request->request->get('add_companie')['unexistingType']["label"];
-
+            $companie->setAddedBy($this->getUser());
+            $companie->setAddedAt(new DateTime('now'));
             if(!empty($unexistingType)){
                 $newType = new CompanieType();
                 $newType->setLabel($unexistingType);

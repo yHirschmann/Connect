@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: MdJk
- * Date: 18/03/2019
- * Time: 10:51
- */
 
 namespace App\Form\Type;
 
@@ -18,11 +12,20 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AddContactType extends AbstractType
+class EditContactType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $option){
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         $builder
-            ->add('FirstName',TextType::class,[
+            ->add('position',TextType::class,[
+                'label'=>'Poste',
+                'required' => true,
+                'attr' =>[
+                    'pattern' => '^[A-Z]([\-\ ]?[A-zÀ-ÿ]{1,}){1,}\D$',
+                    'class'=>'form-control',
+                ]
+            ])
+            ->add('first_name', TextType::class,[
                 'label'=>'Prénom',
                 'required' => true,
                 'attr' =>[
@@ -30,15 +33,15 @@ class AddContactType extends AbstractType
                     'class'=>'form-control',
                 ]
             ])
-            ->add('LastName',TextType::class, [
-                    'label'=>'Nom',
-                    'required' => true,
-                    'attr' =>[
-                        'pattern' => '^[A-Z]([\-\ ]?[A-zÀ-ÿ]{1,}){1,}\D$',
-                        'class'=>'form-control',
-                    ]
-                ])
-            ->add('phoneNumber',TelType::class, [
+            ->add('last_name',TextType::class, [
+                'label'=>'Nom',
+                'required' => true,
+                'attr' =>[
+                    'pattern' => '^[A-Z]([\-\ ]?[A-zÀ-ÿ]{1,}){1,}\D$',
+                    'class'=>'form-control',
+                ]
+            ])
+            ->add('phone_number', TelType::class, [
                 'label'=>'Téléphone',
                 'required' => true,
                 'attr' =>[
@@ -46,11 +49,11 @@ class AddContactType extends AbstractType
                     'class'=>'form-control',
                 ]
             ])
-            ->add('Email',EmailType::class, [
-                        'label'=>'Email',
-                        'required' => true,
-                        'attr' =>[
-                            'pattern' => '(?(DEFINE)
+            ->add('email', EmailType::class, [
+        'label'=>'Email',
+        'required' => true,
+        'attr' =>[
+            'pattern' => '(?(DEFINE)
                                             (?<addr_spec> (?&local_part) @ (?&domain) )
                                             (?<local_part> (?&dot_atom) | (?&quoted_string) | (?&obs_local_part) )
                                             (?<domain> (?&dot_atom) | (?&domain_literal) | (?&obs_domain) )
@@ -84,28 +87,21 @@ class AddContactType extends AbstractType
                                             (?<VCHAR> [\x21-\x7E] )
                                             (?<WSP> [ \t] ))
                                         ^(?&addr_spec)$',
-                            'class'=>'form-control',
-                        ]
-                    ])
-            ->add('companie',EntityType::class,[
+            'class'=>'form-control',
+        ]
+    ])
+            ->add('companie', EntityType::class,[
                 'class' => Companies::class,
-                'label' => 'Entreprise',
-                'choice_label' => 'companie_name',
-                'attr' => [
+                'label'=>'Entreprise',
+                'choice_label' => 'CompanieName',
+                'required' => true,
+                'attr'=> [
                     'class' => 'form-control'
-                ],
+                ]
             ])
-            ->add('position', TextType::class,[
-                    'label'=>'Poste',
-                    'required' => true,
-                    'attr' =>[
-                        'pattern' => '^[A-Z]([\-\ ]?[A-zÀ-ÿ]{1,}){1,}\D$',
-                        'class'=>'form-control',
-                    ]
-            ])
-
         ;
     }
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

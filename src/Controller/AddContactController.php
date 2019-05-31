@@ -2,21 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Companies;
-use App\Entity\CompanieType;
 use App\Entity\Employee;
-use App\Entity\Project;
-use App\Form\Type\AddCompanieType;
-use App\Form\Type\AddCompanieTypeType;
 use App\Form\Type\AddContactType;
-use App\Form\Type\AddProjectType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Twig\Environment;
 
 class AddContactController extends AbstractController
 {
@@ -43,8 +36,15 @@ class AddContactController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            /**
+             * @var Employee $contact
+             */
             $contact = $form->getData();
             $contact->setAddedBy($this->getUser());
+            $phoneNumber = $contact->getPhoneNumber();
+            $phoneNumber = str_replace(array(' ','.','-'),"",$phoneNumber);
+            $contact->setPhoneNumber($phoneNumber);
+
             $repository = $this->getDoctrine()->getRepository(Employee::class);
             $queryNames = $repository->findByExisting($contact->getLastName(), $contact->getFirstName());
             $queryEmail = $repository->findByEmail($contact->getEmail());

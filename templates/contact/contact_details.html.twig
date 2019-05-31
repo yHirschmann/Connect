@@ -23,7 +23,7 @@
                 Email: <span style="margin-left: auto;margin-right: 45%">{{ contact.email }}</span>
             </div>
             <div class="row">
-                Numéro de Téléphone: <span style="margin-left: auto;margin-right: 45%">{{ contact.phoneNumber }}</span>
+                Numéro de téléphone: <span style="margin-left: auto;margin-right: 45%">{{ contact.phoneNumber }}</span>
             </div>
         </div>
         <div class="col">
@@ -48,6 +48,18 @@
                 Par :<a href="{{ path('_profile', {'id': contact.addedBy.id}) }}" style="margin-left: auto;margin-right: 45%">{{ contact.addedBy.FirstName }} {{ contact.addedBy.LastName }}</a>
             </div>
         </div>
+        {% if contact.lastUpdateBy is not null %}
+            <div class="col">
+                <div class="row">
+                    Dernière mise à jour le : <span style="margin-left: auto;margin-right: 45%">{{ contact.lastUpdateAt | date('d-m-Y') }}</span>
+                </div>
+                <div class="row">
+                    Dernière mise à jour par :  <a href="{{ path('_profile', {'id': contact.lastUpdateBy.id}) }}" style="margin-left: auto;margin-right: 45%">
+                                                    {{ contact.lastUpdateBy.FirstName }} {{ contact.lastUpdateBy.LastName }}
+                                                </a>
+                </div>
+            </div>
+        {% endif %}
     </div>
     <div>
         <table data-toggle="table" data-search="true">

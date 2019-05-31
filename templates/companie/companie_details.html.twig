@@ -45,7 +45,7 @@
     <div id="companie-links" class="row border border-secondary rounded" style="margin-top: 20px;padding: 5px">
         <div id="projects-col" class="col">
             <div id="companie-projectNum" class="row">
-                Nombre de projet: {{ companie.projects.count }}
+                Nombre de projet: {{ companie.project.count }}
             </div>
             <div>
                 <table data-toggle="table" data-search="true">
@@ -58,7 +58,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        {% for project in companie.projects %}
+                        {% for project in companie.project %}
                             <tr>
                                 <td scope="col">
                                     <a href="{{ path('_project', {'id': project.id}) }}">

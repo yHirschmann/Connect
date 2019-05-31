@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,19 +22,19 @@ class Companies
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Validator\Regex("/[A-Za-z&]{1,}/")
+     * @Validator\Regex("/[\dA-Za-zÀ-ÿ&]{1,}/")
      */
     private $companie_name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     *  @Validator\Regex("/^[A-Z]([- ]?[A-Za-z]){1,}/")
+     * @Validator\Regex("/^[A-Z]([- ]?[A-Za-zÀ-ÿ]){1,}/")
      */
     private $City;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Validator\Regex("/^$|^\d{1,2}([\.\,\ ]?[A-Za-z ]{1,}){1,}([.]?$)/")
+     * @Validator\Regex("/^$|^\d{1,3}([\.\,\ \'\]?[A-Za-zÀ-ÿ ]{1,}){1,}([.]?$)/")
      */
     private $Adress;
 
@@ -57,7 +58,7 @@ class Companies
      *     minMessage = "Un numéro de téléphone doit être composé de {{ limit }} caractères : trop court",
      *     maxMessage = "Un numéro de téléphone doit être composé de {{ limit }} caractères : trop long"
      * )
-     * @Validator\Regex("/^0[1-68]([-. ]?\d{2}){4}$/")
+     * @Validator\Regex("/^0[1-9]([-. ]?\d{2}){4}$/")
      */
     private $phone_number;
 
@@ -73,7 +74,7 @@ class Companies
     /**
      * @ORM\Column(type="string", length=255)
      * @Validator\Type("string")
-     * @Validator\Regex("/[A-Za-z&]{1,}/")
+     * @Validator\Regex("/[A-Za-zÀ-ÿ&]{1,}/")
      */
     private $social_reason;
 
@@ -89,19 +90,41 @@ class Companies
     private $type;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Project", mappedBy="companies")
-     */
-    private $projects;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Employee", mappedBy="companie")
      */
     private $employees;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastUpdateAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="companieUpdated")
+     */
+    private $lastUpdateBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\projectcompanies", mappedBy="companies", orphanRemoval=true)
+     */
+    private $project;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="companies_added")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $addedBy;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $added_at;
 
     public function __construct()
     {
         $this->projects = new ArrayCollection();
         $this->employees = new ArrayCollection();
+        $this->project = new ArrayCollection();
     }
 
     public function __toString()
@@ -236,34 +259,6 @@ class Companies
     }
 
     /**
-     * @return Collection|Project[]
-     */
-    public function getProjects(): Collection
-    {
-        return $this->projects;
-    }
-
-    public function addProject(Project $project): self
-    {
-        if (!$this->projects->contains($project)) {
-            $this->projects->add($project);
-            $project->addCompany($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProject(Project $project): self
-    {
-        if ($this->projects->contains($project)) {
-            $this->projects->removeElement($project);
-            $project->removeCompany($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Employee[]
      */
     public function getEmployees(): Collection
@@ -292,6 +287,85 @@ class Companies
                 $employee->setCompanie(null);
             }
         }
+        return $this;
+    }
+
+    public function getLastUpdateAt(): ?DateTimeInterface
+    {
+        return $this->lastUpdateAt;
+    }
+
+    public function setLastUpdateAt(DateTimeInterface $lastUpdateAt): self
+    {
+        $this->lastUpdateAt = $lastUpdateAt;
+
+        return $this;
+    }
+
+    public function getLastUpdateBy(): ?User
+    {
+        return $this->lastUpdateBy;
+    }
+
+    public function setLastUpdateBy(?User $lastUpdateBy): self
+    {
+        $this->lastUpdateBy = $lastUpdateBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|projectcompanies[]
+     */
+    public function getProject(): Collection
+    {
+        return $this->project;
+    }
+
+    public function addProject(projectcompanies $project): self
+    {
+        if (!$this->project->contains($project)) {
+            $this->project[] = $project;
+            $project->setCompanies($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(projectcompanies $project): self
+    {
+        if ($this->project->contains($project)) {
+            $this->project->removeElement($project);
+            // set the owning side to null (unless already changed)
+            if ($project->getCompanies() === $this) {
+                $project->setCompanies(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAddedBy(): ?User
+    {
+        return $this->addedBy;
+    }
+
+    public function setAddedBy(?User $addedBy): self
+    {
+        $this->addedBy = $addedBy;
+
+        return $this;
+    }
+
+    public function getAddedAt(): ?DateTimeInterface
+    {
+        return $this->added_at;
+    }
+
+    public function setAddedAt(DateTimeInterface $added_at): self
+    {
+        $this->added_at = $added_at;
+
         return $this;
     }
 

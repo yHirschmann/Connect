@@ -3,12 +3,13 @@
 namespace App\DataFixtures;
 
 use App\Entity\Companies;
+use App\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
-use function PHPSTORM_META\type;
+use DateTime;
 
 class CompanieFixtures {
 
-    public static function loader(ObjectManager $manager)
+    public static function loader(ObjectManager $manager, User $user)
     {
         $type = CompanieTypeFixtures::loader($manager);
 
@@ -21,6 +22,8 @@ class CompanieFixtures {
         $companie->setTurnover(3750000);
         $companie->setSocialReason("JPS Eclairage");
         $companie->setType($type);
+        $companie->setAddedAt(new DateTime('NOW'));
+        $companie->setAddedBy($user);
         $manager->persist($companie);
         $manager->flush();
         return $companie;

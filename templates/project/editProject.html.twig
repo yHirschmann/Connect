@@ -28,7 +28,6 @@
             <div id="project-companie-colum" class="col">
                 <div class="text-left">
                     Entreprises :
-{#                    TODO Add sorting option for table fields#}
                     <table data-toggle="table">
                         <thead class="thead-dark">
                         <tr>
@@ -44,7 +43,7 @@
                                         {{ form_widget(editProject.companies['' ~ i]) }}
                                     </td>
                                     <td>
-                                        <input class="btn btn-dark" type="button" value="supprimer">
+                                        <input class="btn btn-dark remove-companie-input" type="button" value="supprimer">
                                     </td>
                                 </tr>
                                 {% set i= i + 1 %}
@@ -73,12 +72,12 @@
                                         {{ form_widget(editProject.contacts['' ~ i]) }}
                                     </td>
                                     <td>
-                                        <input class="btn btn-dark" type="button" value="supprimer">
+                                        <input class="btn btn-dark remove-contact-input" type="button" value="supprimer">
                                     </td>
                                 </tr>
                                 {% set i= i + 1 %}
                             {% endfor %}
-{#                        TODO allow adds#}
+{#                        TODO allow adds #}
                         </tbody>
                     </table>
                 </div>
@@ -87,10 +86,13 @@
             <div id="project-specificities" class="col">
                 <div class="card mb-4 shadow-sm float-right">
                     <div id="project-img-input-container">
-                        {{ form_widget(editProject.imageFile.file, {'attr': {'class': 'project-img-input'}}) }}
-                        <label class="project-img-label" for="edit_project_form_imageFile_file">
-                            <img id="project-img" src="{{ vich_uploader_asset(project, 'imageFile') }}" alt="Photo du projet: {{ project.imageOriginalName }}" width="100%%">
-                        </label>
+                        {% for file in project.files if file.IsProjectImage %}
+{#                            TODO make unmapped input #}
+{#                            {{ form_widget(unnmapped input, {'attr': {'class': 'project-img-input'}}) }}#}
+                            <label class="project-img-label" for="edit_project_form_imageFile_file">
+                                <img id="project-img" src="{{ vich_uploader_asset(file, 'file')}}" alt="Photo du projet: {{ file.fileOriginalName}}" x="0" y="0" width="100%" height="100%">
+                            </label>
+                        {% endfor %}
                     </div>
                     <div class="card-body text-wrap">
                         <div class="row text-secondary text-sm-left">
@@ -99,6 +101,7 @@
                         </div>
                         <div class="row text-secondary text-sm-left">
                             {{ form_label(editProject.endedAt) }}<input type="checkbox" style="margin-left: 5px">
+{#                            TODO script for the checkbox#}
                             {{ form_widget(editProject.endedAt) }}
                         </div>
                         <div class="row text-secondary">
@@ -118,7 +121,7 @@
 {#    TODO Display files & allow edition#}
         <div id="file-collection" class="border border-dark rounded-top row border-dark">
             {% set i = 0 %}
-            {% for file in project.projectFiles %}
+            {% for file in project.files %}
                 <div class="card shadow-sm bg-light mb-3" style="max-width: 10em;">
                     <div class="file-display" style="min-height: 10em; max-width: 100%">
                         {% if file.fileMineType == 'image/jpeg'
@@ -141,11 +144,11 @@
                     </div>
                     <div class="card-body text-wrap">
                         <div class="file-name-link">
-                            {{ form_widget(editProject.projectFiles['' ~ i], {'attr': {'hidden' : 'hidden'}}) }}{{ file.fileOriginalName }}
+                            {{ form_widget(editProject.files['' ~ i], {'attr': {'hidden' : 'hidden'}}) }}{{ file.fileOriginalName }}
                         </div>
                     </div>
                     <div class="file-remove-input" style="margin-bottom: 10px">
-                        <input class="btn btn-dark" type="button" value="supprimer">
+                        <input class="btn btn-dark remove-file-input" type="button" value="supprimer">
                     </div>
                 </div>
                 {% set i= i + 1 %}
@@ -155,15 +158,16 @@
         <a class="btn btn-dark" href="{{ path('_project', {'id': project.id}) }}">
             Retour
         </a>
-
         {% if not is_granted('ROLE_GUEST') %}
             <input type="submit" class="btn btn-dark" value="Enregistrer" />
         {% endif %}
-
     {{ form_end(editProject) }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('ProjectEdit') }}
+    {{ encore_entry_script_tags('projectEditFiles') }}
+    {{ encore_entry_script_tags('projectEditCompanies') }}
+    {{ encore_entry_script_tags('projectEditContacts') }}
 {% endblock %}

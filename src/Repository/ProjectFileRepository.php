@@ -19,6 +19,13 @@ class ProjectFileRepository extends ServiceEntityRepository
         parent::__construct($registry, ProjectFile::class);
     }
 
+    public function getProjectImage(){
+        return $this->createQueryBuilder('pf')
+                    ->andWhere('pf.isProjectImage = :bool')
+                    ->getQuery()
+                    ->getResult();
+    }
+
     // /**
     //  * @return ProjectFile[] Returns an array of ProjectFile objects
     //  */

@@ -18,7 +18,7 @@ class UserFixtures
         return $user;
     }
 
-    public function classicUser(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder){
+    private function classicUser(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder){
         $user = new User();
         $user->setPassword($passwordEncoder->encodePassword(
             $user,
@@ -43,7 +43,7 @@ class UserFixtures
         return $user;
     }
 
-    public function JPSUser(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder){
+    private function JPSUser(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder){
         $user = new User();
         $user->setPassword($passwordEncoder->encodePassword(
             $user,
@@ -67,7 +67,7 @@ class UserFixtures
         $manager->persist($user);
     }
 
-    public function guestUser(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder){
+    private function guestUser(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder){
         $user = new User();
         $user->setPassword($passwordEncoder->encodePassword(
             $user,
@@ -92,7 +92,7 @@ class UserFixtures
         $manager->persist($user);
     }
 
-    public function adminUser(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder){
+    private function adminUser(ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder){
         $user = new User();
         $user->setPassword($passwordEncoder->encodePassword(
             $user,

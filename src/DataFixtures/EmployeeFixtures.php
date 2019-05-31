@@ -5,14 +5,12 @@ namespace App\DataFixtures;
 use App\Entity\Employee;
 use App\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Vich\UploaderBundle\Entity\File;
 
 class EmployeeFixtures
 {
     public static function loader(ObjectManager $manager, User $user)
     {
-        $companie = CompanieFixtures::loader($manager);
+        $companie = CompanieFixtures::loader($manager, $user);
         $employee = new Employee();
         $employee->setFirstName("Yann");
         $employee->setLastName("HIRSCHMANN");

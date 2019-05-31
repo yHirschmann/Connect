@@ -24,7 +24,6 @@ $(document).ready(function() {
 });
 
 function addFilesForm($collectionHolder, $newLinkLi) {
-
     // Get the data-prototype explained earlier
     var prototype = $collectionHolder.data('prototype');
 

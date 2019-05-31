@@ -56,19 +56,20 @@
                 {{ form_errors(formProject.endedAt) }}
                 {{ form_row(formProject.phase) }}
                 {{ form_errors(formProject.phase) }}
-                {{ form_widget(formProject.imageFile, {'attr': {'class': 'imgProject-button'}}) }}
-                {{ form_errors(formProject.imageFile) }}
+                <div id="image-project-holder" data-prototype="{{ form_widget(formProject.file.vars.prototype)|e('html_attr') }}">
+
+                </div>
             </div>
 
             <div class="col-md-2">
                 <div>Fichiers</div>
-                <ul class="add-files" data-prototype="{{ form_widget(formProject.projectFiles.vars.prototype)|e('html_attr') }}">
+                <ul class="add-files" data-prototype="{{ form_widget(formProject.files.vars.prototype)|e('html_attr') }}">
                 </ul>
             </div>
 
             <div id="companies-list" class="col-md-2">
                 <div>Entreprise</div>
-                <ul class="add-companies" data-prototype="{{ form_widget(formProject.companies.vars.prototype)|e('html_attr')}}">
+                <ul class="add-companies" data-prototype="{{ form_widget(formProject.otherCompanies.vars.prototype)|e('html_attr')}}">
                 </ul>
             </div>
             <div id="contact-list" class="col-md-2">

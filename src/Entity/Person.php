@@ -13,15 +13,16 @@ abstract class Person
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Validator\Regex("/[A-Za-z&]{1,}/")
+     * @Validator\Regex("/[A-Za-zÀ-ÿ&]{1,}/")
      */
     protected $first_name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Validator\Regex("/[A-Za-z&]{1,}/")
+     * @Validator\Regex("/[A-Za-zÀ-ÿ&]{1,}/")
      */
     protected $last_name;
+
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      * @Validator\Length(

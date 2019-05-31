@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -45,10 +47,20 @@ class Employee extends Person
      */
     private $position;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastUpdateAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="employeeUpdated")
+     */
+    private $lastUpdateBy;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
-        $this->added_at = \DateTime::createFromFormat('Y-m-d H:i:s',date('Y-m-d H:i:s'));
+        $this->added_at = DateTime::createFromFormat('Y-m-d H:i:s',date('Y-m-d H:i:s'));
     }
 
     public function __toString()
@@ -126,6 +138,30 @@ class Employee extends Person
     public function setPosition(?string $position): self
     {
         $this->position = $position;
+
+        return $this;
+    }
+
+    public function getLastUpdateAt(): ?DateTimeInterface
+    {
+        return $this->lastUpdateAt;
+    }
+
+    public function setLastUpdateAt(DateTimeInterface $lastUpdateAt): self
+    {
+        $this->lastUpdateAt = $lastUpdateAt;
+
+        return $this;
+    }
+
+    public function getLastUpdateBy(): ?user
+    {
+        return $this->lastUpdateBy;
+    }
+
+    public function setLastUpdateBy(?user $lastUpdateBy): self
+    {
+        $this->lastUpdateBy = $lastUpdateBy;
 
         return $this;
     }

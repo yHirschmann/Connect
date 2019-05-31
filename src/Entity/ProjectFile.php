@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\Validator\Constraints as Validator;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectFileRepository")
@@ -20,12 +21,6 @@ class ProjectFile
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="projectFiles")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $project;
 
     /**
      * @Vich\UploadableField(mapping="project_files", fileNameProperty="fileName", size="fileSize", mimeType="fileMineType", originalName="fileOriginalName")
@@ -64,20 +59,19 @@ class ProjectFile
      */
     private $addedBy;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isProjectImage = false;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="files")
+     */
+    private $project;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getProject(): ?Project
-    {
-        return $this->project;
-    }
-
-    public function setProject(?Project $project): self
-    {
-        $this->project = $project;
-        return $this;
     }
 
     /**
@@ -87,7 +81,7 @@ class ProjectFile
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      *
-     * @param File|UploadedFile $file
+     * @param \Symfony\Component\HttpFoundation\File\File|UploadedFile $file
      * @throws \Exception
      */
     public function setFile(?File $file = null)
@@ -97,7 +91,7 @@ class ProjectFile
         if (null !== $file) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
+            $this->updatedAt = new DateTimeImmutable();
         }
     }
 
@@ -154,12 +148,12 @@ class ProjectFile
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -174,6 +168,30 @@ class ProjectFile
     public function setAddedBy(?User $addedBy): self
     {
         $this->addedBy = $addedBy;
+
+        return $this;
+    }
+
+    public function getIsProjectImage(): ?bool
+    {
+        return $this->isProjectImage;
+    }
+
+    public function setIsProjectImage(bool $isProjectImage): self
+    {
+        $this->isProjectImage = $isProjectImage;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
 
         return $this;
     }

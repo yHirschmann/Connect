@@ -1,11 +1,11 @@
 {% for companie in companies %}
     <tr>
         <td>
-            <a href="{{ path('_companie', {'id': companie.id}) }}">{{ companie.companieName }}</a>
+            <a href="{{ path('_companie', {'id': companie.companies.id }) }}">{{ companie.companies.companieName }}</a>
 
         </td>
         <td>
-            <a href="{{ path('_companie', {'id': companie.id}) }}">{{ companie.type.label }}</a>
+            <a href="{{ path('_companie', {'id': companie.companies.id }) }}">{{ companie.companies.type.label }}</a>
         </td>
     </tr>
 {% endfor %}
