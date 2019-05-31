@@ -62,22 +62,22 @@
                             <tr>
                                 <td scope="col">
                                     <a href="{{ path('_project', {'id': project.id}) }}">
-                                        {{ project.ProjectName }}
+                                        {{ project.project.projectName }}
                                     </a>
                                 </td>
                                 <td scope="col">
                                     <a href="{{ path('_project', {'id': project.id }) }}">
-                                        {{ project.City }}
+                                        {{ project.project.City }}
                                     </a>
                                 </td>
                                 <td scope="col">
                                     <a href="{{ path('_project', {'id': project.id }) }}">
-                                        {{ project.Adress }}
+                                        {{ project.project.Adress }}
                                     </a>
                                 </td>
                                 <td scope="col">
                                     <a href="{{ path('_project', {'id': project.id}) }}">
-                                        {{ project.StartedAt|date("d/m/Y") }}
+                                        {{ project.project.StartedAt|date("d/m/Y") }}
                                     </a>
                                 </td>
                             </tr>
