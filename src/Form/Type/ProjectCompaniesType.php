@@ -16,14 +16,20 @@ class ProjectCompaniesType extends AbstractType
     {
         $builder
             ->add('companies', EntityType::class,[
+                'label' => false,
                 'class' => Companies::class,
-                'choice_label' => 'companie_name'
+                'choice_label' => 'companie_name',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('gotProject', CheckboxType::class,[
                 'label' => false,
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
-
         ;
     }
 

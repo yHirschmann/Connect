@@ -2,8 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Employee;
 use App\Entity\Project;
+use App\Entity\ProjectCompanies;
+use App\Entity\ProjectFile;
 use App\Form\Type\EditProjectFormType;
+use App\Form\Type\ProjectCompaniesType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,12 +19,6 @@ use Twig\Environment;
 
 class ProjectController extends AbstractController
 {
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
 
     /**
      * @Route("/projet", name="_projects")
@@ -64,21 +63,74 @@ class ProjectController extends AbstractController
      */
     public function editProjectAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
         $this->denyAccessUnlessGranted('ROLE_USER');
+        $entityManager = $this->getDoctrine()->getManager();
         $doctrine = $this->getDoctrine();
 
         $project = $doctrine->getRepository(Project::class)->find($id);
 
+        $companies = new \ArrayObject();
+        foreach($project->getCompanies() as $projectCompanies){
+            $companies->append($projectCompanies->getCompanies());
+        }
 
         $form = $this->createForm(EditProjectFormType::class, $project);
         $form->handleRequest($request);
-
         if($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var Project $project
+             */
             $project = $form->getData();
-            dump($project);
-//            $this->addFlash('added','Les informations ont bien été enregistré.');
-//            return $this->redirectToRoute('_project', ['id' => $id]);
+            $project->setLastUpdateAt(new DateTime('NOW'));
+            $project->setLastUpdateBy($this->getUser());
+
+            foreach($project->getCompanies() as $companie ){
+                if($companie->getProject() == null || $companie->getCompanies() == null ){
+                    $project->removeCompany($companie);
+                }
+            }
+            $project = $this->setUnexistingContact($request, $project, $entityManager);
+            $project = $this->setUnexistingFiles($request, $project, $entityManager);
+
+            $entityManager->persist($project);
+            $entityManager->flush();
+            $this->addFlash('added','Les informations ont bien été enregistré.');
+            return $this->redirectToRoute('_project', ['id' => $id]);
         }
 
-        return $this->render('project/editProject.html.twig', array('project' => $project,'editProject' => $form->createView()));
+        return $this->render('project/editProject.html.twig', array('project' => $project, 'companies' => $companies, 'editProject' => $form->createView()));
+    }
+
+    private function setUnexistingContact($request, $project, $entityManager){
+        if(isset($request->request->get('edit_project_form')['newContacts'])){
+            $unexistingContact = $request->request->get('edit_project_form')['newContacts'];
+
+            foreach ($unexistingContact as $contact) {
+                $employee = $this->getDoctrine()->getRepository(Employee::class)->find($contact);
+                if($project->getMatchingExistingContacts($employee)->isEmpty()){
+                    $project->addContact($employee);
+                }
+            }
+        }
+
+        return $project;
+    }
+
+    private function setUnexistingFiles($request, $project, $entityManager){
+        if(isset($request->files->get('edit_project_form')['newFiles'])) {
+            $files = $request->files->get('edit_project_form')['newFiles'];
+
+            foreach ($files as $file) {
+                $file = $file['file']['file'];
+                if(!empty($file)){
+                    $projectFile = new ProjectFile();
+                    $projectFile->setFile($file);
+                    $projectFile->setFileOriginalName(str_replace(' ', '_', $file->getClientOriginalName()));
+                    $projectFile->setAddedBy($this->getUser());
+                    $project->addFile($projectFile);
+                    $entityManager->persist($projectFile);
+                }
+            }
+        }
+        return $project;
     }
 }

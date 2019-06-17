@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProjectCompaniesRepository;
+use App\Repository\ProjectRepository;
 use App\Validator\Constraints as CustomValidator;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -362,5 +363,10 @@ class Project
     public function getMatchingExistingCompanies(Companies $companies){
         $critera = ProjectCompaniesRepository::existingProjectCompanieCriteria($companies);
         return $this->companies->matching($critera);
+    }
+
+    public function getMatchingExistingContacts(Employee $employee){
+        $critera = ProjectRepository::existingProjectContactCriteria($employee);
+        return $this->contacts->matching($critera);
     }
 }

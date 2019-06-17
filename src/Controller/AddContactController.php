@@ -36,6 +36,7 @@ class AddContactController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
             /**
              * @var Employee $contact
              */
@@ -56,10 +57,10 @@ class AddContactController extends AbstractController
                 $this->addFlash('added','Les informations ont bien été enregistré.');
                 return $this->redirectToRoute('_addContact');
             }else{
-                if(!empty($queryNames)){
+                if(!empty($queryEmail)){
                     $this->addFlash('existing','L\'email de ce contact existe déjà dans la base de donnée.');
                 }
-                elseif(!empty($queryEmail)){
+                elseif(!empty($queryNames)){
                     $this->addFlash('existing','Ce contact existe déjà dans la base de donnée.');
                 }else{
                     $this->addFlash('existing','Un problème est survenue lors de la requête, il se peut que le contact existe déjà.');

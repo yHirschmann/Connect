@@ -82,16 +82,12 @@ class EditProjectFormType extends AbstractType
             ])
             ->add('companies', CollectionType::class, [
                 'label' => false,
-                'entry_type' => EntityType::class,
-                'entry_options' => [
-                    'label' => false,
-                    'class' => Companies::class,
-                    'choice_label' => 'companie_name',
-                    'attr' => [
-                        'class' => 'form-control'
-                    ],
+                'entry_type' => ProjectCompaniesType::class,
+                'attr' => [
+                    'class' => 'form-control'
                 ],
                 'allow_add' => true,
+                'allow_delete' => true,
                 'by_reference' => false,
                 'empty_data' => null,
                 'required' => false,
@@ -111,13 +107,62 @@ class EditProjectFormType extends AbstractType
                     ],
                 ],
                 'allow_add' => true,
+                'allow_delete' => true,
                 'by_reference' => false,
             ])
             ->add('files', CollectionType::class, [
                 'entry_type' => ProjectFileType::class,
                 'required' => false,
                 'allow_add' => true,
+                'allow_delete' => true,
                 'by_reference' => false,
+            ])
+            ->add('projectImage', CollectionType::class,[
+                'entry_type' => ProjectFileType::class,
+                'allow_add' => true,
+                'required' => false,
+                'mapped' => false,
+                'by_reference' => false,
+            ])
+            ->add('newCompanies', CollectionType::class,[
+                'entry_type' => EntityType::class,
+                'entry_options' => [
+                    'label' => false,
+                    'class' => Companies::class,
+                    'choice_label' => 'companie_name',
+                    'attr' => [
+                        'class' => 'form-control'
+                    ],
+                ],
+                'allow_add' => true,
+                'required' => false,
+                'mapped' => false,
+                'by_reference' => false,
+            ])
+            ->add('newContacts',CollectionType::class, [
+                'label' => false,
+                'entry_type' => EntityType::class,
+                'entry_options' => [
+                    'label' => false,
+                    'class' => Employee::class,
+                    'choice_label' => function ($employee) {
+                        /* @var $employee Employee */
+                        return $employee->__toString();
+                    },
+                    'attr' => [
+                        'class' => 'form-control'
+                    ],
+                ],
+                'allow_add' => true,
+                'mapped' => false,
+                'by_reference' => false,
+            ])
+            ->add('newFiles', CollectionType::class,[
+                'entry_type' => ProjectFileType::class,
+                'required' => false,
+                'allow_add' => true,
+                'by_reference' => false,
+                'mapped' => false,
             ])
         ;
     }

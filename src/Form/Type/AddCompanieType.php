@@ -22,7 +22,7 @@ class AddCompanieType extends AbstractType
                     'label'=>'Nom de l\'Entreprise',
                     'required' => true,
                     'attr'=>[
-                        'pattern' => '[A-Za-z& -.]{1,}',
+                        'pattern' => '[A-Za-zÀ-ÿ& -.\d]{1,}',
                         'class'=>'form-control',
                         'Placeholder' => 'ex: Entreprise Exemple & Entreprise',
                     ]
@@ -49,7 +49,7 @@ class AddCompanieType extends AbstractType
                     'label'=>'Code postal',
                     'required' => true,
                     'attr'=>[
-                        'pattern' => '\d{5}',
+                        'pattern' => '(\d{4,5})|(\d{4}\-\d{4})',
                         'class'=>'form-control',
                         'Placeholder' => 'ex: 67000',
                     ]

@@ -17,7 +17,7 @@ $(document).ready(function () {
 });
 
 function endDateModifier(){
-    $checkbox = $('input[type="checkbox"]');
+    $checkbox = $('input#endDateModifier-checkbox');
     $checkbox.on("change", function () {
         if($checkbox.is(":checked")){
             $endDateInput.prop("readonly", false);

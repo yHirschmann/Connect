@@ -89,7 +89,7 @@ class AddProjectController extends AbstractController
         foreach ($project->getContacts() as $contact) {
             $companie = $contact->getCompanie();
             $projectCompanie = ProjectCompanies::creat($project, $companie);
-            if($project->getMatchingExistingCompanies($projectCompanie->getCompanies())->isEmpty()){
+            if($project->existingProjectCompanieCriteria($projectCompanie->getCompanies())->isEmpty()){
                 $project->addCompany($projectCompanie);
                 $entityManager->persist($projectCompanie);
             }

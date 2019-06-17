@@ -39,14 +39,14 @@ class Companies
     private $Adress;
 
     /**
-     * @ORM\Column(type="string", length=5)
+     * @ORM\Column(type="string", length=9)
      * @Validator\Length(
-     *     min = 5,
-     *     max = 5,
+     *     min = 4,
+     *     max = 9,
      *     minMessage = "Un numéro de téléphone doit être composé de {{ limit }} chiffres : trop court",
      *     maxMessage = "Un numéro de téléphone doit être composé de {{ limit }} chiffres : trop long"
      * )
-     * @Validator\Regex("/\d{5}/")
+     * @Validator\Regex("/(\d{4,5})|(\d{4}\-\d{4})/")
      */
     private $postal_code;
 
@@ -67,7 +67,8 @@ class Companies
      * @Validator\Type(
      *     "integer",
      *     message="La valeur {{ value }} n'est pas un nombre)"
-     * )     *
+     * )
+     *
      */
     private $turnover;
 

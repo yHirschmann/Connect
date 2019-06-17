@@ -40,15 +40,15 @@ class AddContactType extends AbstractType
                 ])
             ->add('phoneNumber',TelType::class, [
                 'label'=>'Téléphone',
-                'required' => true,
+                'required' => false,
                 'attr' =>[
-                    'pattern' => '^0[1-8]([-. ]?\d{2}){4}$',
+                    'pattern' => '^0[1-9]([-. ]?\d{2}){4}$',
                     'class'=>'form-control',
                 ]
             ])
             ->add('Email',EmailType::class, [
                         'label'=>'Email',
-                        'required' => true,
+                        'required' => false,
                         'attr' =>[
                             'pattern' => '(?(DEFINE)
                                             (?<addr_spec> (?&local_part) @ (?&domain) )

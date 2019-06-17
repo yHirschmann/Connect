@@ -30,26 +30,32 @@
                     Entreprises :
                     <table data-toggle="table">
                         <thead class="thead-dark">
-                        <tr>
-                            <th scope="col" data-sortable="true">Entreprise</th>
-                            <th scope="col">Supprimer</th>
-                        </tr>
+                            <tr>
+                                <th scope="col" data-sortable="true">Entreprise</th>
+                                <th scope="col">Supprimer</th>
+                            </tr>
                         </thead>
                         <tbody>
-                            {% set i = 0 %}
-                            {% for companie in project.companies %}
+                            {% for i in editProject.companies.vars.form.children %}
                                 <tr>
                                     <td>
-                                        {{ form_widget(editProject.companies['' ~ i]) }}
+                                        {{ form_widget(i.children.companies) }}
                                     </td>
                                     <td>
-                                        <input class="btn btn-dark remove-companie-input" type="button" value="supprimer">
+                                        <input class="btn btn-dark remove-companie-input" type="button" value="Supprimer">
                                     </td>
                                 </tr>
-                                {% set i= i + 1 %}
                             {% endfor %}
-{#                        TODO Display the comapnies filed as tr, allow adds#}
                         </tbody>
+                    </table>
+                    <table data-toggle="table">
+                        <tbody class="new-companies-table" data-prototype="{{ form_widget(editProject.newCompanies.vars.prototype)|e('html_attr')}}">
+                        </tbody>
+                        <tfoot>
+                            <tr class="text-center">
+                                <td class="add-companie-btn"></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -61,6 +67,7 @@
                         <thead class="thead-dark">
                         <tr>
                             <th scope="col" data-sortable="true">Contact</th>
+                            <th scope="col" data-sortable="true">Entreprise</th>
                             <th scope="col">Supprimer</th>
                         </tr>
                         </thead>
@@ -69,16 +76,27 @@
                             {% for contact in project.contacts %}
                                 <tr>
                                     <td>
-                                        {{ form_widget(editProject.contacts['' ~ i]) }}
+                                        {{ form_widget(editProject.contacts['' ~ i], {'attr' : {'readonly' : 'readonly'} }) }}
                                     </td>
                                     <td>
-                                        <input class="btn btn-dark remove-contact-input" type="button" value="supprimer">
+                                        {{ contact.companie.companieName }}
+                                    </td>
+                                    <td>
+                                        <input class="btn btn-dark remove-contact-input" type="button" value="Supprimer">
                                     </td>
                                 </tr>
                                 {% set i= i + 1 %}
                             {% endfor %}
-{#                        TODO allow adds #}
                         </tbody>
+                    </table>
+                    <table data-toggle="table">
+                        <tbody class="new-contact-table" data-prototype="{{ form_widget(editProject.newContacts.vars.prototype)|e('html_attr')}}">
+                        </tbody>
+                        <tfoot>
+                        <tr class="text-center">
+                            <td class="add-contact-btn"></td>
+                        </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -87,8 +105,7 @@
                 <div class="card mb-4 shadow-sm float-right">
                     <div id="project-img-input-container">
                         {% for file in project.files if file.IsProjectImage %}
-{#                            TODO make unmapped input #}
-{#                            {{ form_widget(unnmapped input, {'attr': {'class': 'project-img-input'}}) }}#}
+                            {{ form_widget(editProject.projectImage.vars.prototype, {'attr': {'class': 'project-img-container'}}) }}
                             <label class="project-img-label" for="edit_project_form_imageFile_file">
                                 <img id="project-img" src="{{ vich_uploader_asset(file, 'file')}}" alt="Photo du projet: {{ file.fileOriginalName}}" x="0" y="0" width="100%" height="100%">
                             </label>
@@ -100,8 +117,7 @@
                             {{ form_widget(editProject.startedAt) }}
                         </div>
                         <div class="row text-secondary text-sm-left">
-                            {{ form_label(editProject.endedAt) }}<input type="checkbox" style="margin-left: 5px">
-{#                            TODO script for the checkbox#}
+                            {{ form_label(editProject.endedAt) }}<input type="checkbox" id="endDateModifier-checkbox" style="margin-left: 5px">
                             {{ form_widget(editProject.endedAt) }}
                         </div>
                         <div class="row text-secondary">
@@ -118,12 +134,13 @@
         </div>
 
 
-{#    TODO Display files & allow edition#}
-        <div id="file-collection" class="border border-dark rounded-top row border-dark">
+{#    TODO Files allow edition#}
+        <div id="file-collection" class="border border-dark rounded-top row border-dark" data-prototype="{{ form_widget(editProject.newFiles.vars.prototype)|e('html_attr')}}">
             {% set i = 0 %}
             {% for file in project.files %}
-                <div class="card shadow-sm bg-light mb-3" style="max-width: 10em;">
+                <div class="card shadow-sm bg-light mb-3" style="max-width: 10em;" >
                     <div class="file-display" style="min-height: 10em; max-width: 100%">
+
                         {% if file.fileMineType == 'image/jpeg'
                             or file.fileMineType == 'image/jpg'
                             or file.fileMineType == 'image/png' %}

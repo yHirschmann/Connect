@@ -56,6 +56,7 @@ class ContactController extends AbstractController
      * @param $id
      * @param ValidatorInterface $validator
      * @param Request $request
+     * @throws
      * @return Response
      */
     public function editContactAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
