@@ -5,5 +5,61 @@
 {% endblock %}
 
 {% block content %}
-
+    <div class="container">
+        {% for message in app.flashes('added') %}
+            <div class="flash-notice alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('warning') %}
+            <div class="flash-notice alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+        {{ form_start(form) }}
+        <div class="col">
+            <div class="row">
+                Nom : {{ user.FirstName }}
+            </div>
+            <div class="row">
+                Prénom : {{ user.LastName }}
+            </div>
+            <div class="row">
+                Email : {{ user.email }}
+            </div>
+            <div class="row">
+                {{ form_errors(form.email) }}
+                Changer d'email : {{ form_widget(form.email, {attr: { value : "" }}) }}
+            </div>
+            <div class="row">
+                Numéro de téléphone : {{ user.phoneNumber }}
+            </div>
+            <div class="row">
+                {{ form_errors(form.phone_number) }}
+                Changer de numéro : {{ form_widget(form.phone_number, {attr: { value : "" }}) }}
+            </div>
+            <div class="row">
+                {{ form_errors(form.password) }}
+                Changer de mot de passe :
+                    {{ form_widget(form.password) }}
+            </div>
+            <div class="row">
+{#                TODO create script : on password change => if(password.value != null) => confirmePassword.require #}
+                {{ form_errors(form.confirmPassword) }}
+                Confirmez le mot de passe:
+                    {{ form_widget(form.confirmPassword) }}
+            </div>
+        </div>
+        <a class="btn btn-dark" href="{{ path('_index') }}">
+            Retour
+        </a>
+        <input type="submit" class="btn btn-dark" value="Confirmer" />
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

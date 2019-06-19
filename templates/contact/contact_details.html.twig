@@ -9,7 +9,7 @@
         <h2 id="contact-name" class="text-left">
             {{ contact.lastName }} {{ contact.firstName }}
         </h2>
-        {% if not is_granted('ROLE_GUEST') %}
+        {% if is_granted('ROLE_REGULAR') %}
             <div style="margin-left: auto">
                 <a id="project-edit-btn" type="button" href="{{ path('_editContact', {'id': contact.id }) }}" class="btn btn-dark">
                     Editer

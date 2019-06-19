@@ -25,7 +25,7 @@ class AddProjectController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function addProject(ValidatorInterface $validator, Request $request){
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        $this->denyAccessUnlessGranted('ROLE_REGULAR');
         $entityManager = $this->getDoctrine()->getManager();
         $project = new Project();
 
@@ -89,7 +89,7 @@ class AddProjectController extends AbstractController
         foreach ($project->getContacts() as $contact) {
             $companie = $contact->getCompanie();
             $projectCompanie = ProjectCompanies::creat($project, $companie);
-            if($project->existingProjectCompanieCriteria($projectCompanie->getCompanies())->isEmpty()){
+            if($project->getMatchingExistingCompanies($projectCompanie->getCompanies())->isEmpty()){
                 $project->addCompany($projectCompanie);
                 $entityManager->persist($projectCompanie);
             }

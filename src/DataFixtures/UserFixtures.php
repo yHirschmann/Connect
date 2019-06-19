@@ -37,7 +37,7 @@ class UserFixtures
             'a@a.a'
         );
         $user->setRoles(
-            ['ROLE_USER']
+            ['ROLE_USER','ROLE_REGULAR']
         );
         $manager->persist($user);
         return $user;
@@ -62,7 +62,7 @@ class UserFixtures
             'jpseclairage@gmail.com'
         );
         $user->setRoles(
-            ['ROLE_USER']
+            ['ROLE_USER','ROLE_REGULAR']
         );
         $manager->persist($user);
     }
@@ -86,7 +86,7 @@ class UserFixtures
             'guest@a.a'
         );
         $user->setRoles(
-            ['ROLE_GUEST', 'ROLE_USER']
+            ['ROLE_USER']
         );
 
         $manager->persist($user);
@@ -111,7 +111,7 @@ class UserFixtures
             'admin@a.a'
         );
         $user->setRoles(
-            ['ROLE_ADMIN', 'ROLE_USER']
+            ['ROLE_ADMIN','ROLE_USER','ROLE_REGULAR']
         );
 
         $manager->persist($user);

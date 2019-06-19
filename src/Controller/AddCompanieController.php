@@ -31,7 +31,7 @@ class AddCompanieController extends AbstractController
      * @return Response
      */
     public function addCompanie(ValidatorInterface $validator,Request $request){
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        $this->denyAccessUnlessGranted('ROLE_REGULAR', null, 'Vous n\'avez pas accés à ce contenue');
         $entityManager = $this->getDoctrine()->getManager();
         $companie = new Companies();
 

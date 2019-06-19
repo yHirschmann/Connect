@@ -1,7 +1,5 @@
 TODO setup basket for deleted items
 
-TODO Create the edition pages for : contact.
-
 TODO Implement Search function for searchBar
 
 TODO BackOffice

@@ -10,175 +10,175 @@
 {% endblock %}
 
 {% block content %}
-    {{  form_start(editProject) }}
-        <div class="row">
-            <div class="col">
-                {{ form_label(editProject.projectName) }}
-                {{ form_widget(editProject.projectName) }}
+    {% if is_granted('ROLE_REGULAR') %}
+        {{  form_start(editProject) }}
+            <div class="row">
                 <div class="col">
-                    <div class="row">
-                        {{ form_label(editProject.adress) }}
-                        {{ form_widget(editProject.adress) }}
-                        {{ form_widget(editProject.postalCode) }}
-                        {{ form_widget(editProject.city) }}
+                    {{ form_label(editProject.projectName) }}
+                    {{ form_widget(editProject.projectName) }}
+                    <div class="col">
+                        <div class="row">
+                            {{ form_label(editProject.adress) }}
+                            {{ form_widget(editProject.adress) }}
+                            {{ form_widget(editProject.postalCode) }}
+                            {{ form_widget(editProject.city) }}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="project-companie-colum" class="col">
-                <div class="text-left">
-                    Entreprises :
-                    <table data-toggle="table">
-                        <thead class="thead-dark">
+                <div id="project-companie-colum" class="col">
+                    <div class="text-left">
+                        Entreprises :
+                        <table data-toggle="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" data-sortable="true">Entreprise</th>
+                                    <th scope="col">Supprimer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in editProject.companies.vars.form.children %}
+                                    <tr>
+                                        <td>
+                                            {{ form_widget(i.children.companies) }}
+                                        </td>
+                                        <td>
+                                            <input class="btn btn-dark remove-companie-input" type="button" value="Supprimer">
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <table data-toggle="table">
+                            <tbody class="new-companies-table" data-prototype="{{ form_widget(editProject.newCompanies.vars.prototype)|e('html_attr')}}">
+                            </tbody>
+                            <tfoot>
+                                <tr class="text-center">
+                                    <td class="add-companie-btn"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="project-contact-column" class="col">
+                    <div class="text-left">
+                        Contacts :
+                        <table data-toggle="table">
+                            <thead class="thead-dark">
                             <tr>
+                                <th scope="col" data-sortable="true">Contact</th>
                                 <th scope="col" data-sortable="true">Entreprise</th>
                                 <th scope="col">Supprimer</th>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in editProject.companies.vars.form.children %}
-                                <tr>
-                                    <td>
-                                        {{ form_widget(i.children.companies) }}
-                                    </td>
-                                    <td>
-                                        <input class="btn btn-dark remove-companie-input" type="button" value="Supprimer">
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <table data-toggle="table">
-                        <tbody class="new-companies-table" data-prototype="{{ form_widget(editProject.newCompanies.vars.prototype)|e('html_attr')}}">
-                        </tbody>
-                        <tfoot>
+                            </thead>
+                            <tbody>
+                                {% set i = 0 %}
+                                {% for contact in project.contacts %}
+                                    <tr>
+                                        <td>
+                                            {{ form_widget(editProject.contacts['' ~ i], {'attr' : {'readonly' : 'readonly'} }) }}
+                                        </td>
+                                        <td>
+                                            {{ contact.companie.companieName }}
+                                        </td>
+                                        <td>
+                                            <input class="btn btn-dark remove-contact-input" type="button" value="Supprimer">
+                                        </td>
+                                    </tr>
+                                    {% set i= i + 1 %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <table data-toggle="table">
+                            <tbody class="new-contact-table" data-prototype="{{ form_widget(editProject.newContacts.vars.prototype)|e('html_attr')}}">
+                            </tbody>
+                            <tfoot>
                             <tr class="text-center">
-                                <td class="add-companie-btn"></td>
+                                <td class="add-contact-btn"></td>
                             </tr>
-                        </tfoot>
-                    </table>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
-            <div id="project-contact-column" class="col">
-                <div class="text-left">
-                    Contacts :
-                    <table data-toggle="table">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th scope="col" data-sortable="true">Contact</th>
-                            <th scope="col" data-sortable="true">Entreprise</th>
-                            <th scope="col">Supprimer</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {% set i = 0 %}
-                            {% for contact in project.contacts %}
-                                <tr>
-                                    <td>
-                                        {{ form_widget(editProject.contacts['' ~ i], {'attr' : {'readonly' : 'readonly'} }) }}
-                                    </td>
-                                    <td>
-                                        {{ contact.companie.companieName }}
-                                    </td>
-                                    <td>
-                                        <input class="btn btn-dark remove-contact-input" type="button" value="Supprimer">
-                                    </td>
-                                </tr>
-                                {% set i= i + 1 %}
+                <div id="project-specificities" class="col">
+                    <div class="card mb-4 shadow-sm float-right">
+                        <div id="project-img-input-container">
+                            {% for file in project.files if file.IsProjectImage %}
+                                {{ form_widget(editProject.projectImage.vars.prototype, {'attr': {'class': 'project-img-container'}}) }}
+                                <label class="project-img-label" for="edit_project_form_imageFile_file">
+                                    <img id="project-img" src="{{ vich_uploader_asset(file, 'file')}}" alt="Photo du projet: {{ file.fileOriginalName}}" x="0" y="0" width="100%" height="100%">
+                                </label>
                             {% endfor %}
-                        </tbody>
-                    </table>
-                    <table data-toggle="table">
-                        <tbody class="new-contact-table" data-prototype="{{ form_widget(editProject.newContacts.vars.prototype)|e('html_attr')}}">
-                        </tbody>
-                        <tfoot>
-                        <tr class="text-center">
-                            <td class="add-contact-btn"></td>
-                        </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-
-            <div id="project-specificities" class="col">
-                <div class="card mb-4 shadow-sm float-right">
-                    <div id="project-img-input-container">
-                        {% for file in project.files if file.IsProjectImage %}
-                            {{ form_widget(editProject.projectImage.vars.prototype, {'attr': {'class': 'project-img-container'}}) }}
-                            <label class="project-img-label" for="edit_project_form_imageFile_file">
-                                <img id="project-img" src="{{ vich_uploader_asset(file, 'file')}}" alt="Photo du projet: {{ file.fileOriginalName}}" x="0" y="0" width="100%" height="100%">
-                            </label>
-                        {% endfor %}
-                    </div>
-                    <div class="card-body text-wrap">
-                        <div class="row text-secondary text-sm-left">
-                            {{ form_label(editProject.startedAt) }}
-                            {{ form_widget(editProject.startedAt) }}
                         </div>
-                        <div class="row text-secondary text-sm-left">
-                            {{ form_label(editProject.endedAt) }}<input type="checkbox" id="endDateModifier-checkbox" style="margin-left: 5px">
-                            {{ form_widget(editProject.endedAt) }}
-                        </div>
-                        <div class="row text-secondary">
-                            {{ form_label(editProject.cost) }}
-                            {{ form_widget(editProject.cost) }}
-                        </div>
-                        <div class="row text-secondary">
-                            {{ form_label(editProject.phase) }}
-                            {{ form_widget(editProject.phase) }}
+                        <div class="card-body text-wrap">
+                            <div class="row text-secondary text-sm-left">
+                                {{ form_label(editProject.startedAt) }}
+                                {{ form_widget(editProject.startedAt) }}
+                            </div>
+                            <div class="row text-secondary text-sm-left">
+                                {{ form_label(editProject.endedAt) }}<input type="checkbox" id="endDateModifier-checkbox" style="margin-left: 5px">
+                                {{ form_widget(editProject.endedAt) }}
+                            </div>
+                            <div class="row text-secondary">
+                                {{ form_label(editProject.cost) }}
+                                {{ form_widget(editProject.cost) }}
+                            </div>
+                            <div class="row text-secondary">
+                                {{ form_label(editProject.phase) }}
+                                {{ form_widget(editProject.phase) }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
 
-{#    TODO Files allow edition#}
-        <div id="file-collection" class="border border-dark rounded-top row border-dark" data-prototype="{{ form_widget(editProject.newFiles.vars.prototype)|e('html_attr')}}">
-            {% set i = 0 %}
-            {% for file in project.files %}
-                <div class="card shadow-sm bg-light mb-3" style="max-width: 10em;" >
-                    <div class="file-display" style="min-height: 10em; max-width: 100%">
+    {#    TODO Files allow edition#}
+            <div id="file-collection" class="border border-dark rounded-top row border-dark" data-prototype="{{ form_widget(editProject.newFiles.vars.prototype)|e('html_attr')}}">
+                {% set i = 0 %}
+                {% for file in project.files %}
+                    <div class="card shadow-sm bg-light mb-3" style="max-width: 10em;" >
+                        <div class="file-display" style="min-height: 10em; max-width: 100%">
 
-                        {% if file.fileMineType == 'image/jpeg'
-                            or file.fileMineType == 'image/jpg'
-                            or file.fileMineType == 'image/png' %}
-                            <img class="img-file card-img-top" src="{{ vich_uploader_asset(file, 'file') }}" alt="{{ file.fileOriginalName }}" width="100%" height="100">
+                            {% if file.fileMineType == 'image/jpeg'
+                                or file.fileMineType == 'image/jpg'
+                                or file.fileMineType == 'image/png' %}
+                                <img class="img-file card-img-top" src="{{ vich_uploader_asset(file, 'file') }}" alt="{{ file.fileOriginalName }}" width="100%" height="100">
 
-                        {% elseif file.fileMineType == 'application/pdf' %}
-                            <img class="img-file card-img-top" src="{{ asset('build/images/site/pdf.png') }}" alt="Image Pdf" width="100%" height="100">
+                            {% elseif file.fileMineType == 'application/pdf' %}
+                                <img class="img-file card-img-top" src="{{ asset('build/images/site/pdf.png') }}" alt="Image Pdf" width="100%" height="100">
 
-                        {% elseif file.fileMineType == 'application/vnd.ms-excel'
-                            or file.fileMineType == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-                            or file.fileMineType == 'application/vnd.oasis.opendocument.spreadsheet' %}
-                            <img class="img-file card-img-top" src="{{ asset('build/images/site/excel.png') }}" alt="Image Excel" width="100%" height="100">
+                            {% elseif file.fileMineType == 'application/vnd.ms-excel'
+                                or file.fileMineType == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                                or file.fileMineType == 'application/vnd.oasis.opendocument.spreadsheet' %}
+                                <img class="img-file card-img-top" src="{{ asset('build/images/site/excel.png') }}" alt="Image Excel" width="100%" height="100">
 
-                        {% else %}
-                            <span data-feather="file-text"></span>
+                            {% else %}
+                                <span data-feather="file-text"></span>
 
-                        {% endif %}
-                    </div>
-                    <div class="card-body text-wrap">
-                        <div class="file-name-link">
-                            {{ form_widget(editProject.files['' ~ i], {'attr': {'hidden' : 'hidden'}}) }}{{ file.fileOriginalName }}
+                            {% endif %}
+                        </div>
+                        <div class="card-body text-wrap">
+                            <div class="file-name-link">
+                                {{ form_widget(editProject.files['' ~ i], {'attr': {'hidden' : 'hidden'}}) }}{{ file.fileOriginalName }}
+                            </div>
+                        </div>
+                        <div class="file-remove-input" style="margin-bottom: 10px">
+                            <input class="btn btn-dark remove-file-input" type="button" value="supprimer">
                         </div>
                     </div>
-                    <div class="file-remove-input" style="margin-bottom: 10px">
-                        <input class="btn btn-dark remove-file-input" type="button" value="supprimer">
-                    </div>
-                </div>
-                {% set i= i + 1 %}
-            {% endfor %}
-        </div>
+                    {% set i= i + 1 %}
+                {% endfor %}
+            </div>
 
-        <a class="btn btn-dark" href="{{ path('_project', {'id': project.id}) }}">
-            Retour
-        </a>
-        {% if not is_granted('ROLE_GUEST') %}
+            <a class="btn btn-dark" href="{{ path('_project', {'id': project.id}) }}">
+                Retour
+            </a>
             <input type="submit" class="btn btn-dark" value="Enregistrer" />
-        {% endif %}
-    {{ form_end(editProject) }}
+        {{ form_end(editProject) }}
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}

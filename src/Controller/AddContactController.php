@@ -28,7 +28,7 @@ class AddContactController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function addContact(ValidatorInterface $validator,Request $request){
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        $this->denyAccessUnlessGranted('ROLE_REGULAR');
         $entityManager = $this->getDoctrine()->getManager();
         $contact = new Employee();
 

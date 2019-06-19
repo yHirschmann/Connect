@@ -4,12 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Employee;
 use App\Entity\Project;
-use App\Entity\ProjectCompanies;
 use App\Entity\ProjectFile;
 use App\Form\Type\EditProjectFormType;
-use App\Form\Type\ProjectCompaniesType;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,7 +59,7 @@ class ProjectController extends AbstractController
      * @throws \Twig_Error_Syntax
      */
     public function editProjectAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        $this->denyAccessUnlessGranted('ROLE_REGULAR');
         $entityManager = $this->getDoctrine()->getManager();
         $doctrine = $this->getDoctrine();
 

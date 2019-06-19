@@ -6,52 +6,51 @@
 
 {% block stylesheets %}
     {{ parent() }}
-{#    {{ encore_entry_link_tags('') }}#}
 {% endblock %}
 
 
 {% block content %}
-    {{ form_start(editCompanie) }}
-        {{ form_label(editCompanie.companie_name) }}
-        {{ form_widget(editCompanie.companie_name) }}
-        {{ form_label(editCompanie.City) }}
-        {{ form_widget(editCompanie.City) }}
-        {{ form_label(editCompanie.Adress) }}
-        {{ form_widget(editCompanie.Adress) }}
-        {{ form_label(editCompanie.postal_code) }}
-        {{ form_widget(editCompanie.postal_code) }}
-        {{ form_label(editCompanie.phone_number) }}
-        {{ form_widget(editCompanie.phone_number) }}
-        {{ form_label(editCompanie.turnover) }}
-        {{ form_widget(editCompanie.turnover) }}
-        {{ form_label(editCompanie.social_reason) }}
-        {{ form_widget(editCompanie.social_reason) }}
-        {{ form_label(editCompanie.type) }}
-        {{ form_widget(editCompanie.type) }}
-        <div class="accordion" id="accordionContact">
-            <div class="card">
-                <div class="card-header" id="headingContact">
-                    <h2 class="mb-0">
-                        <button class="btn" type="button" data-toggle="collapse" data-target="#collapseContact" aria-expanded="false" aria-controls="collapseThree">
-                            Ajouter un domaine d'activité non enregistré.
-                        </button>
-                    </h2>
-                </div>
-                <div id="collapseContact" class="collapse" aria-labelledby="headingContact" data-parent="#accordionContact">
-                    <div class="alert alert-warning"><span>Attention, l'ajout d'un domaine d'activité non enregistré effacera le domaine actuelle de l'entreprise</span></div>
-                    <div class="card-body">
-                        {{ form_widget(editCompanie.unexistingType)}}
+    {% if is_granted('ROLE_REGULAR') %}
+        {{ form_start(editCompanie) }}
+            {{ form_label(editCompanie.companie_name) }}
+            {{ form_widget(editCompanie.companie_name) }}
+            {{ form_label(editCompanie.City) }}
+            {{ form_widget(editCompanie.City) }}
+            {{ form_label(editCompanie.Adress) }}
+            {{ form_widget(editCompanie.Adress) }}
+            {{ form_label(editCompanie.postal_code) }}
+            {{ form_widget(editCompanie.postal_code) }}
+            {{ form_label(editCompanie.phone_number) }}
+            {{ form_widget(editCompanie.phone_number) }}
+            {{ form_label(editCompanie.turnover) }}
+            {{ form_widget(editCompanie.turnover) }}
+            {{ form_label(editCompanie.social_reason) }}
+            {{ form_widget(editCompanie.social_reason) }}
+            {{ form_label(editCompanie.type) }}
+            {{ form_widget(editCompanie.type) }}
+            <div class="accordion" id="accordionContact">
+                <div class="card">
+                    <div class="card-header" id="headingContact">
+                        <h2 class="mb-0">
+                            <button class="btn" type="button" data-toggle="collapse" data-target="#collapseContact" aria-expanded="false" aria-controls="collapseThree">
+                                Ajouter un domaine d'activité non enregistré.
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseContact" class="collapse" aria-labelledby="headingContact" data-parent="#accordionContact">
+                        <div class="alert alert-warning"><span>Attention, l'ajout d'un domaine d'activité non enregistré effacera le domaine actuelle de l'entreprise</span></div>
+                        <div class="card-body">
+                            {{ form_widget(editCompanie.unexistingType)}}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <a class="btn btn-dark" href="{{ path('_companie', {'id': companie.id}) }}">
-            Retour
-        </a>
-        {% if not is_granted('ROLE_GUEST') %}
+            <a class="btn btn-dark" href="{{ path('_companie', {'id': companie.id}) }}">
+                Retour
+            </a>
             <input type="submit" class="btn btn-dark" value="Enregistrer" />
-        {% endif %}
-    {{ form_end(editCompanie) }}
+        {{ form_end(editCompanie) }}
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}

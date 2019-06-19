@@ -10,96 +10,98 @@
 {% endblock %}
 
 {% block content %}
-    {% for message in app.flashes('added') %}
-        <div class="flash-notice alert alert-success alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    {% endfor %}
-    {% for message in app.flashes('existing') %}
-        <div class="flash-notice alert alert-danger alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    {% endfor %}
+    {% if is_granted('ROLE_REGULAR') %}
+        {% for message in app.flashes('added') %}
+            <div class="flash-notice alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('existing') %}
+            <div class="flash-notice alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
 
-    {{  form_start(formProject) }}
-        <div class="row">
-            <div class="col">
-                {{ form_row(formProject.projectName) }}
-                {{ form_errors(formProject.projectName) }}
+        {{  form_start(formProject) }}
+            <div class="row">
+                <div class="col">
+                    {{ form_row(formProject.projectName) }}
+                    {{ form_errors(formProject.projectName) }}
 
-                {{ form_row(formProject.adress) }}
-                {{ form_errors(formProject.adress) }}
+                    {{ form_row(formProject.adress) }}
+                    {{ form_errors(formProject.adress) }}
 
-                {{ form_row(formProject.postalCode) }}
-                {{ form_errors(formProject.postalCode) }}
+                    {{ form_row(formProject.postalCode) }}
+                    {{ form_errors(formProject.postalCode) }}
 
-                {{ form_row(formProject.city) }}
-                {{ form_errors(formProject.city) }}
+                    {{ form_row(formProject.city) }}
+                    {{ form_errors(formProject.city) }}
 
-                {{ form_row(formProject.cost) }}
-                {{ form_errors(formProject.cost) }}
+                    {{ form_row(formProject.cost) }}
+                    {{ form_errors(formProject.cost) }}
 
-                {{ form_row(formProject.startedAt) }}
-                {{ form_errors(formProject.startedAt) }}
-                <div id="endedAt">
-                    {{ form_label(formProject.endedAt) }}
-                    <input id="endedAtCheckbox" type="checkbox">
-                    <label for="endedAtCheckbox">(activer)</label>
-                    {{ form_widget(formProject.endedAt) }}
+                    {{ form_row(formProject.startedAt) }}
+                    {{ form_errors(formProject.startedAt) }}
+                    <div id="endedAt">
+                        {{ form_label(formProject.endedAt) }}
+                        <input id="endedAtCheckbox" type="checkbox">
+                        <label for="endedAtCheckbox">(activer)</label>
+                        {{ form_widget(formProject.endedAt) }}
+                    </div>
+                    {{ form_errors(formProject.endedAt) }}
+                    {{ form_row(formProject.phase) }}
+                    {{ form_errors(formProject.phase) }}
+                    <div id="image-project-holder" data-prototype="{{ form_widget(formProject.file.vars.prototype)|e('html_attr') }}">
+                    </div>
                 </div>
-                {{ form_errors(formProject.endedAt) }}
-                {{ form_row(formProject.phase) }}
-                {{ form_errors(formProject.phase) }}
-                <div id="image-project-holder" data-prototype="{{ form_widget(formProject.file.vars.prototype)|e('html_attr') }}">
+
+                <div class="col-md-2">
+                    <div>Fichiers</div>
+                    <ul class="add-files" data-prototype="{{ form_widget(formProject.files.vars.prototype)|e('html_attr') }}">
+                    </ul>
                 </div>
-            </div>
 
-            <div class="col-md-2">
-                <div>Fichiers</div>
-                <ul class="add-files" data-prototype="{{ form_widget(formProject.files.vars.prototype)|e('html_attr') }}">
-                </ul>
-            </div>
-
-            <div id="companies-list" class="col-md-2">
-                <div>Entreprise</div>
-                <ul class="add-companies" data-prototype="{{ form_widget(formProject.otherCompanies.vars.prototype)|e('html_attr')}}">
-                </ul>
-            </div>
-            <div id="contact-list" class="col-md-2">
-                <div>Contacts</div>
-                <ul class="add-contacts" data-prototype="{{ form_widget(formProject.contacts.vars.prototype)|e }}">
-                </ul>
-                <div class="accordion" id="accordionContact">
-                    <div class="card">
-                        <div class="card-header" id="headingContact">
-                            <h2 class="mb-0">
-                                <button class="btn" type="button" data-toggle="collapse" data-target="#collapseContact" aria-expanded="false" aria-controls="collapseThree">
-                                    Ajouter un contact non enregistré.
-                                </button>
-                            </h2>
-                        </div>
-                        <div id="collapseContact" class="collapse" aria-labelledby="headingContact" data-parent="#accordionContact">
-                            <div class="card-body">
-                                <ul class="add-unexisting-contacts" data-prototype="{{ form_widget(formProject.unexistingContacts.vars.prototype)|e }}">
-                                </ul>
+                <div id="companies-list" class="col-md-2">
+                    <div>Entreprise</div>
+                    <ul class="add-companies" data-prototype="{{ form_widget(formProject.otherCompanies.vars.prototype)|e('html_attr')}}">
+                    </ul>
+                </div>
+                <div id="contact-list" class="col-md-2">
+                    <div>Contacts</div>
+                    <ul class="add-contacts" data-prototype="{{ form_widget(formProject.contacts.vars.prototype)|e }}">
+                    </ul>
+                    <div class="accordion" id="accordionContact">
+                        <div class="card">
+                            <div class="card-header" id="headingContact">
+                                <h2 class="mb-0">
+                                    <button class="btn" type="button" data-toggle="collapse" data-target="#collapseContact" aria-expanded="false" aria-controls="collapseThree">
+                                        Ajouter un contact non enregistré.
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseContact" class="collapse" aria-labelledby="headingContact" data-parent="#accordionContact">
+                                <div class="card-body">
+                                    <ul class="add-unexisting-contacts" data-prototype="{{ form_widget(formProject.unexistingContacts.vars.prototype)|e }}">
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <a class="btn btn-dark" href="{{ path('_index') }}">
-            Retour
-        </a>
-        <input type="submit" class="btn btn-dark" value="Enregistrer" />
-    {{ form_end(formProject) }}
+            <a class="btn btn-dark" href="{{ path('_index') }}">
+                Retour
+            </a>
+            <input type="submit" class="btn btn-dark" value="Enregistrer" />
+        {{ form_end(formProject) }}
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}

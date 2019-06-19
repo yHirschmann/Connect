@@ -60,7 +60,7 @@ class ContactController extends AbstractController
      * @return Response
      */
     public function editContactAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        $this->denyAccessUnlessGranted('ROLE_REGULAR');
         $contact = $this->entityManager->getRepository(Employee::class)->find($id);
 
         $form = $this->createForm(EditContactType::class, $contact);

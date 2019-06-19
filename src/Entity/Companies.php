@@ -73,7 +73,7 @@ class Companies
     private $turnover;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Validator\Type("string")
      * @Validator\Regex("/[A-Za-zÀ-ÿ&]{1,}/")
      */

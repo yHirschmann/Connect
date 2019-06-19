@@ -9,7 +9,7 @@
         <h2 id="companie-name" class="text-left">
             {{ companie.companieName }}
         </h2>
-        {% if not is_granted('ROLE_GUEST') %}
+        {% if is_granted('ROLE_REGULAR') %}
             <div style="margin-left: auto">
                 <a id="project-edit-btn" type="button" href="{{ path('_editCompanie', {'id': companie.id }) }}" class="btn btn-dark">
                     Editer

@@ -62,7 +62,7 @@ class CompanieController extends AbstractController
      * @return Response
      */
     public function editCompanieAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        $this->denyAccessUnlessGranted('ROLE_REGULAR');
         $companie = $this->entityManager->getRepository(Companies::class)->find($id);
 
         $form = $this->createForm(EditCompanieType::class, $companie);
