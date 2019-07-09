@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\ProjectCompaniesRepository;
+use App\Repository\ProjectFileRepository;
 use App\Repository\ProjectRepository;
 use App\Validator\Constraints as CustomValidator;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Validator;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use DateTimeInterface;
@@ -365,8 +367,17 @@ class Project
         return $this->companies->matching($critera);
     }
 
+    public function getMatchingExistingFiles(UploadedFile $file){
+        $critera = ProjectFileRepository::existingProjectFileCritera($file);
+        return $this->files->matching($critera);
+    }
+
     public function getMatchingExistingContacts(Employee $employee){
         $critera = ProjectRepository::existingProjectContactCriteria($employee);
         return $this->contacts->matching($critera);
+    }
+
+    public function getFullAdress(){
+        return $this->adress.' '.$this->postalCode.' '.$this->getCity();
     }
 }

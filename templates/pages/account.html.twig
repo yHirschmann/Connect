@@ -24,36 +24,47 @@
         {% endfor %}
         {{ form_start(form) }}
         <div class="col">
-            <div class="row">
-                Nom : {{ user.FirstName }}
+
+            <div style="padding-bottom: 15px">
+                <div class="row">
+                    Nom : {{ user.FirstName }}
+                </div>
+                <div class="row">
+                    Prénom : {{ user.LastName }}
+                </div>
+                <div class="row">
+                    Email : {{ user.email }}
+                </div>
+                <div class="row">
+                    Numéro de téléphone : {{ user.phoneNumber }}
+                </div>
             </div>
-            <div class="row">
-                Prénom : {{ user.LastName }}
-            </div>
-            <div class="row">
-                Email : {{ user.email }}
-            </div>
-            <div class="row">
-                {{ form_errors(form.email) }}
-                Changer d'email : {{ form_widget(form.email, {attr: { value : "" }}) }}
-            </div>
-            <div class="row">
-                Numéro de téléphone : {{ user.phoneNumber }}
-            </div>
-            <div class="row">
-                {{ form_errors(form.phone_number) }}
-                Changer de numéro : {{ form_widget(form.phone_number, {attr: { value : "" }}) }}
-            </div>
-            <div class="row">
-                {{ form_errors(form.password) }}
-                Changer de mot de passe :
-                    {{ form_widget(form.password) }}
-            </div>
-            <div class="row">
-{#                TODO create script : on password change => if(password.value != null) => confirmePassword.require #}
-                {{ form_errors(form.confirmPassword) }}
-                Confirmez le mot de passe:
-                    {{ form_widget(form.confirmPassword) }}
+
+            <div>
+                <div class="row">
+                    {{ form_errors(form.oldPassword) }}
+                    Mot de passe actuel:
+                    {{ form_widget(form.oldPassword) }}
+                </div>
+                <div class="row">
+                    {{ form_errors(form.email) }}
+                    Changer d'email : {{ form_widget(form.email, {attr: { value : "" }}) }}
+                </div>
+
+                <div class="row">
+                    {{ form_errors(form.phone_number) }}
+                    Changer de numéro : {{ form_widget(form.phone_number, {attr: { value : "" }}) }}
+                </div>
+
+                {{ form_errors(form.password.first) }}
+                <div class="row">
+                    Changer de mot de passe :
+                    {{ form_widget(form.password.first) }}
+                </div>
+                <div class="row">
+                    Confirmez le mot de passe:
+                    {{ form_widget(form.password.second) }}
+                </div>
             </div>
         </div>
         <a class="btn btn-dark" href="{{ path('_index') }}">

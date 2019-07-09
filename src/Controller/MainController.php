@@ -70,20 +70,27 @@ class MainController extends AbstractController
             }
 
             $password = $userEdit['password'];
-            $confirmPassword = $userEdit['confirmPassword'];
-            if($password !== "" && $confirmPassword !== "" && $password === $confirmPassword){
-                $encodedPass = $encoder->encodePassword($user, $password);
+            $oldPassword = $userEdit['oldPassword'];
+            if($password !== ""){
+                $newPassword = $password['first'];
+                if($encoder->isPasswordValid($user, $oldPassword)){
+                    if(!$encoder->isPasswordValid($user, $newPassword)){
+                        $encodedPass = $encoder->encodePassword($user, $newPassword);
+                        $user->setPassword($encodedPass);
+                        $entityManager->persist($user);
+                        $this->addFlash('added','Mot de passe correctement modififé');
 
-                if($encodedPass !== $user->getPassword()){
-                    $user->setPassword($encodedPass);
-//                    $entityManager->persist($user);
-//                    $this->addFlash('added','Mot de passe correctement modififé');
-                }else{
-                    $this->addFlash('warning','Mot de passe identique');
+                    }else{
+                        $this->addFlash('warning','Le nouveau mot de passe doit être different de l\'ancien');
+                    }
                 }
             }
 
-
+            $entityManager->flush();
+            return $this->render('pages/account.html.twig', array(
+                'form'=> $form->createView(),
+                'user' => $user
+            ));
         }
         return $this->render('pages/account.html.twig', array(
             'form'=> $form->createView(),

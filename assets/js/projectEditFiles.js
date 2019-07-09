@@ -30,7 +30,6 @@ function addFileForm($collectionHolder){
     setLabel($newFormLi);
     setDeletBtn($newFormLi);
     $collectionHolder.append($newFormLi);
-    console.log($newFormLi);
     feather.replace();
 }
 
@@ -80,8 +79,13 @@ function setDeletBtn($newFormLi){
     $newFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function (e) {
-        $newFormLi.remove();
-        addFileForm($collectionHolder);
+        console.log();
+        if($newFormLi.is($newFormLi.parent().children().last())){
+            $newFormLi.remove();
+            addFileForm($collectionHolder);
+        }else{
+            $newFormLi.remove();
+        }
     });
 }
 

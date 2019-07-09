@@ -82,4 +82,8 @@ abstract class Person
 
         return $this;
     }
+
+    public function getUserFullName(): ?string {
+        return $this->getFirstName().' '.$this->getLastName();
+    }
 }

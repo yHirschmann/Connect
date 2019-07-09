@@ -1,10 +1,29 @@
 easy_admin:
     site_name: 'Connect'
+    user:
+      display_name: true
+      name_property_path: 'LastName'
+    show:
+      max_results: 20
+    formats:
+      date:     'd/m/Y'
+      time:     'H:i'
+      datetime: 'd/m/Y'
     entities:
-      User:
+        User:
           class: App\Entity\User
           label: 'Utilisateurs'
-          form:
+          list:
+            title: 'Utilisateurs'
+            fields:
+              - { property: 'lastName', label: 'Nom' }
+              - { property: 'firstName', label: 'Prénom' }
+              - { property: 'phoneNumber', label: 'Téléphone' }
+              - 'email'
+              - { property: 'Projects.count', label: 'Projets ajouté' }
+              - { property: 'Companies_added.count', label: 'Entreprises ajouté' }
+              - { property: 'employees_added.count', label: 'Contacts ajouté' }
+          new:
             title: 'Ajouter un Utilisateur'
             fields:
               - { property: 'last_name', type: 'text', label: 'Nom'}
@@ -12,7 +31,64 @@ easy_admin:
               - { property: 'phone_number', type: 'text', label: 'Numéro de téléphone'}
               - { property: 'email', type: 'email', label: 'Email'}
               - { property: 'roles', type: 'collection', label: 'Permitions'}
+          edit:
+            title: 'Modifier un Utilisateur'
+            fields:
+              - { property: 'last_name', type: 'text', label: 'Nom'}
+              - { property: 'first_name', type: 'text', label: 'Prénom'}
+              - { property: 'phone_number', type: 'text', label: 'Numéro de téléphone'}
+              - { property: 'email', type: 'email', label: 'Email'}
+              - { property: 'roles', type: 'collection', label: 'Permitions'}
 
-#     TODO Search how to set password for /admin
-#     TODO Search how to crypt password on adding user passing by the /admin
+        ProjectFile:
+          class: App\Entity\ProjectFile
+          label: 'Fichier'
+          image_base_path: 'project/ressource'
+          list:
+            title: 'Fichier'
+            fields:
+              - { property: 'fileOriginalName', label: 'Nom du fichier' }
+              - { property: 'fileName', label: 'Fichier', type: 'image' }
+              - { property: 'isProjectImage', label: 'Image du Projet', type: 'boolean' }
+              - { property: 'Project.projectName', label: 'Projet' }
+              - { property: 'addedBy.userFullName', label: 'Ajouté par' }
+              - { property: 'updatedAt', label: 'Ajouté le' }
+        Project:
+          class: App\Entity\Project
+          label: 'Projet'
+          list:
+            title: 'Projet'
+            fields:
+              - { property: 'projectName', label: 'Nom du Projet' }
+              - { property: 'fullAdress', label: 'Adresse' }
+              - { property: 'started_at', label: 'Date de début' }
+              - { property: 'ended_at', label: 'Date de fin' }
+              - { property: 'createdBy.userFullName', label: 'Ajouté par' }
+              - { property: 'created_at', label: 'Ajouté le' }
+        Contact:
+          class: App\Entity\Employee
+          label: 'Contact'
+          list:
+            title: 'Contact'
+            fields:
+              - { property: 'lastName', label: 'Nom' }
+              - { property: 'firstName', label: 'Prénom' }
+              - { property: 'phoneNumber', label: 'Téléphone' }
+              - 'email'
+              - { property: 'Companie.companieName', label: 'Entreprise' }
+              - { property: 'position', label: 'Poste' }
+        Companie:
+          class: App\Entity\Companies
+          label: 'Entreprise'
+          list:
+            title: 'Entrepririse'
+            fields:
+              - { property: 'CompanieName', label: 'Nom' }
+              - { property: 'FullAdress', label: 'Adresse' }
+              - { property: 'phoneNumber', label: 'Téléphone' }
+              - { property: 'employees.count', label: 'Effectif' }
+              - { property: 'project.count', label: 'Nombre de projets' }
+
+#     TODO Search how to set password for /admin => account management page ?
+#     TODO Search how to crypt password on adding user passing by the /admin => auto ?
 #     TODO Search how to set ROLE on adding user passing by the /admin

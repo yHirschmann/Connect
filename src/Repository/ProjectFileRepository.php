@@ -4,7 +4,10 @@ namespace App\Repository;
 
 use App\Entity\ProjectFile;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
 /**
  * @method ProjectFile|null find($id, $lockMode = null, $lockVersion = null)
@@ -26,6 +29,14 @@ class ProjectFileRepository extends ServiceEntityRepository
                     ->getResult();
     }
 
+    static public function existingProjectFileCritera(UploadedFile $file): Criteria
+    {
+        return Criteria::create()
+            ->andWhere(
+                Criteria::expr()
+                    ->eq('fileOriginalName', str_replace(' ', '_', $file->getClientOriginalName()))
+            );
+    }
     // /**
     //  * @return ProjectFile[] Returns an array of ProjectFile objects
     //  */

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }}Mot de passe oublié
+{% endblock %}
+
+{% block body %}
+{#    {{ form(form) }}#}
+    <div class="text-center">
+        <div style="width: 100%; max-width: 330px; padding: 15px; margin:10% auto;">
+            {% for message in app.flashes('danger') %}
+                <div class="flash-notice alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            {{  form_start(form) }}
+                {{ form_row(form.UserMail) }}
+                <input class="btn btn-lg btn-dark" value="Envoyer" type="submit" style="margin-top: 10px">
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

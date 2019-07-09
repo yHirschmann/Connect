@@ -11,6 +11,22 @@
 
 {% block content %}
     {# TODO get google map API Key to allow a map request#}
+    {% for message in app.flashes('added') %}
+        <div class="flash-notice alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('existing') %}
+        <div class="flash-notice alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
     <div class="row">
         <div class="col">
             <h2 id="project-title" class="text-left">

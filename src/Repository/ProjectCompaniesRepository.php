@@ -24,8 +24,10 @@ class ProjectCompaniesRepository extends ServiceEntityRepository
     public static function existingProjectCompanieCriteria(Companies $companies): Criteria
     {
         return Criteria::create()
-            ->andWhere(Criteria::expr()
-            ->eq('companies', $companies));
+            ->andWhere(
+                Criteria::expr()
+                    ->eq('companies', $companies)
+            );
     }
 
     // /**

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }}Réinitialiser votre mot de passe
+{% endblock %}
+
+{% block body %}
+    <div class="text-center">
+        <div style="width: 100%; max-width: 330px; padding: 15px; margin:10% auto;">
+            {{  form_start(form) }}
+                {{ form_row(form.password) }}
+                <input class="btn btn-lg btn-dark" value="Envoyer" type="submit" style="margin-top: 10px">
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

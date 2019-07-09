@@ -22,7 +22,7 @@ class AddProjectController extends AbstractController
      * @param ValidatorInterface $validator
      * @param Request $request
      * @return Response
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @throws \Exception
      */
     public function addProject(ValidatorInterface $validator, Request $request){
         $this->denyAccessUnlessGranted('ROLE_REGULAR');
@@ -39,6 +39,7 @@ class AddProjectController extends AbstractController
              */
             $project = $form->getData();
             $project->setCreatedBy($this->getUser());
+
             $project = $this->setProjectCompanies($project, $entityManager);
             $project = $this->setUnexistingContacts($request, $project, $entityManager);
             $project = $this->setProjectImage($request, $project, $entityManager);
@@ -122,10 +123,11 @@ class AddProjectController extends AbstractController
     }
 
     /**
-     * @param Project $project
-     * @param EntityManager $entityManager
-     * @throws
+     * @param $request
+     * @param $project
+     * @param $entityManager
      * @return Project
+     * @throws \Exception
      */
     private function setProjectImage($request, $project, $entityManager):Project {
         $image = $request->files->get('add_project')['file'][0]["file"]["file"];
@@ -147,11 +149,19 @@ class AddProjectController extends AbstractController
      */
     private function setProjectFiles($project, $entityManager){
         $files = $project->getFiles();
+
         /** @var ProjectFile $file */
         foreach($files as $file){
-            $file->setFileOriginalName(str_replace(' ', '_', $file->getFileOriginalName()));
-            $file->setAddedBy($this->getUser());
-            $entityManager->persist($file);
+            $file->setFileOriginalName(str_replace(' ', '_', $file->getFile()->getClientOriginalName()));
+            $existingFile = $entityManager->getRepository(ProjectFile::class)->findOneByFileOriginalName($file->getFileOriginalName());
+
+            if($existingFile == null && $project->getMatchingExistingFiles($file->getFile())->count() == 1){
+                $file->setAddedBy($this->getUser());
+                $entityManager->persist($file);
+            }else{
+                $project->removeFile($file);
+                $this->addFlash('existing','le fichier nommé : '.$file->getFileOriginalName().' existe déjà, doublon suprimé');
+            }
         }
         return $project;
     }

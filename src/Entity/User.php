@@ -73,6 +73,12 @@ class User extends Person implements UserInterface
     protected $email;
 
     /**
+     * @var string for reset user password
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $resetToken;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="createdBy")
      */
     private $projects;
@@ -163,6 +169,21 @@ class User extends Person implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResetToken(): string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
 
         return $this;
     }

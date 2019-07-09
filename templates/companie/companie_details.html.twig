@@ -106,7 +106,6 @@
                             <th scope="col" data-sortable="true">Prénom</th>
                             <th scope="col" data-sortable="true">Téléphone</th>
                             <th scope="col" data-sortable="true">Mail</th>
-                            <th scope="col" data-sortable="true">Entreprise</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -130,11 +129,6 @@
                                     <td scope="col">
                                         <a href="{{ path('_contact', {'id': employee.id}) }}">
                                             {{ employee.email }}
-                                        </a>
-                                    </td>
-                                    <td scope="col">
-                                        <a href="{{ path('_companie', {'id': companie.id}) }}">
-                                            {{ companie.companieName }}
                                         </a>
                                     </td>
                                 </tr>

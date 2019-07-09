@@ -1,3 +1,4 @@
+
 {% extends "base.html.twig" %}
 
 {% block body %}
@@ -7,6 +8,7 @@
         </button>
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">Connect'</a>
         <div class="btn-group" id="search-container">
+{#  Affichage de la barre de recherche #}
             {{ render(controller('App\\Controller\\SearchController::searchBar')) }}
         </div>
         <div class="navbar-nav px-3" id="account-list">
@@ -16,6 +18,7 @@
             <a class="nav-link text-nowrap" id="logout" href="{{ path('app_logout') }}">Déconnexion</a>
         </div>
     </nav>
+{#  Menue latéral gauche #}
     <div class="row">
             <nav class="col-md-2 d-none d-md-block bg-light sidebar" id="sidebar">
                 <div class="sidebar-sticky">
@@ -62,6 +65,7 @@
                 </div>
             </nav>
     </div>
+{#  Partie centrale de la page #}
     <main role="main" class="px-4" id="content">
         <div class="album py-5 text-center">
             {% block content %}
@@ -71,3 +75,4 @@
 {% endblock %}
 {% block footer %}
 {% endblock %}
+

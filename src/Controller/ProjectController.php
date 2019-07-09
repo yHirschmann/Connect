@@ -53,15 +53,13 @@ class ProjectController extends AbstractController
      * @param $id
      * @param ValidatorInterface $validator
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @return Response
+     * @throws \Exception
      */
     public function editProjectAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
         $this->denyAccessUnlessGranted('ROLE_REGULAR');
-        $entityManager = $this->getDoctrine()->getManager();
         $doctrine = $this->getDoctrine();
+        $entityManager = $doctrine->getManager();
 
         $project = $doctrine->getRepository(Project::class)->find($id);
 
@@ -73,9 +71,7 @@ class ProjectController extends AbstractController
         $form = $this->createForm(EditProjectFormType::class, $project);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
-            /**
-             * @var Project $project
-             */
+            /** @var Project $project */
             $project = $form->getData();
             $project->setLastUpdateAt(new DateTime('NOW'));
             $project->setLastUpdateBy($this->getUser());
@@ -87,7 +83,6 @@ class ProjectController extends AbstractController
             }
             $project = $this->setUnexistingContact($request, $project, $entityManager);
             $project = $this->setUnexistingFiles($request, $project, $entityManager);
-
             $entityManager->persist($project);
             $entityManager->flush();
             $this->addFlash('added','Les informations ont bien été enregistré.');
@@ -97,6 +92,12 @@ class ProjectController extends AbstractController
         return $this->render('project/editProject.html.twig', array('project' => $project, 'companies' => $companies, 'editProject' => $form->createView()));
     }
 
+    /**
+     * @param $request
+     * @param $project
+     * @param $entityManager
+     * @return mixed
+     */
     private function setUnexistingContact($request, $project, $entityManager){
         if(isset($request->request->get('edit_project_form')['newContacts'])){
             $unexistingContact = $request->request->get('edit_project_form')['newContacts'];
@@ -112,19 +113,34 @@ class ProjectController extends AbstractController
         return $project;
     }
 
-    private function setUnexistingFiles($request, $project, $entityManager){
+    /**
+     * @todo Check if file isnt already set in database & check if not set 2 times
+     * @param $request
+     * @param Project $project
+     * @param $entityManager
+     * @return mixed
+     * @throws \Exception
+     */
+    private function setUnexistingFiles($request,Project $project, $entityManager){
         if(isset($request->files->get('edit_project_form')['newFiles'])) {
             $files = $request->files->get('edit_project_form')['newFiles'];
 
             foreach ($files as $file) {
                 $file = $file['file']['file'];
+
                 if(!empty($file)){
                     $projectFile = new ProjectFile();
                     $projectFile->setFile($file);
                     $projectFile->setFileOriginalName(str_replace(' ', '_', $file->getClientOriginalName()));
-                    $projectFile->setAddedBy($this->getUser());
-                    $project->addFile($projectFile);
-                    $entityManager->persist($projectFile);
+                    $existingFile = $entityManager->getRepository(ProjectFile::class)->findOneByFileOriginalName($projectFile->getFileOriginalName());
+
+                    if($existingFile == null && $project->getMatchingExistingFiles($projectFile->getFile())->count() == 0){
+                        $projectFile->setAddedBy($this->getUser());
+                        $project->addFile($projectFile);
+                        $entityManager->persist($projectFile);
+                    }else{
+                        $this->addFlash('existing','le fichier nommé : '.$projectFile->getFileOriginalName().' existe déjà, doublon suprimé');
+                    }
                 }
             }
         }

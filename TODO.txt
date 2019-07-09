@@ -6,10 +6,12 @@ TODO BackOffice
 
 TODO Send email when Admin add a new user, then the user enter his password => /connect/create_account
 
-TODO Add accound management section
-
 TODO list of same companie type => one of them will be the companie that get the project (the companie that have worked on the project)
 
-TODO Create function denyAccesIfGranted
-
 TODO Add Google map for Companies // Only displayed if the adress is set
+
+TODO Allow delete project image (and then allow to set an other)
+
+TODO On file add, check if exist in database (must see if 1 file can be for 2 projects)
+
+TODO Save date when contact is linked to a project

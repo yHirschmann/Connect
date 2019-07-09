@@ -123,7 +123,6 @@ class Companies
 
     public function __construct()
     {
-        $this->projects = new ArrayCollection();
         $this->employees = new ArrayCollection();
         $this->project = new ArrayCollection();
     }
@@ -370,4 +369,7 @@ class Companies
         return $this;
     }
 
+    public function getFullAdress(){
+        return $this->getAdress().' '.$this->getPostalCode().' '.$this->getCity();
+    }
 }
