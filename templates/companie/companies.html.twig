@@ -39,7 +39,7 @@
                         <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.Turnover() }}</a>
                     </td>
                     <td scope="col">
-                        <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.Effective() }}</a>
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.employees.count }}</a>
                     </td>
                     <td scope="col">
                         <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.type.label }}</a>
