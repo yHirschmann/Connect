@@ -1,0 +1,19 @@
+easy_admin:
+  site_name: 'Connect'
+
+  user:
+    display_name: true
+    name_property_path: 'LastName'
+
+#  show:
+#    max_results: 20
+
+  formats:
+    date:     'd/m/Y'
+    time:     'H:i'
+    datetime: 'd/m/Y'
+
+  design:
+    form_theme:
+      - '@EasyAdmin/form/bootstrap_4.html.twig'
+      - 'admin/form.html.twig'

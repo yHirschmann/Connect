@@ -47,6 +47,20 @@ function setLabel($newFormLi){
         $label.append('<span data-feather="file-text"></span>');
         feather.replace();
         showFileName($newFormLi);
+        var file = $fileInput.prop('files')[0];
+        var mimeType = file['type'];
+        if( mimeType === 'image/jpeg'|| mimeType === 'image/jpg' || mimeType === 'image/png'){
+            var fileName = file['name'].replace(/ /g, '_');
+            var $checkboxInpt = $('<div class="file-is-ProjectImage"> Image Projet : <input type="checkbox" id="'+fileName+'" class="isImageCheckBox" value="true" name="isImageCheckBox'
+                +fileName+'" ></div>');
+            if($newFormLi.find('.file-is-ProjectImage')){
+                $newFormLi.find('.file-is-ProjectImage').remove();
+                $newFormLi.find('div.file-name-link').after($checkboxInpt);
+            }else{
+                $newFormLi.find('div.file-name-link').after($checkboxInpt);
+            }
+
+        }
     });
 }
 
@@ -79,7 +93,6 @@ function setDeletBtn($newFormLi){
     $newFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function (e) {
-        console.log();
         if($newFormLi.is($newFormLi.parent().children().last())){
             $newFormLi.remove();
             addFileForm($collectionHolder);

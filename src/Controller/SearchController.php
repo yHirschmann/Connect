@@ -21,6 +21,7 @@ class SearchController extends AbstractController
      */
     public function searchAction(Environment $environment){
         $this->denyAccessUnlessGranted('ROLE_USER');
+
         return new Response($environment->render('search/search.html.twig'));
     }
 
@@ -32,7 +33,8 @@ class SearchController extends AbstractController
 
             if($formSearch->isSubmitted() && $formSearch->isValid())
             {
-                return $this->redirectToRoute('_search');
+
+                return $this->redirectToRoute('_search', ['test' => $request->request]);
             }
 
             return $this->render('search/searchBar.html.twig', array(

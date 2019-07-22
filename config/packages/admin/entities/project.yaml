@@ -1,0 +1,14 @@
+easy_admin:
+  entities:
+    Project:
+      class: App\Entity\Project
+      label: 'Projet'
+      list:
+        title: 'Projet'
+        fields:
+          - { property: 'projectName', label: 'Nom du Projet' }
+          - { property: 'fullAdress', label: 'Adresse' }
+          - { property: 'started_at', label: 'Date de début' }
+          - { property: 'ended_at', label: 'Date de fin' }
+          - { property: 'createdBy.userFullName', label: 'Ajouté par' }
+          - { property: 'created_at', label: 'Ajouté le' }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\Type\ForgottenPasswordType;
+use App\Form\Type\RegistrationFormType;
 use App\Form\Type\ResetPasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -114,4 +115,41 @@ class SecurityController extends AbstractController
         }
         return $this->render('security/reset-pswd.html.twig', ['form' => $form->createView()]);
     }
+
+    /**
+     * @Route("creation-compte/{token}", name="_create_account")
+     * @param Request $request
+     * @param string $token
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return Response
+     */
+    public function createAccount(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder){
+        if(substr($token,-13) == '=Registration'){
+            $entityManager = $this->getDoctrine()->getManager();
+            $user = $entityManager->getRepository(User::class)->findOneByResetToken($token);
+
+            $form = $this->createForm(RegistrationFormType::class);
+
+            $form->handleRequest($request);
+            if($user != null){
+                if($form->isSubmitted() && $form->isValid()){
+                    dump($request->request);
+                    /*** @var User $user */
+                    $user->setResetToken(null);
+                    $user->setPassword($passwordEncoder->encodePassword(
+                        $user,
+                        $request->get('registration_form')['password']['first']
+                    ));
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+
+                    $this->addFlash('notice', 'Inscription complété, vous pouvez vous connecter');
+                    return $this->redirectToRoute('app_login');
+                }
+            }
+            return $this->render('security/registration.html.twig', ['form' => $form->createView()]);
+        }
+        return $this->redirectToRoute('app_login');
+    }
+
 }

@@ -1,0 +1,13 @@
+easy_admin:
+  entities:
+    Companie:
+      class: App\Entity\Companies
+      label: 'Entreprise'
+      list:
+        title: 'Entrepririse'
+        fields:
+          - { property: 'CompanieName', label: 'Nom' }
+          - { property: 'FullAdress', label: 'Adresse' }
+          - { property: 'phoneNumber', label: 'Téléphone' }
+          - { property: 'employees.count', label: 'Effectif' }
+          - { property: 'project.count', label: 'Nombre de projets' }

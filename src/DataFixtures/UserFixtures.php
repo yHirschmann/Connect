@@ -39,6 +39,8 @@ class UserFixtures
         $user->setRoles(
             ['ROLE_USER','ROLE_REGULAR']
         );
+        $user->setRegisteredAt(new \DateTime('now'));
+        $user->setIsAllowed(true);
         $manager->persist($user);
         return $user;
     }
@@ -64,6 +66,8 @@ class UserFixtures
         $user->setRoles(
             ['ROLE_USER','ROLE_REGULAR']
         );
+        $user->setIsAllowed(true);
+        $user->setRegisteredAt(new \DateTime('now'));
         $manager->persist($user);
     }
 
@@ -88,7 +92,8 @@ class UserFixtures
         $user->setRoles(
             ['ROLE_USER']
         );
-
+        $user->setRegisteredAt(new \DateTime('now'));
+        $user->setIsAllowed(true);
         $manager->persist($user);
     }
 
@@ -113,7 +118,8 @@ class UserFixtures
         $user->setRoles(
             ['ROLE_ADMIN','ROLE_USER','ROLE_REGULAR']
         );
-
+        $user->setRegisteredAt(new \DateTime('now'));
+        $user->setIsAllowed(true);
         $manager->persist($user);
     }
 }

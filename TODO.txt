@@ -2,15 +2,11 @@ TODO setup basket for deleted items
 
 TODO Implement Search function for searchBar
 
-TODO BackOffice
-
-TODO Send email when Admin add a new user, then the user enter his password => /connect/create_account
-
 TODO list of same companie type => one of them will be the companie that get the project (the companie that have worked on the project)
 
 TODO Add Google map for Companies // Only displayed if the adress is set
 
-TODO Allow delete project image (and then allow to set an other)
+TODO Allow delete project image (and then allow to set an other) in project Add (not edit)
 
 TODO Save date when contact is linked to a project
 

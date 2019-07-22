@@ -113,6 +113,16 @@ class User extends Person implements UserInterface
      */
     private $companies_added;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isAllowed;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $registeredAt;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
@@ -151,7 +161,7 @@ class User extends Person implements UserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles(?array $roles): self
     {
         $this->roles = $roles;
 
@@ -418,6 +428,30 @@ class User extends Person implements UserInterface
                 $companiesAdded->setAddedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsAllowed(): ?bool
+    {
+        return $this->isAllowed;
+    }
+
+    public function setIsAllowed(bool $isAllowed): self
+    {
+        $this->isAllowed = $isAllowed;
+
+        return $this;
+    }
+
+    public function getRegisteredAt(): ?\DateTimeInterface
+    {
+        return $this->registeredAt;
+    }
+
+    public function setRegisteredAt(\DateTimeInterface $registeredAt): self
+    {
+        $this->registeredAt = $registeredAt;
 
         return $this;
     }

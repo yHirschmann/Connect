@@ -1,0 +1,19 @@
+easy_admin:
+  design:
+    menu:
+      - label: Dashboard
+        icon: dashboard
+        route: admin_dashboard
+        default: true
+      - { label: 'Retour au site', url: '/', icon: 'home' ,rel: 'index' }
+      - label: 'Catégories'
+      - { entity: 'User', icon: 'user-o', label: 'Utilisateur' }
+      - { entity: 'Companie', icon: 'industry', label: 'Entreprise'}
+      - { entity: 'Contact', icon: 'user', label: 'Contact'}
+      - { entity: 'Project', icon: 'folder-o', label: 'Projet'}
+
+
+      - label: 'Fichier'
+        children:
+        - { entity: 'ProjectFile', icon: 'file-o', label: 'Fichier lié'}
+        - { entity: 'NonLinkedProjectFile', icon: 'file-o', label: 'Fichier non lié'}

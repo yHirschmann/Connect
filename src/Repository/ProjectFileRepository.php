@@ -7,7 +7,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
 /**
  * @method ProjectFile|null find($id, $lockMode = null, $lockVersion = null)
@@ -27,6 +26,17 @@ class ProjectFileRepository extends ServiceEntityRepository
                     ->andWhere('pf.isProjectImage = :bool')
                     ->getQuery()
                     ->getResult();
+    }
+
+    public function getProjectImageById($projectId){
+        return $this->createQueryBuilder('pf')
+            ->andWhere('pf.project = :id')
+            ->andWhere('pf.isProjectImage = :bool')
+            ->setParameter('id', $projectId)
+            ->setParameter('bool', true)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
     }
 
     static public function existingProjectFileCritera(UploadedFile $file): Criteria

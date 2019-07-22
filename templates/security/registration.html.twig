@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }}Finaliser Inscription
+{% endblock %}
+
+{% block body %}
+    <div class="text-center">
+        <div style="width: 100%; max-width: 330px; padding: 15px; margin:10% auto;">
+            <h1 class="h1">Valider votre inscription</h1>
+
+            {{  form_start(form) }}
+            {{ form_row(form.password) }}
+            <input class="btn btn-lg btn-dark" value="Envoyer" type="submit" style="margin-top: 10px">
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('registration') }}
+{% endblock %}

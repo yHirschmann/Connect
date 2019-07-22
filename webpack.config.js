@@ -31,6 +31,7 @@ Encore
     .addEntry('projectEditCompanies','./assets/js/projectEditCompanies')
     .addEntry('projectEditContacts','./assets/js/projectEditContacts')
     .addEntry('projectEditFiles','./assets/js/projectEditFiles')
+    .addEntry('registration', './assets/js/registration')
 
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app

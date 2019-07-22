@@ -10,14 +10,17 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+
     access_denied_url:
         /login
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+            user_checker: App\Security\UserChecker
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
@@ -38,5 +41,4 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin/, roles: ROLE_ADMIN }
-        #- { path: /home, roles: ROLE_USER }
 

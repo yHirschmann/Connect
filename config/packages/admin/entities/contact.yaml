@@ -1,0 +1,14 @@
+easy_admin:
+  entities:
+    Contact:
+      class: App\Entity\Employee
+      label: 'Contact'
+      list:
+        title: 'Contact'
+        fields:
+          - { property: 'lastName', label: 'Nom' }
+          - { property: 'firstName', label: 'Prénom' }
+          - { property: 'phoneNumber', label: 'Téléphone' }
+          - 'email'
+          - { property: 'Companie.companieName', label: 'Entreprise' }
+          - { property: 'position', label: 'Poste' }

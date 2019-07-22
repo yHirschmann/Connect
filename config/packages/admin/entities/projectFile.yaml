@@ -1,0 +1,25 @@
+easy_admin:
+  entities:
+    NonLinkedProjectFile:
+      class: App\Entity\ProjectFile
+      label: 'Fichier non lié'
+      image_base_path: 'project/ressource'
+      list:
+        title: 'Fichier non lié'
+        dql_filter: "entity.project IS NULL"
+        fields: &fileList
+          1: { property: 'fileOriginalName', label: 'Nom du fichier' }
+          2: { property: 'fileName', label: 'Fichier', type: 'image' }
+          3: { property: 'addedBy.userFullName', label: 'Ajouté par' }
+          4: { property: 'updatedAt', label: 'Ajouté le' }
+    ProjectFile:
+      class: App\Entity\ProjectFile
+      label: 'Fichier'
+      image_base_path: 'project/ressource'
+      list:
+        title: 'Fichier'
+        dql_filter: "entity.project != false"
+        fields:
+          <<: *fileList
+          5: { property: 'isProjectImage', label: 'Image du Projet', type: 'boolean' }
+          6: { property: 'project.projectName', label: 'Projet' }

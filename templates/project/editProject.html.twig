@@ -134,8 +134,6 @@
                 </div>
             </div>
 
-
-    {#    TODO Files allow edition#}
             <div id="file-collection" class="border border-dark rounded-top row border-dark" data-prototype="{{ form_widget(editProject.newFiles.vars.prototype)|e('html_attr')}}">
                 {% set i = 0 %}
                 {% for file in project.files %}
@@ -161,6 +159,13 @@
                             {% endif %}
                         </div>
                         <div class="card-body text-wrap">
+                            <div class="file-is-ProjectImage">
+                                {% if file.fileMineType == 'image/jpeg'
+                                    or file.fileMineType == 'image/jpg'
+                                    or file.fileMineType == 'image/png'%}
+                                Image Projet : <input type="checkbox" id="{{ file.id }}" class="isImageCheckBox" value="true" name="isImageCheckBox{{ file.id }}" {% if file.isProjectImage %} checked {% endif %}>
+                                {% endif %}
+                            </div>
                             <div class="file-name-link">
                                 {{ form_widget(editProject.files['' ~ i], {'attr': {'hidden' : 'hidden'}}) }}{{ file.fileOriginalName }}
                             </div>

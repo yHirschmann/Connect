@@ -1,0 +1,1 @@
+$('#registration_form_password_first').popover();
