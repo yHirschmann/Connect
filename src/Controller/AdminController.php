@@ -50,6 +50,7 @@ class AdminController extends BaseAdminController
             $user->setFirstName($userValues['first_name']);
             $user->setLastName($userValues['last_name']);
             $user->setPhoneNumber($userValues['phone_number']);
+            $user->setRegisteredAt(new \DateTime('now'));
             $user->setIsAllowed(true);
             switch ($role){
                 case 0:
@@ -73,9 +74,7 @@ class AdminController extends BaseAdminController
             $user->setResetToken($token);
 
             $url = $this->generateUrl('_create_account', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
-            $transporter = (new \Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl'))
-                ->setUsername('hirschmann.yann.bts.sio@gmail.com')
-                ->setPassword('Glgtlmde8a9');
+            $transporter = (new \Swift_SmtpTransport($_ENV['MAILER_URL']));
 
             $mailer = new \Swift_Mailer($transporter);
 

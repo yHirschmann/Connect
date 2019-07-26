@@ -2,6 +2,7 @@ easy_admin:
   entities:
     NonLinkedProjectFile:
       class: App\Entity\ProjectFile
+      disabled_actions: ['edit','new']
       label: 'Fichier non lié'
       image_base_path: 'project/ressource'
       list:
@@ -14,6 +15,7 @@ easy_admin:
           4: { property: 'updatedAt', label: 'Ajouté le' }
     ProjectFile:
       class: App\Entity\ProjectFile
+      disabled_actions: ['edit','new']
       label: 'Fichier'
       image_base_path: 'project/ressource'
       list:

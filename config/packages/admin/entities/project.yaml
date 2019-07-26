@@ -2,6 +2,7 @@ easy_admin:
   entities:
     Project:
       class: App\Entity\Project
+      disabled_actions: ['edit','new']
       label: 'Projet'
       list:
         title: 'Projet'

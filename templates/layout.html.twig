@@ -11,7 +11,12 @@
 {#  Affichage de la barre de recherche #}
             {{ render(controller('App\\Controller\\SearchController::searchBar')) }}
         </div>
-        <div class="navbar-nav px-3" id="account-list">
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="navbar-nav px-3" id="account-list">
+                <a class="nav-link text-nowrap" href="{{ path('admin_dashboard') }}" style="padding-top: 13px;">Administration</a>
+            </div>
+        {% endif %}
+        <div class="navbar-nav px-3" {% if not is_granted('ROLE_ADMIN') %}id="account-list" {% endif %}>
             <a class="nav-link text-nowrap" href="{{ path('_account') }}" style="padding-top: 13px;">Mon compte</a>
         </div>
         <div class="navbar-nav px-3">
