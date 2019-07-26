@@ -41,4 +41,7 @@ class SearchController extends AbstractController
                 'formSearch' => $formSearch->createView(),
             ));
     }
+
+    //TODO Implement Search function for searchBar
+    //TODO for search : need to make function for each field of the database
 }

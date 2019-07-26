@@ -135,6 +135,7 @@ class AddProjectController extends AbstractController
             $projectImage = new ProjectFile();
             $projectImage->setFile($image);
             $projectImage->setIsProjectImage(true);
+            $projectImage->setAddedBy($this->getUser());
             $project->addFile($projectImage);
             $entityManager->persist($projectImage);
         }
@@ -152,15 +153,17 @@ class AddProjectController extends AbstractController
 
         /** @var ProjectFile $file */
         foreach($files as $file){
-            $file->setFileOriginalName(str_replace(' ', '_', $file->getFile()->getClientOriginalName()));
-            $existingFile = $entityManager->getRepository(ProjectFile::class)->findOneByFileOriginalName($file->getFileOriginalName());
+            if($file->getFileOriginalName() == null){
+                $file->setFileOriginalName(str_replace(' ', '_', $file->getFile()->getClientOriginalName()));
+                $existingFile = $entityManager->getRepository(ProjectFile::class)->findOneByFileOriginalName($file->getFileOriginalName());
 
-            if($existingFile == null && $project->getMatchingExistingFiles($file->getFile())->count() == 1){
-                $file->setAddedBy($this->getUser());
-                $entityManager->persist($file);
-            }else{
-                $project->removeFile($file);
-                $this->addFlash('existing','le fichier nommé : '.$file->getFileOriginalName().' existe déjà, doublon suprimé');
+                if($existingFile == null && $project->getMatchingExistingFiles($file->getFile())->count() == 1){
+                    $file->setAddedBy($this->getUser());
+                    $entityManager->persist($file);
+                }else{
+                    $project->removeFile($file);
+                    $this->addFlash('existing','le fichier nommé : '.$file->getFileOriginalName().' existe déjà, doublon suprimé');
+                }
             }
         }
         return $project;

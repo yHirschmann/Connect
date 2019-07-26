@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 
+use App\Entity\Companies;
+use App\Entity\Employee;
+use App\Entity\Project;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController as BaseAdminController;
@@ -28,8 +31,11 @@ class AdminController extends BaseAdminController
      */
     public function index()
     {
+        $companies = $this->getLatestCompanies();
+        $projects = $this->getLatestProjects();
+        $employees = $this->getLatestEmployees();
         return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
+            'companies' => $companies, 'projects' => $projects, 'employees' => $employees
         ]);
     }
 
@@ -44,6 +50,7 @@ class AdminController extends BaseAdminController
             $user->setFirstName($userValues['first_name']);
             $user->setLastName($userValues['last_name']);
             $user->setPhoneNumber($userValues['phone_number']);
+            $user->setIsAllowed(true);
             switch ($role){
                 case 0:
                     $user->setRoles(['ROLE_USER']);
@@ -86,5 +93,17 @@ class AdminController extends BaseAdminController
             $mailer->send($message);
         }
         return $user;
+    }
+
+    private function getLatestCompanies(){
+        return $this->getDoctrine()->getRepository(Companies::class)->createQueryBuilder('c')->orderBy('c.added_at', 'DESC')->setMaxResults(5)->getQuery()->execute();
+    }
+
+    private function getLatestProjects(){
+        return $this->getDoctrine()->getRepository(Project::class)->createQueryBuilder('p')->orderBy('p.created_at', 'DESC')->setMaxResults(5)->getQuery()->execute();
+    }
+
+    private function getLatestEmployees(){
+        return $this->getDoctrine()->getRepository(Employee::class)->createQueryBuilder('e')->orderBy('e.added_at',  'DESC')->setMaxResults(5)->getQuery()->execute();
     }
 }

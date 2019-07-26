@@ -1,6 +1,2 @@
 imports:
   - { resource: admin/ }
-
-#     TODO Search how to set password for /admin => account management page ?
-#     TODO Search how to crypt password on adding user passing by the /admin => auto ?
-#     TODO Search how to set ROLE on adding user passing by the /admin

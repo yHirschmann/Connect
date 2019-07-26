@@ -5,8 +5,18 @@
 {% endblock %}
 
 {% block content %}
-    <div id="companies-title" class="text-left">
-        <h2>Entreprises</h2>
+    <div class="col">
+        <div id="companies-title" class="text-left">
+            <h2>Entreprises</h2>
+        </div>
+    </div>
+    <div class="col text-right">
+        <a class="btn btn-dark" href="{{ path('_index') }}">
+            Retour
+        </a>
+        <a class="btn btn-dark" href="{{ path('_addCompanie') }}">
+            Ajouter
+        </a>
     </div>
     <table data-toggle="table" data-search="true">
         <thead class="thead-dark">

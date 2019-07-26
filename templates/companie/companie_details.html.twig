@@ -20,15 +20,16 @@
     <div id="companie-info" class="row border border-secondary rounded" style="margin-bottom: 20px; padding: 5px;">
         <div class="col">
             <div class="row">
-               Adresse: {{ companie.adress }} {{ companie.postalCode }} {{ companie.city }}
+                Adresse: {{ companie.adress }} {{ companie.postalCode }}
+            </div>
+            <div class="row">
+                Ville : <span style="margin-left: auto;margin-right: 45%"> {{ companie.city }}</span>
             </div>
             <div class="row">
                 {% if not companie.phoneNumber == null %}
-                    Numéro de Téléphone: {{ companie.phoneNumber }}
+                    Numéro de Téléphone: <span style="margin-left: auto;margin-right: 45%">{{ companie.phoneNumber }}</span>
                 {% endif %}
             </div>
-        </div>
-        <div class="col">
             <div class="row">
                 Raison Social: <span style="margin-left: auto;margin-right: 45%">{{ companie.socialReason }}</span>
             </div>
@@ -39,15 +40,20 @@
                 Domaine d'activité: <span style="margin-left: auto;margin-right: 45%">{{ companie.type.label }}</span>
             </div>
         </div>
+        {% if not companie.lastUpdateAt == null %}
+            <div class="col">
+                <div class="row">
+                    Dernière mise à jour : <span style="margin-left: auto;margin-right: 45%">{{ companie.lastUpdateAt | date('d-m-Y') }}</span>
+                </div>
+                <div class="row">
+                    Mise à jour par : <span style="margin-left: auto;margin-right: 45%">{{ companie.lastUpdateBy.firstName }} {{ companie.lastUpdateBy.lastName }}</span>
+                </div>
+            </div>
+        {% endif %}
         <div class="col">
-            {% if not companie.lastUpdateAt == null %}
-            <div class="row">
-                Dernière mise à jour : <span style="margin-left: auto;margin-right: 45%">{{ companie.lastUpdateAt | date('d-m-Y') }}</span>
-            </div>
-            <div class="row">
-                Mise à jour par : <span style="margin-left: auto;margin-right: 45%">{{ companie.lastUpdateBy.firstName }} {{ companie.lastUpdateBy.lastName }}</span>
-            </div>
-            {% endif %}
+{#            TODO Add google maps for companies#}
+            <iframe src="https://www.google.com/maps/embed/v1/place?q=15%20Rue%20du%20Mar%C3%A9chal%20Lefebvre%2C%2067100%20Strasbourg"
+                    width="300" height="300" frameborder="0" class="border border-dark rounded" allowfullscreen></iframe>
         </div>
     </div>
     <div id="companie-links" class="row border border-secondary rounded" style="margin-top: 20px;padding: 5px">
@@ -69,24 +75,16 @@
                         {% for project in companie.project %}
                             <tr>
                                 <td scope="col">
-                                    <a href="{{ path('_project', {'id': project.id}) }}">
-                                        {{ project.project.projectName }}
-                                    </a>
+                                    <a href="{{ path('_project', {'id': project.id}) }}"> {{ project.project.projectName }} </a>
                                 </td>
                                 <td scope="col">
-                                    <a href="{{ path('_project', {'id': project.id }) }}">
-                                        {{ project.project.City }}
-                                    </a>
+                                    <a href="{{ path('_project', {'id': project.id }) }}"> {{ project.project.City }} </a>
                                 </td>
                                 <td scope="col">
-                                    <a href="{{ path('_project', {'id': project.id }) }}">
-                                        {{ project.project.Adress }}
-                                    </a>
+                                    <a href="{{ path('_project', {'id': project.id }) }}"> {{ project.project.Adress }} </a>
                                 </td>
                                 <td scope="col">
-                                    <a href="{{ path('_project', {'id': project.id}) }}">
-                                        {{ project.project.StartedAt|date("d/m/Y") }}
-                                    </a>
+                                    <a href="{{ path('_project', {'id': project.id}) }}"> {{ project.project.StartedAt|date("d/m/Y") }} </a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -112,24 +110,16 @@
                         {% for employee in companie.employees %}
                                 <tr>
                                     <td scope="col">
-                                        <a href="{{ path('_contact', {'id': employee.id}) }}">
-                                            {{ employee.lastName }}
-                                        </a>
+                                        <a href="{{ path('_contact', {'id': employee.id}) }}"> {{ employee.lastName }} </a>
                                     </td>
                                     <td scope="col">
-                                        <a href="{{ path('_contact', {'id': employee.id}) }}">
-                                            {{ employee.firstName }}
-                                        </a>
+                                        <a href="{{ path('_contact', {'id': employee.id}) }}"> {{ employee.firstName }} </a>
                                     </td>
                                     <td scope="col">
-                                        <a href="{{ path('_contact', {'id': employee.id}) }}">
-                                            {{ employee.phoneNumber}}
-                                        </a>
+                                        <a href="{{ path('_contact', {'id': employee.id}) }}"> {{ employee.phoneNumber}} </a>
                                     </td>
                                     <td scope="col">
-                                        <a href="{{ path('_contact', {'id': employee.id}) }}">
-                                            {{ employee.email }}
-                                        </a>
+                                        <a href="{{ path('_contact', {'id': employee.id}) }}"> {{ employee.email }} </a>
                                     </td>
                                 </tr>
                         {% endfor %}

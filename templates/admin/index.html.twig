@@ -1,10 +1,89 @@
-{% extends '@EasyAdmin/default/layout.html.twig' %}
+{% extends '@!EasyAdmin/default/layout.html.twig' %}
 
 {% block page_title %}
     Connect' Admin
 {% endblock %}
 
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.css">
+{% endblock %}
+
 {% block main %}
-    Dashboard
+    <div class="col">
+        <h3>Contact</h3>
+        <table data-toggle="table" data-search="true">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col" data-sortable="true">Nom</th>
+                <th scope="col" data-sortable="true">Prénom</th>
+                <th scope="col" data-sortable="true">Entreprise</th>
+                <th scope="col" data-sortable="true">Date d'ajout</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for employee in employees %}
+                <tr>
+                    <td scope="col"> {{ employee.lastName }} </td>
+                    <td scope="col"> {{ employee.firstName }} </td>
+                    <td scope="col"> {{ employee.companie.companieName }} </td>
+                    <td scope="col"> {{ employee.addedAt|date("d/m/Y") }} </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col" style="padding-top: 50px">
+        <h3>Entreprise</h3>
+        <table data-toggle="table" data-search="true">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col" data-sortable="true">Nom de l'entreprise</th>
+                <th scope="col" data-sortable="true">Ville</th>
+                <th scope="col" data-sortable="true">Activité</th>
+                <th scope="col" data-sortable="true">Date d'ajout</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for companie in companies %}
+                <tr>
+                    <td scope="col"> {{ companie.companieName }} </td>
+                    <td scope="col"> {{ companie.type.label }} </td>
+                    <td scope="col"> {{ companie.city }} </td>
+                    <td scope="col"> {{ companie.addedAt|date("d/m/Y") }} </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col" style="padding-top: 50px">
+        <h3>Projet</h3>
+        <table data-toggle="table" data-search="true">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col" data-sortable="true">Nom du projet</th>
+                <th scope="col" data-sortable="true">Ville</th>
+                <th scope="col" data-sortable="true">Date de début</th>
+                <th scope="col" data-sortable="true">Date d'ajout</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for project in projects %}
+                <tr>
+                    <td scope="col"> {{ project.projectName }} </td>
+                    <td scope="col"> {{ project.city }} </td>
+                    <td scope="col"> {{ project.startedAt|date("d/m/Y") }}</td>
+                    <td scope="col"> {{ project.createdAt|date("d/m/Y") }} </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block body_javascript %}
+    <script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
 {% endblock %}
 

@@ -5,46 +5,46 @@
 {% endblock %}
 
 {% block content %}
-    <div id="contacts-title" class="text-left">
-        <h2>Contacts</h2>
+    <div class="col">
+        <div id="contacts-title" class="text-left">
+            <h2>Contacts</h2>
+        </div>
+    </div>
+    <div class="col text-right">
+        <a class="btn btn-dark" href="{{ path('_index') }}">
+            Retour
+        </a>
+        <a class="btn btn-dark" href="{{ path('_addContact') }}">
+            Ajouter
+        </a>
     </div>
     <table data-toggle="table" data-search="true">
-    <thead class="thead-dark">
-    <tr class="bg-dark text-light">
-        <th scope="col" data-sortable="true">Nom</th>
-        <th scope="col" data-sortable="true">Prénom</th>
-        <th scope="col" data-sortable="true">Numéro de téléphone</th>
-        <th scope="col" data-sortable="true">Email</th>
-        <th scope="col" data-sortable="true">Entreprise</th>
-    </tr>
-    </thead>
+        <thead class="thead-dark">
+            <tr class="bg-dark text-light">
+                <th scope="col" data-sortable="true">Nom</th>
+                <th scope="col" data-sortable="true">Prénom</th>
+                <th scope="col" data-sortable="true">Numéro de téléphone</th>
+                <th scope="col" data-sortable="true">Email</th>
+                <th scope="col" data-sortable="true">Entreprise</th>
+            </tr>
+        </thead>
     <tbody>
     {% for contact in contacts %}
         <tr>
             <td scope="col">
-                <a href="{{ path('_contact', {'id': contact.Id}) }}">
-                    {{ contact.lastName }}
-                </a>
+                <a href="{{ path('_contact', {'id': contact.Id}) }}"> {{ contact.lastName }} </a>
             </td>
             <td scope="col">
-                <a href="{{ path('_contact', {'id': contact.Id}) }}">
-                    {{ contact.firstName }}
-                </a>
+                <a href="{{ path('_contact', {'id': contact.Id}) }}"> {{ contact.firstName }} </a>
             </td>
             <td scope="col">
-                <a href="{{ path('_contact', {'id': contact.Id}) }}">
-                    {{ contact.phoneNumber }}
-                </a>
+                <a href="{{ path('_contact', {'id': contact.Id}) }}"> {{ contact.phoneNumber }} </a>
             </td>
             <td scope="col">
-                <a href="{{ path('_contact', {'id': contact.Id}) }}">
-                    {{ contact.email }}
-                </a>
+                <a href="{{ path('_contact', {'id': contact.Id}) }}"> {{ contact.email }} </a>
             </td>
             <td scope="col">
-                <a href="{{ path('_companie', {'id': contact.companie.Id}) }}">
-                    {{ contact.companie.companieName }}
-                </a>
+                <a href="{{ path('_companie', {'id': contact.companie.Id}) }}"> {{ contact.companie.companieName }} </a>
             </td>
         </tr>
     {% endfor %}

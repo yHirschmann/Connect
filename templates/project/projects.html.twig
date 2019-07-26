@@ -7,6 +7,19 @@
 {% block content %}
     {% set i, init = 0, false %}
     <div class="row">
+        <div class="col text-left">
+            <h2>Projets</h2>
+        </div>
+        <div class="col text-right">
+            <a class="btn btn-dark" href="{{ path('_index') }}">
+                Retour
+            </a>
+            <a class="btn btn-dark" href="{{ path('_addProject') }}">
+                Ajouter
+            </a>
+        </div>
+    </div>
+    <div class="row">
         {% for project in projects %}
             <a class="col-md-4" href="{{ path('_project', {'id': project.getId}) }}" style="margin-left: 15px;margin-right: 15px;max-width: 30%">
                 <div class="card mb-4 shadow-sm">

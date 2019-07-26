@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    {# TODO get google map API Key to allow a map request#}
+{#  TODO get google map API Key to allow a map request#}
     {% for message in app.flashes('added') %}
         <div class="flash-notice alert alert-success alert-dismissible fade show" role="alert">
             {{ message }}
