@@ -16,7 +16,7 @@ easy_admin:
           - { property: 'employees_added.count', label: 'Contacts ajouté' }
       new:
         title: 'Ajouter un Utilisateur'
-        fields:
+        fields: &User
           - { property: 'last_name', type: 'text', label: 'Nom'}
           - { property: 'first_name', type: 'text', label: 'Prénom'}
           - { property: 'phone_number', type: 'text', label: 'Numéro de téléphone'}
@@ -24,8 +24,4 @@ easy_admin:
           - { property: 'roles', template: 'admin/Backend/userRolesForm.html.twig', label: 'Permitions', type_options: { block_name: 'roles', mapped: false }}
       edit:
         title: 'Modifier un Utilisateur'
-        fields:
-          - { property: 'last_name', type: 'text', label: 'Nom'}
-          - { property: 'first_name', type: 'text', label: 'Prénom'}
-          - { property: 'phone_number', type: 'text', label: 'Numéro de téléphone'}
-          - { property: 'email', type: 'email', label: 'Email'}
+        fields: *User

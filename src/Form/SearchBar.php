@@ -26,7 +26,6 @@ class SearchBar extends AbstractType
                     'placeholder' => 'Recherche',
                     'aria-label' => 'Recherche',
                 ],
-            ])
-            ->setMethod('GET');
+            ]);
     }
 }

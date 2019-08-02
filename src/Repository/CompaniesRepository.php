@@ -20,9 +20,33 @@ class CompaniesRepository extends ServiceEntityRepository
         parent::__construct($registry, Companies::class);
     }
 
-    // /**
-    //  * @return Companies[] Returns an array of Companies objects
-    //  */
+    public function findByExisting(string $name, string $city, string $adress){
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.companie_name = :name')
+            ->andWhere('c.City = :city')
+            ->andWhere('c.Adress = :adress')
+            ->setParameter('name', $name)
+            ->setParameter('city', $city)
+            ->setParameter('adress', $adress)
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findBySearch(string $query){
+        return $this->createQueryBuilder('c')
+            ->where('c.City LIKE :query')
+            ->orWhere('c.companie_name LIKE :query')
+            ->orWhere('c.social_reason LIKE :query')
+            ->orWhere('c.Adress LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->getQuery()
+            ->execute();
+    }
+
+    /*
+     /**
+      * @return Companies[] Returns an array of Companies objects
+      */
     /*
     public function findByExampleField($value)
     {
@@ -36,7 +60,6 @@ class CompaniesRepository extends ServiceEntityRepository
         ;
     }
     */
-
     /*
     public function findOneBySomeField($value): ?Companies
     {
@@ -48,16 +71,4 @@ class CompaniesRepository extends ServiceEntityRepository
         ;
     }
     */
-
-    public function findByExisting(string $name, string $city, string $adress){
-        return $this->createQueryBuilder('c')
-                    ->andWhere('c.companie_name = :name')
-                    ->andWhere('c.City = :city')
-                    ->andWhere('c.Adress = :adress')
-                    ->setParameter('name', $name)
-                    ->setParameter('city', $city)
-                    ->setParameter('adress', $adress)
-                    ->getQuery()
-                    ->execute();
-    }
 }

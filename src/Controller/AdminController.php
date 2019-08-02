@@ -26,6 +26,16 @@ class AdminController extends BaseAdminController
     /** @var EntityManager The Doctrine entity manager for the current entity */
     protected $em;
 
+    protected $mailer;
+
+    /**
+     * @required
+     * @param \Swift_Mailer $mailer
+     */
+    public function setMailer(\Swift_Mailer $mailer){
+        $this->mailer = $mailer;
+    }
+
     /**
      * @Route("/dashboard", name="admin_dashboard")
      */
@@ -74,24 +84,55 @@ class AdminController extends BaseAdminController
             $user->setResetToken($token);
 
             $url = $this->generateUrl('_create_account', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
-            $transporter = (new \Swift_SmtpTransport($_ENV['MAILER_URL']));
-
-            $mailer = new \Swift_Mailer($transporter);
-
-            $message = (new \Swift_Message('Inscription'))
-                ->setFrom('hirschmann.yann.bts.sio@gmail.com')
-                ->setTo($email)
-                ->setBody(
-                    $this->renderView(
-                        'emails/registration.html.twig',
-                        ['url' => $url, 'user' => $user]
-                    ),
-                    'text/html'
-                );
-
-            $mailer->send($message);
+            $this->sendMail($email, $url, $user);
         }
         return $user;
+    }
+
+    public function updateUserEntity()
+    {
+        $easyadmin = $this->request->attributes->get('easyadmin');
+        $user = $easyadmin['item'];
+
+        $userValues = $this->request->request->get('user');
+        $role = $this->request->request->get('user_roles');
+        if($userValues != null) {
+            switch ($role) {
+                case 0;
+                    $user->setRoles(['ROLE_USER']);
+                    break;
+                case 1:
+                    $user->setRoles(['ROLE_USER', 'ROLE_REGULAR']);
+                    break;
+                case 2:
+                    $user->setRoles(['ROLE_USER', 'ROLE_REGULAR', 'ROLE_ADMIN']);
+                    break;
+                default:
+                    $user->setRoles(['ROLE_USER']);
+            }
+        }
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($user);
+        $manager->flush();
+    }
+
+    /**
+     * @param $email
+     * @param $url
+     * @param $user
+     */
+    private function sendMail($email, $url, $user){
+        $message = (new \Swift_Message('Inscription'))
+            ->setFrom('hirschmann.yann.bts.sio@gmail.com')
+            ->setTo($email)
+            ->setBody(
+                $this->renderView(
+                    'emails/registration.html.twig',
+                    ['url' => $url, 'user' => $user]
+                ),
+                'text/html'
+            );
+        $this->mailer->send($message);
     }
 
     private function getLatestCompanies(){

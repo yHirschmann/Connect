@@ -28,29 +28,44 @@ class CompanieController extends AbstractController
      * @Route("/entreprise", name="_companies")
      * @param Environment $environment
      * @return Response
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
      */
     public function companiesAction(Environment $environment){
         $this->denyAccessUnlessGranted('ROLE_USER');
-        return new Response($environment->render('companie/companies.html.twig', array('companies' => $this->initCompaniePage())));
+
+        $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
+        if($formResponse->isRedirection()) {
+            return $formResponse;
+        }
+
+        return $this->render('companie/companies.html.twig', [
+            'form' => $formResponse,
+            'companies' => $this->initCompaniePage()
+        ]);
     }
 
     /**
      * @Route("/entreprise/{id}", name="_companie")
      * @param Environment $environment
+     * @param $id
      * @return Response
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function companieAction(Environment $environment, $id){
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
+        if($formResponse->isRedirection()) {
+            return $formResponse;
+        }
+
         $doctrine = $this->getDoctrine();
         $companie = $doctrine->getRepository(Companies::class)->findOneById($id);
-        dump($companie->getProject());
-        return new Response($environment->render('companie/companie_details.html.twig', array('companie' => $companie)));
+        return $this->render('companie/companie_details.html.twig', [
+            'form' => $formResponse,
+            'companie' => $companie
+        ]);
     }
 
     /**
@@ -64,6 +79,12 @@ class CompanieController extends AbstractController
      */
     public function editCompanieAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
         $this->denyAccessUnlessGranted('ROLE_REGULAR');
+
+        $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
+        if($formResponse->isRedirection()) {
+            return $formResponse;
+        }
+
         $companie = $this->entityManager->getRepository(Companies::class)->find($id);
 
         $form = $this->createForm(EditCompanieType::class, $companie);
@@ -81,7 +102,12 @@ class CompanieController extends AbstractController
             $this->addFlash('added','Les informations ont bien été enregistré.');
             return $this->redirectToRoute('_companie', ['id' => $id]);
         }
-        return $this->render('companie/editCompanie.html.twig', array('companie' => $companie,'editCompanie' => $form->createView()));
+
+        return $this->render('companie/editCompanie.html.twig', [
+            'form' => $formResponse,
+            'companie' => $companie,
+            'editCompanie' => $form->createView()
+        ]);
     }
 
     private function initCompaniePage(){

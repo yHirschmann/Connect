@@ -13,26 +13,18 @@ class ProfileController extends AbstractController
      * @Route("/profiles", name="_profileList")
      * @param Environment $environment
      * @return Response
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
      */
     public function profileListAction(Environment $environment)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        return new Response($environment->render('profile/profiles.html.twig'));
-    }
 
-    /**
-     * @Route("/profile/{id}", name="_profile")
-     * @param Environment $environment
-     * @return Response
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
-     */
-    public function profileAction(Environment $environment){
-        $this->denyAccessUnlessGranted('ROLE_USER');
-        return new Response($environment->render('profile/profile_details.html.twig'));
+        $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
+        if($formResponse->isRedirection()) {
+            return $formResponse;
+        }
+
+        return $this->render('profile/profiles.html.twig', [
+            'form' => $formResponse,
+        ]);
     }
 }

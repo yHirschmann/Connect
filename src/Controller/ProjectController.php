@@ -22,14 +22,20 @@ class ProjectController extends AbstractController
      * @Route("/projet", name="_projects")
      * @param Environment $environment
      * @return Response
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
      */
     public function projectsAction(Environment $environment){
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
+        if($formResponse->isRedirection()) {
+            return $formResponse; // just the redirection, no content
+        }
+
         $projects = $this->getDoctrine()->getRepository(Project::class)->findAll();
-        return new Response($environment->render('project/projects.html.twig', array('projects' => $projects)));
+        return $this->render('project/projects.html.twig', [
+            'form' => $formResponse,
+            'projects' => $projects
+        ]);
     }
 
     /**
@@ -37,15 +43,24 @@ class ProjectController extends AbstractController
      * @param Environment $environment
      * @param $id
      * @return Response
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function projectAction(Environment $environment, $id){
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
+        if($formResponse->isRedirection()) {
+            return $formResponse; // just the redirection, no content
+        }
+
         $doctrine = $this->getDoctrine();
         $project = $doctrine->getRepository(Project::class)->find($id);
-        return new Response($environment->render('project/project_details.html.twig', array('project' => $project)));
+        return $this->render('project/project_details.html.twig', [
+            'form' => $formResponse,
+            'project' => $project
+        ]);
     }
 
     /**
@@ -59,6 +74,12 @@ class ProjectController extends AbstractController
      */
     public function editProjectAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
         $this->denyAccessUnlessGranted('ROLE_REGULAR');
+
+        $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
+        if($formResponse->isRedirection()) {
+            return $formResponse; // just the redirection, no content
+        }
+
         $doctrine = $this->getDoctrine();
         $entityManager = $doctrine->getManager();
 
@@ -91,7 +112,12 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('_project', ['id' => $id]);
         }
 
-        return $this->render('project/editProject.html.twig', array('project' => $project, 'companies' => $companies, 'editProject' => $form->createView()));
+        return $this->render('project/editProject.html.twig', [
+            'form' => $formResponse,
+            'project' => $project,
+            'companies' => $companies,
+            'editProject' => $form->createView()
+        ]);
     }
 
     /**

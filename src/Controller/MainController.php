@@ -20,13 +20,16 @@ class MainController extends AbstractController
      * @Route("/", name="_index")
      * @param Environment $environment
      * @return Response
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
      */
     public function indexAction(Environment $environment){
         $this->denyAccessUnlessGranted('ROLE_USER');
-        return new Response($environment->render('pages/index.html.twig'));
+        $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
+        if($formResponse->isRedirection()) {
+            return $formResponse; // just the redirection, no content
+        }
+        return $this->render('pages/index.html.twig', [
+            'form' => $formResponse
+        ]);
     }
 
     /**
@@ -38,6 +41,12 @@ class MainController extends AbstractController
      */
     public function accountAction(UserPasswordEncoderInterface $encoder,ValidatorInterface $validator,Request $request){
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
+        if($formResponse->isRedirection()) {
+            return $formResponse;
+        }
+
         /** @var User $user */
         $user = $this->getUser();
         $form = $this->createForm(UserEditType::class);
@@ -92,10 +101,11 @@ class MainController extends AbstractController
                 'user' => $user
             ));
         }
-        return $this->render('pages/account.html.twig', array(
-            'form'=> $form->createView(),
+        return $this->render('pages/account.html.twig', [
+            'form' => $formResponse,
+            'formAccount'=> $form->createView(),
             'user' => $user
-        ));
+        ]);
 
     }
 }

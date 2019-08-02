@@ -26,6 +26,12 @@ class AddProjectController extends AbstractController
      */
     public function addProject(ValidatorInterface $validator, Request $request){
         $this->denyAccessUnlessGranted('ROLE_REGULAR');
+
+        $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
+        if($formResponse->isRedirection()) {
+            return $formResponse; // just the redirection, no content
+        }
+
         $entityManager = $this->getDoctrine()->getManager();
         $project = new Project();
 
@@ -51,7 +57,11 @@ class AddProjectController extends AbstractController
             $this->addFlash('added','Les informations ont bien été enregistré.');
             return $this->redirectToRoute('_addProject');
         }
-        return $this->render('form/AddProject.html.twig', array('formProject' => $form->createView(),'controller_name' => 'AddArticleController',));
+
+        return $this->render('form/AddProject.html.twig', [
+            'form' => $formResponse,
+            'formProject' => $form->createView(),
+        ]);
     }
 
     /**

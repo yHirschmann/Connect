@@ -456,4 +456,7 @@ class User extends Person implements UserInterface
         return $this;
     }
 
+    public function isGranted($role){
+        return in_array($role, $this->roles );
+    }
 }

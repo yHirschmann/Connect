@@ -31,7 +31,13 @@ class AddCompanieController extends AbstractController
      * @return Response
      */
     public function addCompanie(ValidatorInterface $validator,Request $request){
-        $this->denyAccessUnlessGranted('ROLE_REGULAR', null, 'Vous n\'avez pas accés à ce contenue');
+        $this->denyAccessUnlessGranted('ROLE_REGULAR');
+
+        $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
+        if($formResponse->isRedirection()) {
+            return $formResponse; // just the redirection, no content
+        }
+
         $entityManager = $this->getDoctrine()->getManager();
         $companie = new Companies();
 
@@ -69,10 +75,10 @@ class AddCompanieController extends AbstractController
             }
         }
 
-        return $this->render('form/AddCompanie.html.twig', array(
+        return $this->render('form/AddCompanie.html.twig', [
+            'form' => $formResponse,
             'formCompanie' => $form->createView(),
-            'controller_name' => 'AddArticleController',
-        ));
+        ]);
     }
 
 }

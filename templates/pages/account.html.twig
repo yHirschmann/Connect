@@ -22,7 +22,7 @@
                 </button>
             </div>
         {% endfor %}
-        {{ form_start(form) }}
+        {{ form_start(formAccount) }}
         <div class="col">
 
             <div style="padding-bottom: 15px">
@@ -42,28 +42,28 @@
 
             <div>
                 <div class="row">
-                    {{ form_errors(form.oldPassword) }}
+                    {{ form_errors(formAccount.oldPassword) }}
                     Mot de passe actuel:
-                    {{ form_widget(form.oldPassword) }}
+                    {{ form_widget(formAccount.oldPassword) }}
                 </div>
                 <div class="row">
-                    {{ form_errors(form.email) }}
-                    Changer d'email : {{ form_widget(form.email, {attr: { value : "" }}) }}
+                    {{ form_errors(formAccount.email) }}
+                    Changer d'email : {{ form_widget(formAccount.email, {attr: { value : "" }}) }}
                 </div>
 
                 <div class="row">
-                    {{ form_errors(form.phone_number) }}
-                    Changer de numéro : {{ form_widget(form.phone_number, {attr: { value : "" }}) }}
+                    {{ form_errors(formAccount.phone_number) }}
+                    Changer de numéro : {{ form_widget(formAccount.phone_number, {attr: { value : "" }}) }}
                 </div>
 
-                {{ form_errors(form.password.first) }}
+                {{ form_errors(formAccount.password.first) }}
                 <div class="row">
                     Changer de mot de passe :
-                    {{ form_widget(form.password.first) }}
+                    {{ form_widget(formAccount.password.first) }}
                 </div>
                 <div class="row">
                     Confirmez le mot de passe:
-                    {{ form_widget(form.password.second) }}
+                    {{ form_widget(formAccount.password.second) }}
                 </div>
             </div>
         </div>
@@ -71,6 +71,6 @@
             Retour
         </a>
         <input type="submit" class="btn btn-dark" value="Confirmer" />
-        {{ form_end(form) }}
+        {{ form_end(formAccount) }}
     </div>
 {% endblock %}

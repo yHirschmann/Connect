@@ -27,27 +27,40 @@ class ContactController extends AbstractController
      * @Route("/contact", name="_contacts")
      * @param Environment $environment
      * @return Response
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
      */
     public function contactsAction(Environment $environment){
         $this->denyAccessUnlessGranted('ROLE_USER');
-        return new Response($environment->render('contact/contacts.html.twig', array('contacts' => $this->initContactsPage())));
+        $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
+        if($formResponse->isRedirection()) {
+            return $formResponse;
+        }
+        return $this->render('contact/contacts.html.twig', [
+            'form' => $formResponse,
+            'contacts' => $this->initContactsPage()]);
     }
 
     /**
      * @Route("/contact/{id}", name="_contact")
      * @param Environment $environment
+     * @param $id
      * @return Response
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function contactAction(Environment $environment, $id){
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
+        if($formResponse->isRedirection()) {
+            return $formResponse;
+        }
+
         $contact = $this->entityManager->getRepository(Employee::class)->find($id);
-        return new Response($environment->render('contact/contact_details.html.twig', array('contact'=>$contact)));
+        return $this->render('contact/contact_details.html.twig', [
+            'form' => $formResponse,
+            'contact'=>$contact,
+        ]);
     }
 
     /**
@@ -61,6 +74,12 @@ class ContactController extends AbstractController
      */
     public function editContactAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
         $this->denyAccessUnlessGranted('ROLE_REGULAR');
+
+        $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
+        if($formResponse->isRedirection()) {
+            return $formResponse;
+        }
+
         $contact = $this->entityManager->getRepository(Employee::class)->find($id);
 
         $form = $this->createForm(EditContactType::class, $contact);
@@ -78,9 +97,11 @@ class ContactController extends AbstractController
             $this->addFlash('added','Les informations ont bien été enregistré.');
             return $this->redirectToRoute('_contact', ['id' => $id]);
         }
-        return $this->render('contact/editContact.html.twig', array(
-            'contact'=>$contact, 'editContact' => $form->createView()
-        ));
+        return $this->render('contact/editContact.html.twig', [
+            'form' => $formResponse,
+            'contact'=>$contact,
+            'editContact' => $form->createView()
+        ]);
     }
 
     private function initContactsPage(){

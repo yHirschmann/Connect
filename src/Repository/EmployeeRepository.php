@@ -20,34 +20,18 @@ class EmployeeRepository extends ServiceEntityRepository
         parent::__construct($registry, Employee::class);
     }
 
-    // /**
-    //  * @return Employee[] Returns an array of Employee objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    public function findByQuery(string $query){
+        $expr = $this->getEntityManager()->getExpressionBuilder();
 
-    /*
-    public function findOneBySomeField($value): ?Employee
-    {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
+            ->where('e.first_name LIKE :query')
+            ->orWhere('e.last_name LIKE :query')
+            ->orWhere('e.email LIKE :query')
+            //TODO Query list of contact where companie.companie_name like %query%
+            ->setParameter('query', '%'.$query.'%')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->execute();
     }
-    */
 
     public function findByExisting(String $lastName = null, String $firstName = null){
         if($lastName != null && $firstName != null){
@@ -65,10 +49,10 @@ class EmployeeRepository extends ServiceEntityRepository
 
     public function findByEmail(String $email = null){
         return $this->createQueryBuilder('e')
-                    ->andWhere('e.email = :email')
-                    ->setParameter('email', $email)
-                    ->getQuery()
-                    ->execute();
+            ->andWhere('e.email = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->execute();
     }
 
     public function findEmployeesInCompany($id)
@@ -81,5 +65,32 @@ class EmployeeRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-
+    /*
+     /**
+      * @return Employee[] Returns an array of Employee objects
+      */
+    /*
+    public function findByExampleField($value)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('e.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    */
+    /*
+    public function findOneBySomeField($value): ?Employee
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    */
 }

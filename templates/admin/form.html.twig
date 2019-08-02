@@ -1,7 +1,8 @@
 {% block _user_roles_widget%}
+    {% set User = easyadmin.item %}
     <select id="" class="form-control" name="user_roles">
-        <option value="0">Invité</option>
-        <option value="1">Editeur</option>
-        <option value="2">Administrateur</option>
+        <option value="0" >Invité</option>
+        <option value="1" {% if User.isGranted("ROLE_REGULAR") and not User.isGranted("ROLE_ADMIN") %}selected{% endif %}>Editeur</option>
+        <option value="2" {% if User.isGranted("ROLE_ADMIN") %}selected{% endif %}>Administrateur</option>
     </select>
 {% endblock %}

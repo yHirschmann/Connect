@@ -7,6 +7,7 @@ use App\Form\Type\ForgottenPasswordType;
 use App\Form\Type\RegistrationFormType;
 use App\Form\Type\ResetPasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,7 +40,7 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @param \Swift_Mailer $mailer
      * @param TokenGeneratorInterface $tokenGenerator
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function forgotPassword(ValidatorInterface $validator,Request $request, \Swift_Mailer $mailer, TokenGeneratorInterface $tokenGenerator){
         $entityManager = $this->getDoctrine()->getManager();
@@ -133,7 +134,6 @@ class SecurityController extends AbstractController
             $form->handleRequest($request);
             if($user != null){
                 if($form->isSubmitted() && $form->isValid()){
-                    dump($request->request);
                     /*** @var User $user */
                     $user->setResetToken(null);
                     $user->setPassword($passwordEncoder->encodePassword(
