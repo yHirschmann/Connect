@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\Companies;
 use App\Entity\Employee;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -21,18 +20,32 @@ class EmployeeRepository extends ServiceEntityRepository
     }
 
     public function findByQuery(string $query){
-        $expr = $this->getEntityManager()->getExpressionBuilder();
+        //TODO Must return only one value instead of many
+        $expr = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('c.id')
+            ->from('App\\Entity\\Companies', 'c')
+            ->where('c.companie_name LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->getDQL()
+        ;
 
         return $this->createQueryBuilder('e')
             ->where('e.first_name LIKE :query')
             ->orWhere('e.last_name LIKE :query')
             ->orWhere('e.email LIKE :query')
+            ->orWhere('e.companie IN ('. $expr.')')
             //TODO Query list of contact where companie.companie_name like %query%
             ->setParameter('query', '%'.$query.'%')
             ->getQuery()
             ->execute();
     }
 
+    /**
+     * @param String|null $lastName
+     * @param String|null $firstName
+     * @return mixed|null
+     */
     public function findByExisting(String $lastName = null, String $firstName = null){
         if($lastName != null && $firstName != null){
             return $this->createQueryBuilder('e')
@@ -47,6 +60,10 @@ class EmployeeRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @param String|null $email
+     * @return mixed
+     */
     public function findByEmail(String $email = null){
         return $this->createQueryBuilder('e')
             ->andWhere('e.email = :email')
@@ -55,6 +72,10 @@ class EmployeeRepository extends ServiceEntityRepository
             ->execute();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function findEmployeesInCompany($id)
     {
         return $this->createQueryBuilder('e')

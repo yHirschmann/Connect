@@ -28,6 +28,16 @@ class ProjectRepository extends ServiceEntityRepository
             ->eq('id', $employee->getId()));
     }
 
+    public function findByQuery(string $query){
+        return $this->createQueryBuilder('p')
+            ->where('p.project_name LIKE :query')
+            ->orWhere('p.adress LIKE :query')
+            ->orWhere('p.city LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->getQuery()
+            ->execute();
+    }
+    /*
     // /**
     //  * @return Project[] Returns an array of Project objects
     //  */
@@ -44,7 +54,6 @@ class ProjectRepository extends ServiceEntityRepository
         ;
     }
     */
-
     /*
     public function findOneBySomeField($value): ?Project
     {

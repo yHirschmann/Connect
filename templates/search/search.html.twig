@@ -5,5 +5,126 @@
 {% endblock %}
 
 {% block content %}
+    <div>
+        <div class="col">
+            <div class="text-left">
+                <h2>Contacts</h2>
+            </div>
+        </div>
 
+        <table data-toggle="table" data-search="true">
+            <thead class="thead-dark">
+            <tr class="bg-dark text-light">
+                <th scope="col" data-sortable="true">Nom</th>
+                <th scope="col" data-sortable="true">Prénom</th>
+                <th scope="col" data-sortable="true">Entreprise</th>
+                <th scope="col" data-sortable="true">Poste</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for contact in contacts %}
+                <tr>
+                    <td scope="col">
+                        <a href="{{ path('_contact', {'id': contact.Id}) }}">{{ contact.lastName() }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_contact', {'id': contact.Id}) }}">{{ contact.firstName() }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_contact', {'id': contact.Id}) }}">{{ contact.companie.companieName() }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_contact', {'id': contact.Id}) }}">{{ contact.position() }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <div class="col">
+            <div class="text-left">
+                <h2>Entreprises</h2>
+            </div>
+        </div>
+
+        <table data-toggle="table" data-search="true">
+            <thead class="thead-dark">
+            <tr class="bg-dark text-light">
+                <th scope="col" data-sortable="true">Nom</th>
+                <th scope="col" data-sortable="true">Adress</th>
+                <th scope="col" data-sortable="true">Ville</th>
+                <th scope="col" data-sortable="true">Activité</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for companie in companies %}
+                <tr>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.companieName() }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.adress() }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.city() }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.type.label() }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <div class="col">
+            <div id="companies-title" class="text-left">
+                <h2 class="text-left">Projets</h2>
+            </div>
+        </div>
+
+        <table data-toggle="table" data-search="true">
+            <thead class="thead-dark">
+            <tr class="bg-dark text-light">
+                <th scope="col" data-sortable="true">Nom</th>
+                <th scope="col" data-sortable="true">Adresse</th>
+                <th scope="col" data-sortable="true">Ville</th>
+                <th scope="col" data-sortable="true">Phase</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for project in projects %}
+                <tr>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': project.Id}) }}">{{ project.projectName() }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': project.Id}) }}">{{ project.adress() }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': project.Id}) }}">{{ project.city }}</a>
+                    </td>
+                    <td scope="col">
+                        <a href="{{ path('_companie', {'id': project.Id}) }}">
+                            {% if project.phase == 0 %}
+                                Etude
+                            {% elseif project.phase == 1 %}
+                                Avant projet Sommaire
+                            {% elseif project.phase == 2 %}
+                                Avant projet Détaillé
+                            {% elseif project.phase == 3 %}
+                                Chantier en cours
+                            {% elseif project.phase == 4 %}
+                                Terminé
+                            {% endif %}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

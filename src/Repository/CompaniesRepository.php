@@ -32,7 +32,7 @@ class CompaniesRepository extends ServiceEntityRepository
             ->execute();
     }
 
-    public function findBySearch(string $query){
+    public function findByQuery(string $query){
         return $this->createQueryBuilder('c')
             ->where('c.City LIKE :query')
             ->orWhere('c.companie_name LIKE :query')

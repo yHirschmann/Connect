@@ -36,13 +36,15 @@ class SearchController extends AbstractController
         $contactRepository = $doctrine->getRepository(Employee::class);
         $projectRepository = $doctrine->getRepository(Project::class);
 
-        $companies = $companieRepository->findBySearch($data);
+        $companies = $companieRepository->findByQuery($data);
         $contacts = $contactRepository->findByQuery($data);
-        dump($companies);
-        dump($contacts);
+        $projects = $projectRepository->findByQuery($data);
 
         return $this->render('search/search.html.twig',[
-            'form' => $formResponse
+            'form' => $formResponse,
+            'companies' => $companies,
+            'contacts' => $contacts,
+            'projects' => $projects,
         ]);
     }
 

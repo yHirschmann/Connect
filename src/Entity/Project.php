@@ -82,6 +82,14 @@ class Project
     private $createdBy;
 
     /**
+     * @var(
+     *     0 = Etude,
+     *     1 = Avant projet Sommaire,
+     *     2 = Avant projet Détaillé,
+     *     3 = Chantier en cours,
+     *     4 = Terminé
+     * )
+     *
      * @ORM\Column(type="integer")
      * @Validator\Type(
      *     "integer",
