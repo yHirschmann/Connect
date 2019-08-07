@@ -4,6 +4,11 @@
     {{ parent() }}{{ companie.companieName() }}
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+{% endblock %}
+
 {% block content %}
     <div class="row">
         <h2 id="companie-name" class="text-left">
@@ -62,28 +67,28 @@
                 Nombre de projet: {{ companie.project.count }}
             </div>
             <div>
-                <table data-toggle="table" data-search="true">
-                    <thead class="thead-dark">
+                <table id="projects-table" class="table table-striped table-bordered">
+                    <thead class="table-dark">
                     <tr>
-                        <th scope="col" data-sortable="true">Nom du Projet</th>
-                        <th scope="col" data-sortable="true">Ville</th>
-                        <th scope="col" data-sortable="true">Adresse</th>
-                        <th scope="col" data-sortable="true">Date de Début</th>
+                        <th>Nom du Projet</th>
+                        <th>Ville</th>
+                        <th>Adresse</th>
+                        <th>Date de Début</th>
                     </tr>
                     </thead>
                     <tbody>
                         {% for project in companie.project %}
                             <tr>
-                                <td scope="col">
+                                <td>
                                     <a href="{{ path('_project', {'id': project.id}) }}"> {{ project.project.projectName }} </a>
                                 </td>
-                                <td scope="col">
+                                <td>
                                     <a href="{{ path('_project', {'id': project.id }) }}"> {{ project.project.City }} </a>
                                 </td>
-                                <td scope="col">
+                                <td>
                                     <a href="{{ path('_project', {'id': project.id }) }}"> {{ project.project.Adress }} </a>
                                 </td>
-                                <td scope="col">
+                                <td>
                                     <a href="{{ path('_project', {'id': project.id}) }}"> {{ project.project.StartedAt|date("d/m/Y") }} </a>
                                 </td>
                             </tr>
@@ -94,31 +99,31 @@
         </div>
         <div id="contact-col" class="col">
             <div id="companie-contactNum" class="row">
-                Effectif: {{ companie.effective }}
+                Effectif: {{ companie.employees.count }}
             </div>
             <div>
-                <table data-toggle="table" data-search="true">
-                    <thead class="thead-dark">
+                <table id="contacts-table" class="table table-striped table-bordered">
+                    <thead class="table-dark">
                         <tr>
-                            <th scope="col" data-sortable="true">Nom</th>
-                            <th scope="col" data-sortable="true">Prénom</th>
-                            <th scope="col" data-sortable="true">Téléphone</th>
-                            <th scope="col" data-sortable="true">Mail</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Téléphone</th>
+                            <th>Mail</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for employee in companie.employees %}
                                 <tr>
-                                    <td scope="col">
+                                    <td>
                                         <a href="{{ path('_contact', {'id': employee.id}) }}"> {{ employee.lastName }} </a>
                                     </td>
-                                    <td scope="col">
+                                    <td>
                                         <a href="{{ path('_contact', {'id': employee.id}) }}"> {{ employee.firstName }} </a>
                                     </td>
-                                    <td scope="col">
+                                    <td>
                                         <a href="{{ path('_contact', {'id': employee.id}) }}"> {{ employee.phoneNumber}} </a>
                                     </td>
-                                    <td scope="col">
+                                    <td>
                                         <a href="{{ path('_contact', {'id': employee.id}) }}"> {{ employee.email }} </a>
                                     </td>
                                 </tr>
@@ -132,4 +137,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+    {{ encore_entry_script_tags('companieDetails') }}
 {% endblock %}

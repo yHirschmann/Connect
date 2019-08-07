@@ -1,4 +1,4 @@
-var $addCompaniesButton = $('<button type="button" class="btn btn-dark add_companies_link">Ajouter un Companie</button>');
+var $addCompaniesButton = $('<button type="button" class="btn btn-dark add_companies_link">Ajouter un Entreprise</button>');
 var $newLinkLi = $('<li style="list-style-type: none; margin-top: 10px"></li>').append($addCompaniesButton);
 var $collectionHolder;
 

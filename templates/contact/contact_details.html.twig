@@ -4,6 +4,11 @@
     {{ parent() }}{{ contact.lastName }} {{ contact.firstName }}
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+{% endblock %}
+
 {% block content %}
     <div class="row">
         <h2 id="contact-name" class="text-left">
@@ -45,7 +50,8 @@
                 Ajouté le : <span style="margin-left: auto;margin-right: 45%">{{ contact.addedAt | date('d-m-Y') }}</span>
             </div>
             <div class="row">
-                Par :<a href="{{ path('_profile', {'id': contact.addedBy.id}) }}" style="margin-left: auto;margin-right: 45%">{{ contact.addedBy.FirstName }} {{ contact.addedBy.LastName }}</a>
+                Par :{# <a href="{{ path('_profile', {'id': contact.addedBy.id}) }}" style="margin-left: auto;margin-right: 45%"> #}
+                        {{ contact.addedBy.FirstName }} {{ contact.addedBy.LastName }} {#</a> #}
             </div>
         </div>
         {% if contact.lastUpdateBy is not null %}
@@ -54,49 +60,49 @@
                     Dernière mise à jour le : <span style="margin-left: auto;margin-right: 45%">{{ contact.lastUpdateAt | date('d-m-Y') }}</span>
                 </div>
                 <div class="row">
-                    Dernière mise à jour par :  <a href="{{ path('_profile', {'id': contact.lastUpdateBy.id}) }}" style="margin-left: auto;margin-right: 45%">
+                    Dernière mise à jour par : {# <a href="{{ path('_profile', {'id': contact.lastUpdateBy.id}) }}" style="margin-left: auto;margin-right: 45%">#}
                                                     {{ contact.lastUpdateBy.FirstName }} {{ contact.lastUpdateBy.LastName }}
-                                                </a>
+{#                                                </a>#}
                 </div>
             </div>
         {% endif %}
     </div>
+
     <div>
-        <table data-toggle="table" data-search="true">
-            <thead class="thead-dark">
+        <table id="projects-table" class="table table-striped table-bordered">
+            <thead class="table-dark">
             <tr>
-                <th scope="col" data-sortable="true">Nom du Projet</th>
-                <th scope="col" data-sortable="true">Ville</th>
-                <th scope="col" data-sortable="true">Adresse</th>
-                <th scope="col" data-sortable="true">Date de Début</th>
+                <th>Nom du Projet</th>
+                <th>Ville</th>
+                <th>Adresse</th>
+                <th>Date de Début</th>
             </tr>
             </thead>
             <tbody>
             {% for project in contact.projects %}
                 <tr>
-                    <td scope="col">
-                        <a href="{{ path('_project', {'id': project.id}) }}">
-                            {{ project.ProjectName }}
-                        </a>
+                    <td>
+                        <a href="{{ path('_project', {'id': project.id}) }}">{{ project.ProjectName }}</a>
                     </td>
-                    <td scope="col">
-                        <a href="{{ path('_project', {'id': project.id }) }}">
-                            {{ project.City }}
-                        </a>
+                    <td>
+                        <a href="{{ path('_project', {'id': project.id }) }}">{{ project.City }}</a>
                     </td>
-                    <td scope="col">
-                        <a href="{{ path('_project', {'id': project.id }) }}">
-                            {{ project.Adress }}
-                        </a>
+                    <td>
+                        <a href="{{ path('_project', {'id': project.id }) }}">{{ project.Adress }}</a>
                     </td>
-                    <td scope="col">
-                        <a href="{{ path('_project', {'id': project.id}) }}">
-                            {{ project.StartedAt|date("d/m/Y") }}
-                        </a>
+                    <td>
+                        <a href="{{ path('_project', {'id': project.id}) }}">{{ project.StartedAt|date("d/m/Y") }}</a>
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+    {{ encore_entry_script_tags('contactDetails') }}
 {% endblock %}

@@ -20,7 +20,6 @@ class EmployeeRepository extends ServiceEntityRepository
     }
 
     public function findByQuery(string $query){
-        //TODO Must return only one value instead of many
         $expr = $this->getEntityManager()
             ->createQueryBuilder()
             ->select('c.id')
@@ -35,7 +34,6 @@ class EmployeeRepository extends ServiceEntityRepository
             ->orWhere('e.last_name LIKE :query')
             ->orWhere('e.email LIKE :query')
             ->orWhere('e.companie IN ('. $expr.')')
-            //TODO Query list of contact where companie.companie_name like %query%
             ->setParameter('query', '%'.$query.'%')
             ->getQuery()
             ->execute();

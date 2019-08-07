@@ -4,59 +4,74 @@
     {{ parent() }}Entreprises
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+{% endblock %}
+
 {% block content %}
-    <div class="col">
-        <div id="companies-title" class="text-left">
-            <h2>Entreprises</h2>
+    <div class="row">
+        <div class="col">
+            <div id="companies-title" class="text-left">
+                <h2>Entreprises</h2>
+            </div>
+        </div>
+
+        <div class="col text-right">
+            <a class="btn btn-dark" href="{{ path('_index') }}">
+                Retour
+            </a>
+            <a class="btn btn-dark" href="{{ path('_addCompanie') }}">
+                Ajouter
+            </a>
         </div>
     </div>
-    <div class="col text-right">
-        <a class="btn btn-dark" href="{{ path('_index') }}">
-            Retour
-        </a>
-        <a class="btn btn-dark" href="{{ path('_addCompanie') }}">
-            Ajouter
-        </a>
-    </div>
-    <table data-toggle="table" data-search="true">
-        <thead class="thead-dark">
-        <tr class="bg-dark text-light">
-            <th scope="col" data-sortable="true">Nom</th>
-            <th scope="col" data-sortable="true">Ville</th>
-            <th scope="col" data-sortable="true">Adresse</th>
-            <th scope="col" data-sortable="true">Code Postal</th>
-            <th scope="col" data-sortable="true">Chiffre d'affaire</th>
-            <th scope="col" data-sortable="true">Effectif</th>
-            <th scope="col" data-sortable="true">Domaine d'activité</th>
-        </tr>
+
+    <table id="companies-table" class="table table-striped table-bordered table-m">
+        <thead class="table-dark">
+            <tr>
+                <th>Nom</th>
+                <th>Ville</th>
+                <th>Adresse</th>
+                <th>Code Postal</th>
+                <th>Chiffre d'affaire</th>
+                <th>Effectif</th>
+                <th>Domaine d'activité</th>
+            </tr>
         </thead>
         <tbody>
         {% for companie in companies %}
                 <tr>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.companieName() }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.City() }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.Adress() }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.PostalCode() }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.Turnover() }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.employees.count }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.type.label }}</a>
                     </td>
                 </tr>
         {% endfor %}
         </tbody>
     </table>
+{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+    {{ encore_entry_script_tags('companieList') }}
 {% endblock %}

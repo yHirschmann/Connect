@@ -4,6 +4,11 @@
     {{ parent() }}Recherche
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+{% endblock %}
+
 {% block content %}
     <div>
         <div class="col">
@@ -12,28 +17,28 @@
             </div>
         </div>
 
-        <table data-toggle="table" data-search="true">
-            <thead class="thead-dark">
-            <tr class="bg-dark text-light">
-                <th scope="col" data-sortable="true">Nom</th>
-                <th scope="col" data-sortable="true">Prénom</th>
-                <th scope="col" data-sortable="true">Entreprise</th>
-                <th scope="col" data-sortable="true">Poste</th>
-            </tr>
+        <table id="contacts-table" class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Entreprise</th>
+                    <th>Poste</th>
+                </tr>
             </thead>
             <tbody>
-            {% for contact in contacts %}
+                {% for contact in contacts %}
                 <tr>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_contact', {'id': contact.Id}) }}">{{ contact.lastName() }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_contact', {'id': contact.Id}) }}">{{ contact.firstName() }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_contact', {'id': contact.Id}) }}">{{ contact.companie.companieName() }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_contact', {'id': contact.Id}) }}">{{ contact.position() }}</a>
                     </td>
                 </tr>
@@ -49,28 +54,28 @@
             </div>
         </div>
 
-        <table data-toggle="table" data-search="true">
-            <thead class="thead-dark">
-            <tr class="bg-dark text-light">
-                <th scope="col" data-sortable="true">Nom</th>
-                <th scope="col" data-sortable="true">Adress</th>
-                <th scope="col" data-sortable="true">Ville</th>
-                <th scope="col" data-sortable="true">Activité</th>
-            </tr>
+        <table id="companies-table" class="table table-striped table-bordered table-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nom</th>
+                    <th>Adress</th>
+                    <th>Ville</th>
+                    <th>Activité</th>
+                </tr>
             </thead>
             <tbody>
             {% for companie in companies %}
                 <tr>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.companieName() }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.adress() }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.city() }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': companie.Id}) }}">{{ companie.type.label() }}</a>
                     </td>
                 </tr>
@@ -86,28 +91,28 @@
             </div>
         </div>
 
-        <table data-toggle="table" data-search="true">
-            <thead class="thead-dark">
-            <tr class="bg-dark text-light">
-                <th scope="col" data-sortable="true">Nom</th>
-                <th scope="col" data-sortable="true">Adresse</th>
-                <th scope="col" data-sortable="true">Ville</th>
-                <th scope="col" data-sortable="true">Phase</th>
-            </tr>
+        <table id="projects-table" class="table table-striped table-bordered table-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nom</th>
+                    <th>Adresse</th>
+                    <th>Ville</th>
+                    <th>Phase</th>
+                </tr>
             </thead>
             <tbody>
             {% for project in projects %}
                 <tr>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': project.Id}) }}">{{ project.projectName() }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': project.Id}) }}">{{ project.adress() }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': project.Id}) }}">{{ project.city }}</a>
                     </td>
-                    <td scope="col">
+                    <td>
                         <a href="{{ path('_companie', {'id': project.Id}) }}">
                             {% if project.phase == 0 %}
                                 Etude
@@ -127,4 +132,11 @@
             </tbody>
         </table>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+    {{ encore_entry_script_tags('search') }}
 {% endblock %}

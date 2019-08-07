@@ -4,6 +4,11 @@
     {{ parent() }}Contactes
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+{% endblock %}
+
 {% block content %}
     <div class="col">
         <div id="contacts-title" class="text-left">
@@ -18,35 +23,44 @@
             Ajouter
         </a>
     </div>
-    <table data-toggle="table" data-search="true">
-        <thead class="thead-dark">
-            <tr class="bg-dark text-light">
-                <th scope="col" data-sortable="true">Nom</th>
-                <th scope="col" data-sortable="true">Prénom</th>
-                <th scope="col" data-sortable="true">Numéro de téléphone</th>
-                <th scope="col" data-sortable="true">Email</th>
-                <th scope="col" data-sortable="true">Entreprise</th>
+
+    <table id="contacts-table" class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Numéro de téléphone</th>
+                <th>Email</th>
+                <th>Entreprise</th>
             </tr>
         </thead>
-    <tbody>
-    {% for contact in contacts %}
-        <tr>
-            <td scope="col">
-                <a href="{{ path('_contact', {'id': contact.Id}) }}"> {{ contact.lastName }} </a>
-            </td>
-            <td scope="col">
-                <a href="{{ path('_contact', {'id': contact.Id}) }}"> {{ contact.firstName }} </a>
-            </td>
-            <td scope="col">
-                <a href="{{ path('_contact', {'id': contact.Id}) }}"> {{ contact.phoneNumber }} </a>
-            </td>
-            <td scope="col">
-                <a href="{{ path('_contact', {'id': contact.Id}) }}"> {{ contact.email }} </a>
-            </td>
-            <td scope="col">
-                <a href="{{ path('_companie', {'id': contact.companie.Id}) }}"> {{ contact.companie.companieName }} </a>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
+        <tbody>
+        {% for contact in contacts %}
+            <tr>
+                <td>
+                    <a href="{{ path('_contact', {'id': contact.Id}) }}"> {{ contact.lastName }} </a>
+                </td>
+                <td>
+                    <a href="{{ path('_contact', {'id': contact.Id}) }}"> {{ contact.firstName }} </a>
+                </td>
+                <td>
+                    <a href="{{ path('_contact', {'id': contact.Id}) }}"> {{ contact.phoneNumber }} </a>
+                </td>
+                <td>
+                    <a href="{{ path('_contact', {'id': contact.Id}) }}"> {{ contact.email }} </a>
+                </td>
+                <td>
+                    <a href="{{ path('_companie', {'id': contact.companie.Id}) }}"> {{ contact.companie.companieName }} </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+    {{ encore_entry_script_tags('contactList') }}
 {% endblock %}
