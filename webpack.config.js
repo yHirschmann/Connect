@@ -37,6 +37,7 @@ Encore
     .addEntry('companieDetails', './assets/js/companieDetails')
     .addEntry('contactList', './assets/js/contactList')
     .addEntry('contactDetails', './assets/js/contactDetails')
+    .addEntry('projectTableDetails','./assets/js/projectTableDetails')
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
     .enableSingleRuntimeChunk()

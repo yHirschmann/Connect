@@ -13,7 +13,7 @@
     {% if is_granted('ROLE_REGULAR') %}
         {{  form_start(editProject) }}
             <div class="row">
-                <div class="col">
+                <div class="col-2">
                     {{ form_label(editProject.projectName) }}
                     {{ form_widget(editProject.projectName) }}
                     <div class="col">

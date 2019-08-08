@@ -7,6 +7,7 @@
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('projectDetails') }}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
 {% endblock %}
 
 {% block content %}
@@ -27,8 +28,9 @@
             </button>
         </div>
     {% endfor %}
+
     <div class="row">
-        <div class="col">
+        <div class="col-2">
             <h2 id="project-title" class="text-left">
                 {{ project.projectName | title }}
             </h2>
@@ -45,11 +47,15 @@
         <div id="project-companie-colum" class="col">
             <div class="text-left">
                 Entreprises :
-                <table data-toggle="table" data-search="true">
-                    <thead class="thead-dark">
+                <table id="companies-table" class="table table-striped table-bordered table-sm">
+                    <thead class="table-dark">
                     <tr>
-                        <th scope="col" data-sortable="true">Entreprise</th>
-                        <th scope="col" data-sortable="true">Domaine d'activité</th>
+                        <th>
+                            Entreprise
+                        </th>
+                        <th>
+                            Domaine d'activité
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -58,17 +64,18 @@
                 </table>
             </div>
         </div>
+
         <div id="project-contact-column" class="col">
             <div class="text-left">
                 Contacts :
-                <table data-toggle="table" data-search="true">
-                    <thead class="thead-dark">
+                <table id="contacts-table" class="table table-striped table-bordered table-sm">
+                    <thead class="table-dark">
                         <tr>
-                            <th scope="col" data-sortable="true">Nom</th>
-                            <th scope="col" data-sortable="true">Prénom</th>
-                            <th scope="col" data-sortable="true">Entreprise</th>
-                            <th scope="col" data-sortable="true">Type d'entreprise</th>
-                            <th scope="col" data-sortable="true">Poste</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Entreprise</th>
+                            <th>Type d'entreprise</th>
+                            <th>Poste</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -170,7 +177,10 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
     {% if is_granted('ROLE_REGULAR') %}
         {{ encore_entry_script_tags('projectDetails') }}
     {% endif %}
+    {{ encore_entry_script_tags('projectTableDetails') }}
 {% endblock %}
