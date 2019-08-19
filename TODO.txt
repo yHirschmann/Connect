@@ -2,8 +2,6 @@ TODO setup basket for deleted items
 
 TODO list of same companie type => one of them will be the companie that get the project (the companie that have worked on the project)
 
-TODO Allow delete project image (and then allow to set an other) in project Add (not edit)
-
 TODO Save date when contact is linked to a project
 
 TODO Add earn project boolean (if JPS get the projet => true)

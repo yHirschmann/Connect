@@ -13,14 +13,17 @@ $(document).ready(function () {
     $collectionHolder.data('index', $collectionHolder.find(':input').length);
     addImgInput($collectionHolder);
 
-    $imgInput = $('input',$collectionHolder);
+    $imgInput = $('input', $collectionHolder);
     $imgInput.parent().append($label);
-    // $parent.append($divFileName);
     $imgInput.on('change',function(){
         showImage(this);
     });
 });
 
+/**
+ * Transforms the prototype into HTML elements and make them appends to the collectionHolder
+ * @param $collectionHolder
+ */
 function addImgInput($collectionHolder) {
     var prototype = $collectionHolder.data('prototype');
     var index = $collectionHolder.data('index');
@@ -28,9 +31,12 @@ function addImgInput($collectionHolder) {
     newForm = newForm.replace(/__name__/g, index);
     $collectionHolder.data('index', index + 1);
     $collectionHolder.append(newForm);
-
 }
 
+/**
+ * Called on file input change, show the image instead of  the input
+ * @param input
+ */
 function showImage(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -43,6 +49,7 @@ function showImage(input) {
         };
         reader.readAsDataURL(file);
     }
+    removeImage(input);
 }
 
 /**
@@ -61,5 +68,20 @@ function setLabel(){
     $label.attr('class', "labelImgSet");
     $label.html("");
     $label.append($image);
+}
 
+/**
+ * add a button under the image view that allow to reset the file input
+ * @param input
+ */
+function removeImage(input){
+    var $deleteButton = $('<input type="button" class="btn btn-dark" value="Supprimer">');
+    $deleteButton.click(function () {
+        var $input = $(input);
+        $input.val('');
+        $label.attr('class', "btn btn-dark");
+        $label.html("Ajouter une Photo");
+        $deleteButton.remove()
+    });
+    $collectionHolder.append($deleteButton);
 }
