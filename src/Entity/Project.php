@@ -124,6 +124,11 @@ class Project
      */
     private $companies;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isGot = false;
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
@@ -387,5 +392,17 @@ class Project
 
     public function getFullAdress(){
         return $this->adress.' '.$this->postalCode.' '.$this->getCity();
+    }
+
+    public function getIsGot(): ?bool
+    {
+        return $this->isGot;
+    }
+
+    public function setIsGot(bool $isGot): self
+    {
+        $this->isGot = $isGot;
+
+        return $this;
     }
 }

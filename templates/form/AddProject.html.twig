@@ -57,6 +57,8 @@
                     {{ form_errors(formProject.endedAt) }}
                     {{ form_row(formProject.phase) }}
                     {{ form_errors(formProject.phase) }}
+                    {{ form_row(formProject.isGot) }}
+                    {{ form_errors(formProject.isGot) }}
                     <div id="image-project-holder" data-prototype="{{ form_widget(formProject.file.vars.prototype)|e('html_attr') }}">
                     </div>
                 </div>

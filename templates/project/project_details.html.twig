@@ -130,6 +130,11 @@
                             Terminé
                         {% endif %}
                     </div>
+                    {% if project.isGot %}
+                        <div class="row text-secondary">
+                            Projet acquis
+                        </div>
+                    {% endif %}
                 </div>
             </div>
             {% if is_granted('ROLE_REGULAR') %}

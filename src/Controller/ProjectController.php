@@ -43,9 +43,6 @@ class ProjectController extends AbstractController
      * @param Environment $environment
      * @param $id
      * @return Response
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
      */
     public function projectAction(Environment $environment, $id){
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -187,33 +184,38 @@ class ProjectController extends AbstractController
         /**
          * @var ProjectFile $currentProjectImage
          */
-        $currentProjectImage = $doctrine->getRepository(ProjectFile::class)->getProjectImageById($project->getId())[0];
-        /**
-         * @var string $currentProjectImageCheckBox
-         * 'true' or null
-         */
-        $currentProjectImageCheckBox = $request->request->get('isImageCheckBox'.$currentProjectImage->getId());
+        $projectfiles = $doctrine->getRepository(ProjectFile::class)->getProjectImageById($project->getId());
+        if(!empty($projectfiles)){
+            $currentProjectImage = $doctrine->getRepository(ProjectFile::class)->getProjectImageById($project->getId())[0];
 
-        $files = $project->getFiles();
-        foreach($files as $file){
-            $fileId = $file->getId();
-            if($fileId == null){
-                $key = 'isImageCheckBox'.$file->getFileOriginalName();
-                $key = substr_replace($key,'_',strpos($key,'.'), 1);
-                $isProjectImage = $request->request->get($key);
-            }else{
-                $isProjectImage = $request->request->get('isImageCheckBox'.$fileId);
-            }
-            if ($isProjectImage != null){
-                if($currentProjectImage == null || $currentProjectImageCheckBox != 'true'){
-                    $file->setIsProjectImage(true);
-                }elseif($currentProjectImage != $file){
-                    $this->addFlash('existing','le fichier '.$file->getFileOriginalName().' n\'a pas put être défini comme Image du projet, une autre image est déjà définie');
+            /**
+             * @var string $currentProjectImageCheckBox
+             * 'true' or null
+             */
+            $currentProjectImageCheckBox = $request->request->get('isImageCheckBox'.$currentProjectImage->getId());
+
+            $files = $project->getFiles();
+            foreach($files as $file){
+                $fileId = $file->getId();
+                if($fileId == null){
+                    $key = 'isImageCheckBox'.$file->getFileOriginalName();
+                    $key = substr_replace($key,'_',strpos($key,'.'), 1);
+                    $isProjectImage = $request->request->get($key);
+                }else{
+                    $isProjectImage = $request->request->get('isImageCheckBox'.$fileId);
                 }
-            }elseif($isProjectImage == null){
-                $file->setIsProjectImage(false);
+                if ($isProjectImage != null){
+                    if($currentProjectImage == null || $currentProjectImageCheckBox != 'true'){
+                        $file->setIsProjectImage(true);
+                    }elseif($currentProjectImage != $file){
+                        $this->addFlash('existing','le fichier '.$file->getFileOriginalName().' n\'a pas put être défini comme Image du projet, une autre image est déjà définie');
+                    }
+                }elseif($isProjectImage == null){
+                    $file->setIsProjectImage(false);
+                }
             }
         }
+
 
         return $project;
     }
