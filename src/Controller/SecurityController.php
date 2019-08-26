@@ -122,9 +122,10 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @param string $token
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param \Swift_Mailer $mailer
      * @return Response
      */
-    public function createAccount(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder){
+    public function createAccount(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder, \Swift_Mailer $mailer){
         if(substr($token,-13) == '=Registration'){
             $entityManager = $this->getDoctrine()->getManager();
             $user = $entityManager->getRepository(User::class)->findOneByResetToken($token);
@@ -144,12 +145,27 @@ class SecurityController extends AbstractController
                     $entityManager->flush();
 
                     $this->addFlash('notice', 'Inscription complété, vous pouvez vous connecter');
+                    $url = $this->generateUrl('_index', [], UrlGeneratorInterface::ABSOLUTE_URL);
+
+                    $message = (new \Swift_Message('Inscription réussite'))
+                        ->setFrom('hirschmann.yann.bts.sio@gmail.com')
+                        ->setTo($user->getEmail())
+                        ->setBody(
+                            $this->renderView(
+                                'emails/registration_complete.html.twig',
+                                ['url' => $url, 'user' => $user ]
+                            ),
+                            'text/html'
+                        );
+                    $mailer->send($message);
                     return $this->redirectToRoute('app_login');
                 }
+            }else{
+                $this->addFlash('danger', 'Un problème est survenu, l\'inscription de ce compte peut déjà avoir été finalisé');
+                return $this->redirectToRoute('app_login');
             }
             return $this->render('security/registration.html.twig', ['form' => $form->createView()]);
         }
         return $this->redirectToRoute('app_login');
     }
-
 }
