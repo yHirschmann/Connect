@@ -145,7 +145,7 @@ class SecurityController extends AbstractController
                     $entityManager->flush();
 
                     $this->addFlash('notice', 'Inscription complété, vous pouvez vous connecter');
-                    $url = $this->generateUrl('_index', [], UrlGeneratorInterface::ABSOLUTE_URL);
+                    $url = $this->generateUrl('_index', array(), UrlGeneratorInterface::ABSOLUTE_URL);
 
                     $message = (new \Swift_Message('Inscription réussite'))
                         ->setFrom('hirschmann.yann.bts.sio@gmail.com')

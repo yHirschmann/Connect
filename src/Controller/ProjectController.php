@@ -33,7 +33,7 @@ class ProjectController extends AbstractController
             return $formResponse; // just the redirection, no content
         }
 
-        $projects = $this->getDoctrine()->getRepository(Project::class)->findAll();
+        $projects = $this->getDoctrine()->getRepository(Project::class)->findBy([], ['created_at' => 'DESC']);
         return $this->render('project/projects.html.twig', [
             'form' => $formResponse,
             'projects' => $projects

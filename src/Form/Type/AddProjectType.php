@@ -91,6 +91,8 @@ class AddProjectType extends AbstractType
                 ],
                 'allow_add' => true,
                 'by_reference' => false,
+                'empty_data' => null,
+                'required' => false,
             ])
             ->add('phase', ChoiceType::class, [
                 'choices' => [
@@ -127,6 +129,7 @@ class AddProjectType extends AbstractType
                 'mapped' => false,
             ])
             ->add('otherCompanies', CollectionType::class, [
+                'label' => false,
                 'entry_type' => EntityType::class,
                 'entry_options' => [
                     'label' => false,
@@ -136,11 +139,10 @@ class AddProjectType extends AbstractType
                         'class' => 'form-control'
                     ],
                 ],
-                'label' => false,
                 'allow_add' => true,
                 'by_reference' => false,
-                'empty_data' => null,
                 'required' => false,
+                'empty_data' => null,
                 'mapped' => false,
             ])
             ->add('isGot', CheckboxType::class,[
