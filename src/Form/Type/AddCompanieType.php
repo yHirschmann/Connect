@@ -31,7 +31,7 @@ class AddCompanieType extends AbstractType
                 'label'=>'Ville',
                 'required' => true,
                 'attr'=>[
-                    'pattern' => '^[A-Z]([- ]?[A-Za-z]){1,}',
+                    'pattern' => '^[A-ZÀÂÄÇÈÉÊËÎÏÔÖÙÛÜ]([- ]?[A-ZÀ-ÿa-z]){1,}',
                     'class'=>'form-control',
                     'Placeholder' => 'ex: Strasbourg',
                 ]
@@ -40,7 +40,7 @@ class AddCompanieType extends AbstractType
                     'label'=>'Adresse',
                     'required' => false,
                     'attr'=>[
-                        'pattern' => '^\d{1,2}([,. -]?[A-Za-z ]{1,}){1,}([.]?$)',
+                        'pattern' => '^\d{1,2}([,.\' -]?[A-ZÀ-ÿa-z]{1,}){1,}([.]?$)',
                         'class'=>'form-control',
                         'Placeholder' => 'ex: 15 rue des fleurs',
                     ]

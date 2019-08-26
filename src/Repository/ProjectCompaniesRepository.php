@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Companies;
+use App\Entity\Project;
 use App\Entity\ProjectCompanies;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
@@ -30,6 +31,16 @@ class ProjectCompaniesRepository extends ServiceEntityRepository
             );
     }
 
+    public function getByProjectAndCompanie(Project $project, Companies $companies){
+        return $this->createQueryBuilder('pc')
+            ->where('pc.project = :project')
+            ->andWhere('pc.companies = :companie')
+            ->setParameter('project', $project)
+            ->setParameter('companie', $companies)
+            ->getQuery()
+            ->execute()
+        ;
+    }
     // /**
     //  * @return ProjectCompanies[] Returns an array of ProjectCompanies objects
     //  */
@@ -46,7 +57,6 @@ class ProjectCompaniesRepository extends ServiceEntityRepository
         ;
     }
     */
-
     /*
     public function findOneBySomeField($value): ?ProjectCompanies
     {

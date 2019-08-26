@@ -145,6 +145,7 @@ class AddProjectType extends AbstractType
             ])
             ->add('isGot', CheckboxType::class,[
                 'label' => 'A été acquis',
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control'
                 ]

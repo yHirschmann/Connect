@@ -20,7 +20,7 @@ class AddCompanieTypeType extends AbstractType
                 'label'=>'Métier',
                 'required' => false,
                 'attr'=>[
-                    'pattern' => '[A-Za-z& -.]{1,}',
+                    'pattern' => '[A-ZÀ-ÿa-z& -.]{1,}',
                     'class'=>'form-control',
                     'Placeholder' => 'ex: Architecte',
                 ]

@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Companies;
 use App\Entity\Employee;
 use App\Entity\Project;
+use App\Entity\ProjectCompanies;
 use App\Entity\ProjectFile;
 use App\Form\Type\EditProjectFormType;
 use DateTime;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -102,7 +104,8 @@ class ProjectController extends AbstractController
                 }
             }
             $project = $this->updateProjectFiles($request, $project, $doctrine);
-            $project = $this->setUnexistingContact($request, $project, $entityManager);
+            $project = $this->setUnexistingContact($request, $project, $doctrine);
+            $project = $this->setUnexistingCompanies($request, $project, $doctrine);
             $entityManager->persist($project);
             $entityManager->flush();
             $this->addFlash('added','Les informations ont bien été enregistré.');
@@ -118,12 +121,12 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @param $request
-     * @param $project
-     * @param $entityManager
+     * @param Request $request
+     * @param Project $project
+     * @param ManagerRegistry $doctrine
      * @return mixed
      */
-    private function setUnexistingContact($request, $project, $entityManager){
+    private function setUnexistingContact(Request $request, Project $project, ManagerRegistry $doctrine){
         if(isset($request->request->get('edit_project_form')['newContacts'])){
             $unexistingContact = $request->request->get('edit_project_form')['newContacts'];
 
@@ -131,6 +134,13 @@ class ProjectController extends AbstractController
                 $employee = $this->getDoctrine()->getRepository(Employee::class)->find($contact);
                 if($project->getMatchingExistingContacts($employee)->isEmpty()){
                     $project->addContact($employee);
+                    $company = $employee->getCompanie();
+                    $projectCompany = $doctrine->getRepository(ProjectCompanies::class)->getByProjectAndCompanie($project, $company);
+                    if(empty($projectCompany)){
+                        $projectCompanie = ProjectCompanies::creat($project, $company);
+                        $project->addCompany($projectCompanie);
+                        $doctrine->getManager()->persist($projectCompanie);
+                    }
                 }
             }
         }
@@ -186,13 +196,18 @@ class ProjectController extends AbstractController
          */
         $projectfiles = $doctrine->getRepository(ProjectFile::class)->getProjectImageById($project->getId());
         if(!empty($projectfiles)){
+            //TODO This can be null, if null, must'nt get currentImageCheckbox
             $currentProjectImage = $doctrine->getRepository(ProjectFile::class)->getProjectImageById($project->getId())[0];
 
-            /**
-             * @var string $currentProjectImageCheckBox
-             * 'true' or null
-             */
-            $currentProjectImageCheckBox = $request->request->get('isImageCheckBox'.$currentProjectImage->getId());
+            if($currentProjectImage != null){
+                /**
+                 * @var string $currentProjectImageCheckBox
+                 * 'true' or null
+                 */
+                $currentProjectImageCheckBox = $request->request->get('isImageCheckBox'.$currentProjectImage->getId());
+            }else{
+                $currentProjectImageCheckBox = null;
+            }
 
             $files = $project->getFiles();
             foreach($files as $file){
@@ -217,6 +232,32 @@ class ProjectController extends AbstractController
         }
 
 
+        return $project;
+    }
+
+    /**
+     * @param Request $request
+     * @param Project $project
+     * @param ManagerRegistry $doctrine
+     * @return Project
+     */
+    private function setUnexistingCompanies(Request $request, Project $project, ManagerRegistry $doctrine){
+        $projectForm = $request->get('edit_project_form');
+        if(isset($projectForm['newCompanies'])){
+            $newCompanies = $request->get('edit_project_form')['newCompanies'];
+            $repository = $doctrine->getRepository(Companies::class);
+            $entityManager = $doctrine->getManager();
+            foreach ($newCompanies as $company){
+                if($company != null){
+                    $company = $repository->find($company);
+                    if($company != null){
+                        $projectCompanie = ProjectCompanies::creat($project, $company);
+                        $project->addCompany($projectCompanie);
+                        $entityManager->persist($projectCompanie);
+                    }
+                }
+            }
+        }
         return $project;
     }
 }
