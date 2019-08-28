@@ -11,7 +11,6 @@
 {% endblock %}
 
 {% block content %}
-{#  TODO get google map API Key to allow a map request#}
     {% for message in app.flashes('added') %}
         <div class="flash-notice alert alert-success alert-dismissible fade show" role="alert">
             {{ message }}
@@ -40,8 +39,8 @@
                 </div>
             </div>
             <div class="row">
-                <iframe src="https://www.google.com/maps/embed/v1/place?q=15%20Rue%20du%20Mar%C3%A9chal%20Lefebvre%2C%2067100%20Strasbourg"
-                        width="300" height="300" frameborder="0" class="border border-dark rounded" allowfullscreen></iframe>
+                <iframe src="{{ 'https://www.google.com/maps/embed/v1/place?key=' ~ api_key ~ "&q=" ~ project.adress ~ " " ~ project.postalCode ~ " " ~ project.city}}"
+                        width="300" height="300" class="border border-dark rounded" allowfullscreen></iframe>
             </div>
         </div>
         <div id="project-companie-colum" class="col">

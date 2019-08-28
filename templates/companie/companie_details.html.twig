@@ -56,9 +56,8 @@
             </div>
         {% endif %}
         <div class="col">
-{#            TODO Add google maps for companies#}
-            <iframe src="https://www.google.com/maps/embed/v1/place?q=15%20Rue%20du%20Mar%C3%A9chal%20Lefebvre%2C%2067100%20Strasbourg"
-                    width="300" height="300" frameborder="0" class="border border-dark rounded" allowfullscreen></iframe>
+            <iframe id="map" src="{{ 'https://www.google.com/maps/embed/v1/place?key=' ~ api_key ~ "&q=" ~ companie.adress ~ " " ~ companie.postalCode ~ " " ~ companie.city}}"
+                    width="300" height="300" class="border border-dark rounded" allowfullscreen></iframe>
         </div>
     </div>
     <div id="companie-links" class="row border border-secondary rounded" style="margin-top: 20px;padding: 5px">
