@@ -5,7 +5,7 @@ easy_admin:
       disabled_actions: ['edit','new']
       label: 'Entreprise'
       list:
-        title: 'Entrepririse'
+        title: 'Entreprise'
         fields:
         - { property: 'CompanieName', label: 'Nom' }
         - { property: 'FullAdress', label: 'Adresse' }
