@@ -23,6 +23,12 @@ class User extends Person implements UserInterface
     private $id;
 
     /**
+     * @var(
+     *      guest   = ['ROLE_USER']
+     *      regular = ['ROLE_USER', 'ROLE_REGULAR']
+     *      admin   = ['ROLE_USER', 'ROLE_REGULAR', 'ROLE_ADMIN']
+     * )
+     *
      * @ORM\Column(type="json")
      */
     private $roles = [];

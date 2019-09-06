@@ -14,6 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
+/**
+ * Class SearchController
+ * @package App\Controller
+ */
 class SearchController extends AbstractController
 {
     /**

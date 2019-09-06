@@ -22,6 +22,12 @@ class ProjectCompaniesRepository extends ServiceEntityRepository
         parent::__construct($registry, ProjectCompanies::class);
     }
 
+    /**
+     * Get only companies that match with the function parameter
+     *
+     * @param Companies $companies
+     * @return Criteria
+     */
     public static function existingProjectCompanieCriteria(Companies $companies): Criteria
     {
         return Criteria::create()
@@ -31,6 +37,13 @@ class ProjectCompaniesRepository extends ServiceEntityRepository
             );
     }
 
+    /**
+     * Get the projectCompanies with a specific project and a specific company
+     *
+     * @param Project $project
+     * @param Companies $companies
+     * @return mixed
+     */
     public function getByProjectAndCompanie(Project $project, Companies $companies){
         return $this->createQueryBuilder('pc')
             ->where('pc.project = :project')
@@ -41,6 +54,8 @@ class ProjectCompaniesRepository extends ServiceEntityRepository
             ->execute()
         ;
     }
+
+
     // /**
     //  * @return ProjectCompanies[] Returns an array of ProjectCompanies objects
     //  */

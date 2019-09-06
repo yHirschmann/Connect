@@ -20,6 +20,8 @@ class CompanieTypeRepository extends ServiceEntityRepository
     }
 
     /**
+     * Find all CompanieType that are equal to the given label
+     *
      * @param string $label label of the CompanieType
      * @return bool return true if the given label match whith an existing label in the database
      */
@@ -31,6 +33,7 @@ class CompanieTypeRepository extends ServiceEntityRepository
                             ->execute());
 
     }
+
     // /**
     //  * @return CompanieType[] Returns an array of CompanieType objects
     //  */

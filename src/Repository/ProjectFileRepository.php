@@ -21,6 +21,11 @@ class ProjectFileRepository extends ServiceEntityRepository
         parent::__construct($registry, ProjectFile::class);
     }
 
+    /**
+     * Get all images of projects
+     *
+     * @return mixed
+     */
     public function getProjectImage(){
         return $this->createQueryBuilder('pf')
                     ->andWhere('pf.isProjectImage = :bool')
@@ -28,6 +33,12 @@ class ProjectFileRepository extends ServiceEntityRepository
                     ->getResult();
     }
 
+    /**
+     * Get the project Image by the id of the project
+     *
+     * @param $projectId
+     * @return mixed
+     */
     public function getProjectImageById($projectId){
         return $this->createQueryBuilder('pf')
             ->andWhere('pf.project = :id')
@@ -39,6 +50,12 @@ class ProjectFileRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * check if the given file is already existing by formatting the file name
+     *
+     * @param UploadedFile $file
+     * @return Criteria
+     */
     static public function existingProjectFileCritera(UploadedFile $file): Criteria
     {
         return Criteria::create()

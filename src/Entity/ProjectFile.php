@@ -81,7 +81,7 @@ class ProjectFile
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      *
-     * @param \Symfony\Component\HttpFoundation\File\File|UploadedFile $file
+     * @param File|UploadedFile $file
      * @throws \Exception
      */
     public function setFile(?File $file = null)

@@ -19,6 +19,17 @@ class EmployeeRepository extends ServiceEntityRepository
         parent::__construct($registry, Employee::class);
     }
 
+    /**
+     * For search function
+     * Request all employees that match with the query
+     * Search critera:
+     *      - Firstname
+     *      - Lastname
+     *      - Email
+     *      - Companie name
+     * @param string $query
+     * @return mixed
+     */
     public function findByQuery(string $query){
         $expr = $this->getEntityManager()
             ->createQueryBuilder()
@@ -40,6 +51,8 @@ class EmployeeRepository extends ServiceEntityRepository
     }
 
     /**
+     * Request all employees who have the same firstname and lastname
+     *
      * @param String|null $lastName
      * @param String|null $firstName
      * @return mixed|null
@@ -59,6 +72,8 @@ class EmployeeRepository extends ServiceEntityRepository
     }
 
     /**
+     * Find all employees that the emails are equals to the given email
+     *
      * @param String|null $email
      * @return mixed
      */
@@ -71,6 +86,8 @@ class EmployeeRepository extends ServiceEntityRepository
     }
 
     /**
+     * Request all employees that have the same companie
+     *
      * @param $id
      * @return mixed
      */

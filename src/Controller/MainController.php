@@ -12,6 +12,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
 
+/**
+ * Class MainController
+ * @package App\Controller
+ */
 class MainController extends AbstractController
 {
 
@@ -42,6 +46,7 @@ class MainController extends AbstractController
     public function accountAction(UserPasswordEncoderInterface $encoder,ValidatorInterface $validator,Request $request){
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        //For the search redirection
         $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
         if($formResponse->isRedirection()) {
             return $formResponse;
@@ -96,14 +101,14 @@ class MainController extends AbstractController
             }
 
             $entityManager->flush();
+
             return $this->render('pages/account.html.twig', array(
-                'form'=> $form->createView(),
+                'form' => $formResponse,
+                'formAccount'=> $form->createView(),
                 'user' => $user
             ));
         }
         return $this->render('pages/account.html.twig', [
-            'form' => $formResponse,
-            'formAccount'=> $form->createView(),
             'user' => $user
         ]);
 

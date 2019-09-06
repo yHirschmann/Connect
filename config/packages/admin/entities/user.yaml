@@ -10,7 +10,7 @@ easy_admin:
           - { property: 'firstName', label: 'Prénom' }
           - { property: 'phoneNumber', label: 'Téléphone' }
           - 'email'
-          - { property: 'isAllowed', label: 'Authorisé' }
+          - { property: 'isAllowed', label: 'Autorisé' }
           - { property: 'Projects.count', label: 'Projets ajouté' }
           - { property: 'Companies_added.count', label: 'Entreprises ajouté' }
           - { property: 'employees_added.count', label: 'Contacts ajouté' }
@@ -21,7 +21,7 @@ easy_admin:
           - { property: 'first_name', type: 'text', label: 'Prénom'}
           - { property: 'phone_number', type: 'text', label: 'Numéro de téléphone'}
           - { property: 'email', type: 'email', label: 'Email'}
-          - { property: 'roles', template: 'admin/Backend/userRolesForm.html.twig', label: 'Permitions', type_options: { block_name: 'roles', mapped: false }}
+          - { property: 'roles', template: 'admin/Backend/userRolesForm.html.twig', label: 'Permissions', type_options: { block_name: 'roles', mapped: false }}
       edit:
         title: 'Modifier un Utilisateur'
         fields: *User

@@ -21,6 +21,12 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
+    /**
+     * Get employee with the same id of the employee in parameter
+     *
+     * @param Employee $employee
+     * @return Criteria
+     */
     public static function existingProjectContactCriteria(Employee $employee)
     {
         return Criteria::create()
@@ -28,6 +34,16 @@ class ProjectRepository extends ServiceEntityRepository
             ->eq('id', $employee->getId()));
     }
 
+    /**
+     * For search function
+     * Request any Project that match with the query
+     * Search critera are :
+     *      - Adress
+     *      - City
+     *      - Name
+     * @param string $query
+     * @return mixed
+     */
     public function findByQuery(string $query){
         return $this->createQueryBuilder('p')
             ->where('p.project_name LIKE :query')

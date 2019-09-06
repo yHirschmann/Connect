@@ -24,6 +24,7 @@ class CompanieType
     private $label;
 
     /**
+     * Collection of Companies
      * @ORM\OneToMany(targetEntity="App\Entity\Companies", mappedBy="type")
      */
     private $companies;
@@ -58,6 +59,10 @@ class CompanieType
         return $this->companies;
     }
 
+    /**
+     * @param Companies $company
+     * @return CompanieType
+     */
     public function addCompany(Companies $company): self
     {
         if (!$this->companies->contains($company)) {
@@ -68,6 +73,10 @@ class CompanieType
         return $this;
     }
 
+    /**
+     * @param Companies $company
+     * @return CompanieType
+     */
     public function removeCompany(Companies $company): self
     {
         if ($this->companies->contains($company)) {

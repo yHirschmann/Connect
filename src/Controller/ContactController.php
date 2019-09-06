@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Companies;
 use DateTime;
 use App\Entity\Employee;
 use App\Form\Type\EditContactType;
@@ -13,6 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
 
+/**
+ * Class ContactController
+ * @package App\Controller
+ */
 class ContactController extends AbstractController
 {
 
@@ -30,6 +35,8 @@ class ContactController extends AbstractController
      */
     public function contactsAction(Environment $environment){
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        //For the search redirection
         $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
         if($formResponse->isRedirection()) {
             return $formResponse;
@@ -44,13 +51,11 @@ class ContactController extends AbstractController
      * @param Environment $environment
      * @param $id
      * @return Response
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
      */
     public function contactAction(Environment $environment, $id){
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        //For the search redirection
         $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
         if($formResponse->isRedirection()) {
             return $formResponse;
@@ -75,6 +80,7 @@ class ContactController extends AbstractController
     public function editContactAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
         $this->denyAccessUnlessGranted('ROLE_REGULAR');
 
+        //For the search redirection
         $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
         if($formResponse->isRedirection()) {
             return $formResponse;
@@ -86,9 +92,7 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            /**
-             * @var Employee $contact
-             */
+            /** @var Employee $contact */
             $contact = $form->getData();
             $contact->setLastUpdateBy($this->getUser());
             $contact->setLastUpdateAt(new DateTime('NOW'));
@@ -97,6 +101,7 @@ class ContactController extends AbstractController
             $this->addFlash('added','Les informations ont bien été enregistré.');
             return $this->redirectToRoute('_contact', ['id' => $id]);
         }
+
         return $this->render('contact/editContact.html.twig', [
             'form' => $formResponse,
             'contact'=>$contact,
@@ -104,6 +109,10 @@ class ContactController extends AbstractController
         ]);
     }
 
+    /**
+     * Get all contact in database
+     * @return Companies[]|Employee[]|object[]
+     */
     private function initContactsPage(){
         return $this->entityManager->getRepository(Employee::class)->findAll();
     }

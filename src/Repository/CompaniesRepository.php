@@ -20,9 +20,17 @@ class CompaniesRepository extends ServiceEntityRepository
         parent::__construct($registry, Companies::class);
     }
 
+    /**
+     * Request all companies who have the same name, city and adress
+     *
+     * @param string $name
+     * @param string $city
+     * @param string $adress
+     * @return mixed
+     */
     public function findByExisting(string $name, string $city, string $adress){
         return $this->createQueryBuilder('c')
-            ->andWhere('c.companie_name = :name')
+            ->Where('c.companie_name = :name')
             ->andWhere('c.City = :city')
             ->andWhere('c.Adress = :adress')
             ->setParameter('name', $name)
@@ -32,6 +40,17 @@ class CompaniesRepository extends ServiceEntityRepository
             ->execute();
     }
 
+    /**
+     * For search function
+     * Request any Companies that match with the query
+     * Search critera are :
+     *      - Adress
+     *      - City
+     *      - Name
+     *      - Social Reason
+     * @param string $query
+     * @return mixed
+     */
     public function findByQuery(string $query){
         return $this->createQueryBuilder('c')
             ->where('c.City LIKE :query')

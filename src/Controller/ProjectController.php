@@ -17,6 +17,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
 
+/**
+ * Class ProjectController
+ * @package App\Controller
+ */
 class ProjectController extends AbstractController
 {
 
@@ -28,6 +32,7 @@ class ProjectController extends AbstractController
     public function projectsAction(Environment $environment){
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        //For the search redirection
         $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
         if($formResponse->isRedirection()) {
             return $formResponse; // just the redirection, no content
@@ -49,6 +54,7 @@ class ProjectController extends AbstractController
     public function projectAction(Environment $environment, $id){
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        //For the search redirection
         $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
         if($formResponse->isRedirection()) {
             return $formResponse; // just the redirection, no content
@@ -74,6 +80,7 @@ class ProjectController extends AbstractController
     public function editProjectAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
         $this->denyAccessUnlessGranted('ROLE_REGULAR');
 
+        //For the search redirection
         $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
         if($formResponse->isRedirection()) {
             return $formResponse; // just the redirection, no content

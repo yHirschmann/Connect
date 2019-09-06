@@ -14,6 +14,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
 use DateTime;
 
+/**
+ * Class CompanieController
+ * @package App\Controller
+ */
 class CompanieController extends AbstractController
 {
 
@@ -32,6 +36,7 @@ class CompanieController extends AbstractController
     public function companiesAction(Environment $environment){
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        //For the search redirection
         $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
         if($formResponse->isRedirection()) {
             return $formResponse;
@@ -52,6 +57,7 @@ class CompanieController extends AbstractController
     public function companieAction(Environment $environment, $id){
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        //For the search redirection
         $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
         if($formResponse->isRedirection()) {
             return $formResponse;
@@ -77,6 +83,7 @@ class CompanieController extends AbstractController
     public function editCompanieAction(Environment $environment, $id, ValidatorInterface $validator, Request $request){
         $this->denyAccessUnlessGranted('ROLE_REGULAR');
 
+        //For the search redirection
         $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
         if($formResponse->isRedirection()) {
             return $formResponse;

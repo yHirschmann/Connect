@@ -66,6 +66,7 @@ class Project
     private $cost;
 
     /**
+     * Collection of Employee
      * @ORM\ManyToMany(targetEntity="App\Entity\employee", inversedBy="projects")
      */
     private $contacts;
@@ -120,6 +121,7 @@ class Project
     private $lastUpdateBy;
 
     /**
+     * Collection of Companies
      * @ORM\OneToMany(targetEntity="App\Entity\ProjectCompanies", mappedBy="project", orphanRemoval=true)
      */
     private $companies;
@@ -345,9 +347,6 @@ class Project
         return $this;
     }
 
-    /**
-     * @return Collection|ProjectCompanies[]
-     */
     public function getCompanies(): Collection
     {
         return $this->companies;
@@ -375,21 +374,41 @@ class Project
         return $this;
     }
 
+    /**
+     * Get only companies that match with criteria
+     *
+     * @param Companies $companies
+     * @return ArrayCollection|Collection
+     */
     public function getMatchingExistingCompanies(Companies $companies){
         $critera = ProjectCompaniesRepository::existingProjectCompanieCriteria($companies);
         return $this->companies->matching($critera);
     }
 
+    /**
+     * @param UploadedFile $file
+     * @return ArrayCollection|Collection
+     */
     public function getMatchingExistingFiles(UploadedFile $file){
         $critera = ProjectFileRepository::existingProjectFileCritera($file);
         return $this->files->matching($critera);
     }
 
+    /**
+     * Get only employees that match with criteria
+     *
+     * @param Employee $employee
+     * @return ArrayCollection|Collection
+     */
     public function getMatchingExistingContacts(Employee $employee){
         $critera = ProjectRepository::existingProjectContactCriteria($employee);
         return $this->contacts->matching($critera);
     }
 
+    /**
+     * Return the full address, composed by the address, the postal code and the city
+     * @return string
+     */
     public function getFullAdress(){
         return $this->adress.' '.$this->postalCode.' '.$this->getCity();
     }

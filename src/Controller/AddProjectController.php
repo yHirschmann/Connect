@@ -8,6 +8,8 @@ use App\Entity\Project;
 use App\Entity\ProjectCompanies;
 use App\Entity\ProjectFile;
 use App\Form\Type\AddProjectType;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +17,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * Class AddProjectController
+ * Controller the addProjectForm, Allow users to add new Project in the database
+ * @package App\Controller
+ */
 class AddProjectController extends AbstractController
 {
     /**
@@ -27,12 +34,17 @@ class AddProjectController extends AbstractController
     public function addProject(ValidatorInterface $validator, Request $request){
         $this->denyAccessUnlessGranted('ROLE_REGULAR');
 
+        //Handle the redirection of the search controller
         $formResponse = $this->forward('App\\Controller\\SearchController::searchBar');
         if($formResponse->isRedirection()) {
             return $formResponse; // just the redirection, no content
         }
 
-        $entityManager = $this->getDoctrine()->getManager();
+        /** @var ManagerRegistry $doctrine */
+        $doctrine = $this->getDoctrine();
+
+        /** @var ObjectManager $entityManager */
+        $entityManager = $doctrine->getManager();
         $project = new Project();
 
         $form = $this->createForm(AddProjectType::class, $project);
@@ -40,9 +52,7 @@ class AddProjectController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
 
-            /**
-             * @var Project project
-             */
+            /** @var Project project */
             $project = $form->getData();
             $project->setCreatedBy($this->getUser());
 
@@ -52,8 +62,8 @@ class AddProjectController extends AbstractController
             $project = $this->setProjectFiles($project, $entityManager);
 
             $entityManager->persist($project);
-
             $entityManager->flush();
+
             $this->addFlash('added','Les informations ont bien été enregistré.');
             return $this->redirectToRoute('_addProject');
         }
@@ -65,6 +75,9 @@ class AddProjectController extends AbstractController
     }
 
     /**
+     * First check if the form is not empty,
+     * Then create a new contact
+     *
      * @param Employee $contact
      * @param Project $project
      * @return Employee
@@ -78,6 +91,7 @@ class AddProjectController extends AbstractController
             $employee->setPhoneNumber($contact['phoneNumber']);
             $employee->setPosition($contact['position']);
             $employee->setAddedBy($this->getUser());
+
             $companie = $this->getDoctrine()->getRepository(Companies::class)->find(intval($contact['companie']));
             $employee->setCompanie($companie);
             $project->addContact($employee);
@@ -94,9 +108,7 @@ class AddProjectController extends AbstractController
      * @return Project
      */
     private function setProjectCompanies($project, $entityManager):Project{
-        /**
-         * @var Employee $contact
-         */
+        /** @var Employee $contact */
         foreach ($project->getContacts() as $contact) {
             $companie = $contact->getCompanie();
             $projectCompanie = ProjectCompanies::creat($project, $companie);
@@ -109,6 +121,9 @@ class AddProjectController extends AbstractController
     }
 
     /**
+     * Get all user entry form the unexistingContact field (Collection)
+     * if contact are not null, create a new contact, add it to the project and the company
+     *
      * @param Request $request
      * @param Project $project
      * @param EntityManager $entityManager
@@ -117,6 +132,7 @@ class AddProjectController extends AbstractController
      */
     private function setUnexistingContacts($request, $project, $entityManager):Project{
         $unexistingContact = $request->request->get('add_project')['unexistingContacts'];
+
         foreach ($unexistingContact as $contact) {
             $employee = $this->createNewContact($contact, $project);
             if ($employee !== null) {
@@ -133,6 +149,8 @@ class AddProjectController extends AbstractController
     }
 
     /**
+     * Set the image of the project
+     *
      * @param $request
      * @param $project
      * @param $entityManager
@@ -153,6 +171,8 @@ class AddProjectController extends AbstractController
     }
 
     /**
+     * Get all added files, create projectFiles and add them to the project
+     *
      * @param Project $project
      * @param EntityManager $entityManager
      * @throws

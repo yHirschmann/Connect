@@ -22,6 +22,7 @@ class Employee extends Person
     private $id;
 
     /**
+     * Collection of Project
      * @ORM\ManyToMany(targetEntity="App\Entity\Project", mappedBy="contacts")
      */
     private $projects;
@@ -32,6 +33,7 @@ class Employee extends Person
     private $added_at;
 
     /**
+     * Collection of Companies
      * @ORM\ManyToOne(targetEntity="App\Entity\Companies", inversedBy="employees")
      * @ORM\JoinColumn(nullable=false)
      */

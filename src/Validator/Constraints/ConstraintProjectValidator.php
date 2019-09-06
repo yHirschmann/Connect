@@ -10,6 +10,10 @@ use Symfony\Component\Validator\ConstraintValidator;
 class ConstraintProjectValidator extends ConstraintValidator
 {
     /**
+     * Check if project dates respect the following order :
+     *      Start < End
+     * Check it the entered end date and the phase are correctly set depending of the current date
+     *
      * @param Project $value
      * @param Constraint $constraint
      * @throws \Exception

@@ -91,6 +91,7 @@ class Companies
     private $type;
 
     /**
+     * Collection of Employees
      * @ORM\OneToMany(targetEntity="App\Entity\Employee", mappedBy="companie")
      */
     private $employees;
@@ -106,6 +107,7 @@ class Companies
     private $lastUpdateBy;
 
     /**
+     * Collection of Project
      * @ORM\OneToMany(targetEntity="App\Entity\projectcompanies", mappedBy="companies", orphanRemoval=true)
      */
     private $project;
@@ -227,6 +229,10 @@ class Companies
     }
 
     /**
+     * Get the phone number from the $companie
+     * Format it, delete spaces, dots and dash
+     * Retrun the companie
+     *
      * @param Companies $companie
      * @return Companies
      */
@@ -238,6 +244,10 @@ class Companies
     }
 
     /**
+     * Get the social reason from the $companie
+     * Set the first character of the string to uppercase
+     * Retrun the companie
+     *
      * @param Companies $companie
      * @return Companies
      */
