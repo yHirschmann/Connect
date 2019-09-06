@@ -109,6 +109,8 @@ class MainController extends AbstractController
             ));
         }
         return $this->render('pages/account.html.twig', [
+            'form' => $formResponse,
+            'formAccount'=> $form->createView(),
             'user' => $user
         ]);
 
